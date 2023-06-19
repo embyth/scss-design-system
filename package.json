@@ -47,12 +47,16 @@
     "build": "pnpm run clean:cache && unbuild"
   },
   "devDependencies": {
+    "@commitlint/cli": "17.6.5",
+    "@commitlint/config-conventional": "17.6.5",
     "@embyth/eslint-plugin": "0.1.8",
     "@embyth/stylelint-config": "0.1.1",
     "@types/react": "18.2.13",
     "@types/react-dom": "18.2.6",
     "@vitejs/plugin-react": "4.0.0",
+    "devmoji": "2.3.0",
     "eslint": "8.43.0",
+    "husky": "8.0.3",
     "sass": "1.63.4",
     "stylelint": "15.8.0",
     "typescript": "5.1.3",
