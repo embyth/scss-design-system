@@ -1,0 +1,90 @@
+@use "sass:math";
+
+$ds-default-browser-font-size: 16;
+
+/// Returns the value in rem for a given pixel value.
+/// @param {Number} $value - The pixel value to be converted.
+/// @return {Number} The converted value in rem.
+@function ds-rem($value) {
+  $unit: math.unit($value);
+
+  @if $value == 0 {
+    @return 0;
+  }
+
+  @else if $unit == "rem" {
+    @return $value;
+  }
+
+  @else if $unit == "px" {
+    @return math.div($value, 17px) * 1rem;
+  }
+
+  @else {
+    @error "Value must be in px, or rem.";
+  }
+}
+
+/// Returns the value in ems for a given pixel value. Note that this
+/// only works for elements that have had no font-size changes.
+/// @param {Number} $value - The pixel value to be converted.
+/// @return {Number} The converted value in ems.
+@function ds-em($value) {
+  $unit: math.unit($value);
+
+  @if $value == 0 {
+    @return 0;
+  }
+
+  @else if $unit == "em" {
+    @return $value;
+  }
+
+  @else if $unit == "rem" {
+    @return $value / 1rem * 1em * ($ds-theme-base-font-size / $ds-default-browser-font-size);
+  }
+
+  @else if $unit == "px" {
+    @return $value / $ds-default-browser-font-size * 1em;
+  }
+
+  @else {
+    @error "Value must be in px, rem, or em.";
+  }
+}
+
+/// Returns the list of available names in a given map.
+/// @param {Map} $map - The map of data to list the names from.
+/// @param {Number} $map - The level of depth to get names from.
+/// @return {String} The list of names in the map.
+@function ds-available-names($map, $level: 1) {
+  @if type-of($map) != "map" {
+    @return null;
+  }
+
+  // stylelint-disable-next-line
+  $output: "";
+  $newline: "\A ";
+
+  @if $level == 1 {
+    @each $key, $value in $map {
+      $output: $output + "#{$newline}- #{$key} #{ds-available-names($value, $level + 1)}";
+    }
+  }
+
+  @else {
+    $output: "(";
+    $i: 1;
+
+    @each $key, $value in $map {
+      $sep: if($i < list.length($map), ", ", "");
+      $output: $output + "#{$key}#{$sep}#{ds-available-names($value, $level + 1)}";
+      $i: $i + 1;
+    }
+
+    // stylelint-disable-next-line
+    $output: $output + ")";
+  }
+
+  @return $output;
+}

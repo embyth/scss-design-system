@@ -1,0 +1,29 @@
+{
+  "css.validate": false,
+  "scss.validate": false,
+  "npm.packageManager": "pnpm",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.stylelint": true
+  },
+  "search.exclude": {
+    "pnpm-lock.yaml": true,
+    "**/node_modules": true
+  },
+  "files.exclude": {
+    "**/node_modules": false
+  },
+  "prettier.enable": false,
+  "stylelint.validate": [
+    "css",
+    "less",
+    "postcss",
+    "sass",
+    "scss"
+  ],
+  "[css][scss][sass]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  }
+}
