@@ -1,0 +1,3 @@
+@mixin nb-depth($depth: 100) {
+  box-shadow: nb-elevation($depth);
+}

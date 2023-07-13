@@ -1,0 +1,71 @@
+@use "sass:map";
+
+/// Returns the font size for a given range.
+///
+/// @param {Number} $range - The font style.
+/// @return {Number} The font-size for the text-style.
+@function nb-font-size($range) {
+  $fetched-font-size: map.get($nb-font-size-data, $range);
+
+  @if type-of($fetched-font-size) {
+    @return $fetched-font-size;
+  } @else {
+    @error "Font size range `#{$range}` not found. Available font sizes: #{$nb-font-size-data}";
+  }
+}
+
+/// Returns the line height for a given range.
+///
+/// @param {Number} $range - The font style.
+/// @return {Number} The line-height for the text-style.
+@function nb-line-height($range: normal) {
+  $fetched-line-height: map.get($nb-line-height-data, $range);
+
+  @if type-of($fetched-line-height) {
+    @return $fetched-line-height;
+  } @else {
+    @error "Line height `#{$range}` not found. Available line heights: #{$nb-line-height-data}";
+  }
+}
+
+/// Returns the font weight for a given weight definition.
+///
+/// @param {String} $weight - The font weight.
+/// @return {Number} The font-weight for the text-weight.
+@function nb-font-weight($weight: regular) {
+  $fetched-font-weight: map.get($nb-font-weight-data, $weight);
+
+  @if type-of($fetched-font-weight) {
+    @return $fetched-font-weight;
+  } @else {
+    @error "Font weight `#{$weight}` not found. Available font weights: #{$nb-font-weight-data}";
+  }
+}
+
+/// Returns the font family for a given family definition.
+///
+/// @param {String} $family - The font family.
+/// @return {String} The font-family for the text.
+@function nb-font-family($family: circe) {
+  $fetched-font-family: map.get($nb-font-family-data, $family);
+
+  @if type-of($fetched-font-family) {
+    @return $fetched-font-family;
+  } @else {
+    @error "Font family `#{$family}` not found. Available font families: #{$nb-font-family-data}";
+  }
+}
+
+/// Returns the letter spacing for a given definition.
+///
+/// @param {String} $letter-spacing - The letter spacing.
+/// @return {Number} The letter-spacing.
+@function nb-letter-spacing($letter-spacing: 0) {
+  $fetched-letter-spacing: map.get($nb-letter-spacing-data, $letter-spacing);
+
+  @if type-of($fetched-letter-spacing) {
+    @return $fetched-letter-spacing;
+  } @else {
+    @error "letter spacing `#{$letter-spacing}` not found. Available letter spacings: #{$nb-letter-spacing-data}";
+  }
+}

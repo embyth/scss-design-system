@@ -1,0 +1,29 @@
+@mixin nb-media($breakpoint) {
+  @media only screen and (min-width: nb-media($breakpoint)) {
+    @content;
+  }
+}
+
+@mixin nb-media-mobile {
+  @media only screen and (min-width: nb-media(mobile)) {
+    @content;
+  }
+}
+
+@mixin nb-media-tablet {
+  @media only screen and (min-width: nb-media(tablet)) {
+    @content;
+  }
+}
+
+@mixin nb-media-laptop {
+  @media only screen and (min-width: nb-media(laptop)) {
+    @content;
+  }
+}
+
+@mixin nb-media-desktop {
+  @media only screen and (min-width: nb-media(desktop)) {
+    @content;
+  }
+}

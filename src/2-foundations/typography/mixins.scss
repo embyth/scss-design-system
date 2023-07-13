@@ -1,0 +1,78 @@
+/// Returns desired styles for a given typography style.
+///
+/// @param {String} $weight - thin, extralight, light, regular, bold, extrabold
+/// @param {String} $family - circe, ptmono
+
+@mixin nb-text-style-heading1($weight: bold, $family: circe) {
+  font-size: nb-font-size(heading1);
+  line-height: nb-line-height(heading1);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(heading1);
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-heading2($weight: bold, $family: circe) {
+  font-size: nb-font-size(heading2);
+  line-height: nb-line-height(heading2);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(heading2);
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-body1($weight: regular, $family: circe) {
+  font-size: nb-font-size(body1);
+  line-height: nb-line-height(body1);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(body1);
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-body2($weight: regular, $family: circe) {
+  font-size: nb-font-size(body2);
+  line-height: nb-line-height(body2);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(body2);
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-button($weight: bold, $family: circe) {
+  font-size: nb-font-size(button);
+  line-height: nb-line-height(button);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(button);
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-caption($weight: regular, $family: circe) {
+  font-size: nb-font-size(caption);
+  line-height: nb-line-height(caption);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(caption);
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-caption-underline($weight: regular, $family: circe) {
+  font-size: nb-font-size(caption);
+  line-height: nb-line-height(caption);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(caption);
+  text-decoration: underline;
+  text-rendering: optimizelegibility;
+}
+
+@mixin nb-text-style-label($weight: regular, $family: circe) {
+  font-size: nb-font-size(label);
+  line-height: nb-line-height(label);
+  font-weight: nb-font-weight($weight);
+  font-family: nb-font-family($family);
+  letter-spacing: nb-letter-spacing(label);
+  text-transform: uppercase;
+  text-rendering: optimizelegibility;
+}

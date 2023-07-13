@@ -1,11 +1,11 @@
 @use "sass:math";
 
-$ds-default-browser-font-size: 16;
+$nb-default-browser-font-size: 17;
 
 /// Returns the value in rem for a given pixel value.
 /// @param {Number} $value - The pixel value to be converted.
 /// @return {Number} The converted value in rem.
-@function ds-rem($value) {
+@function nb-rem($value) {
   $unit: math.unit($value);
 
   @if $value == 0 {
@@ -29,7 +29,7 @@ $ds-default-browser-font-size: 16;
 /// only works for elements that have had no font-size changes.
 /// @param {Number} $value - The pixel value to be converted.
 /// @return {Number} The converted value in ems.
-@function ds-em($value) {
+@function nb-em($value) {
   $unit: math.unit($value);
 
   @if $value == 0 {
@@ -41,11 +41,11 @@ $ds-default-browser-font-size: 16;
   }
 
   @else if $unit == "rem" {
-    @return $value / 1rem * 1em * ($ds-theme-base-font-size / $ds-default-browser-font-size);
+    @return $value / 1rem * 1em * ($nb-theme-base-font-size / $nb-default-browser-font-size);
   }
 
   @else if $unit == "px" {
-    @return $value / $ds-default-browser-font-size * 1em;
+    @return $value / $nb-default-browser-font-size * 1em;
   }
 
   @else {
@@ -57,18 +57,17 @@ $ds-default-browser-font-size: 16;
 /// @param {Map} $map - The map of data to list the names from.
 /// @param {Number} $map - The level of depth to get names from.
 /// @return {String} The list of names in the map.
-@function ds-available-names($map, $level: 1) {
+@function nb-available-names($map, $level: 1) {
   @if type-of($map) != "map" {
     @return null;
   }
 
-  // stylelint-disable-next-line
   $output: "";
   $newline: "\A ";
 
   @if $level == 1 {
     @each $key, $value in $map {
-      $output: $output + "#{$newline}- #{$key} #{ds-available-names($value, $level + 1)}";
+      $output: $output + "#{$newline}- #{$key} #{nb-available-names($value, $level + 1)}";
     }
   }
 
@@ -78,11 +77,10 @@ $ds-default-browser-font-size: 16;
 
     @each $key, $value in $map {
       $sep: if($i < list.length($map), ", ", "");
-      $output: $output + "#{$key}#{$sep}#{ds-available-names($value, $level + 1)}";
+      $output: $output + "#{$key}#{$sep}#{nb-available-names($value, $level + 1)}";
       $i: $i + 1;
     }
 
-    // stylelint-disable-next-line
     $output: $output + ")";
   }
 

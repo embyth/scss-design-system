@@ -1,0 +1,69 @@
+// **TYPOGRAPHY**
+// Typeface
+// Change the typeface.
+
+$nb-theme-font-family: "Circe", sans-serif;
+$nb-theme-font-family-secondary: "PTMono", monospace;
+$nb-theme-base-font-size: 17px;
+
+@font-face {
+  font-family: Circe;
+  src:
+    local("Circe-Thin"),
+    url("../../assets/fonts/Circe-Thin.woff2") format("woff2");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: Circe;
+  src:
+    local("Circe-ExtraLight"),
+    url("../../assets/fonts/Circe-ExtraLight.woff2") format("woff2");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: Circe;
+  src:
+    local("Circe-Light"),
+    url("../../assets/fonts/Circe-Light.woff2") format("woff2");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Circe;
+  src:
+    local("Circe"),
+    url("../../assets/fonts/Circe-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Circe;
+  src: local("Circe"), url("../../assets/fonts/Circe-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Circe;
+  src:
+    local("Circe-ExtraBold"),
+    url("../../assets/fonts/Circe-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: PTMono;
+  src:
+    local("PTMono-Regular"),
+    url("../../assets/fonts/PTMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: PTMono;
+  src:
+    local("PTMono-Bold"),
+    url("../../assets/fonts/PTMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+}

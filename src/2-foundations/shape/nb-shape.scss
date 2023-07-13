@@ -1,0 +1,12 @@
+$nb-shape-radius-small: nb-rem(6px);
+$nb-shape-radius-medium: nb-rem(8px);
+$nb-shape-radius-large: nb-rem(16px);
+$nb-shape-radius-xlarge: nb-rem(24px);
+$nb-shape-data: (
+  circle: 50%,
+  squared: 0,
+  small: $nb-shape-radius-small,
+  medium: $nb-shape-radius-medium,
+  large: $nb-shape-radius-large,
+  xlarge: $nb-shape-radius-xlarge,
+) !default;

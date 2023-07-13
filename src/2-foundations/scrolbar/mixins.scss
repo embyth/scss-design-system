@@ -1,0 +1,21 @@
+@mixin nb-scrollbar() {
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar-track {
+    @include nb-shape;
+
+    background-color: nb-color(base, white);
+  }
+
+  &::-webkit-scrollbar {
+    width: $nb-scrollbar-width;
+    background-color: nb-color(base, white);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @include nb-shape;
+
+    background-color: nb-color(base, dark-300);
+    background-clip: padding-box;
+  }
+}

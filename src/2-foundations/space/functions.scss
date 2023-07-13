@@ -1,0 +1,16 @@
+@use "sass:map";
+
+/// Returns the spacing value for a given variant.
+///
+/// @param {String} $space - how much space do you need.
+/// @return {Number} The spacing for the variant in px.
+
+@function nb-space($space: $space-10) {
+  $fetched-value: map.get($nb-spacing-data, $space);
+
+  @if type-of($fetched-value) == number {
+    @return $fetched-value;
+  } @else {
+    @error "Spacing variant `#{$space}` not found. Available variants: #{$nb-spacing-data}";
+  }
+}

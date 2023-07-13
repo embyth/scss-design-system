@@ -1,0 +1,21 @@
+@use "sass:map";
+
+/// Returns the color value for a given color name and group.
+///
+/// @param {String} $category - The color's type.
+/// @param {Number} $type - The darkness/lightness of the color. Defaults to base.
+/// The higher the number, the darker the color.
+/// @return {Color} The color value.
+@function nb-color($category, $type) {
+  $fetched-color: map.get(map.get($nb-color-data, $category), $type);
+
+  @if map-has-key($nb-color-data, $fetched-color) {
+    $fetched-color: map.get(map.get($nb-color-data, $fetched-color), $type);
+  }
+
+  @if type-of($fetched-color) == color {
+    @return $fetched-color;
+  } @else {
+    @error "Color `#{$category} - #{$type}` not found. Available colors: #{$nb-color-data}";
+  }
+}

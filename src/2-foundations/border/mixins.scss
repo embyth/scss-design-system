@@ -1,0 +1,3 @@
+@mixin nb-border($width: thin, $color: primary, $type: solid) {
+  border: nb-border-weight($width) nb-color(border, $color) $type;
+}

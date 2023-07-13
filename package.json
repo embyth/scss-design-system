@@ -39,7 +39,7 @@
     "pnpm": ">=8.1.0"
   },
   "scripts": {
-    "dev": "vite",
+    "dev:react": "vite",
     "clean:cache": "rimraf dist",
     "clean:deps": "rimraf node_modules",
     "clean": "pnpm run clean:cache && pnpm run clean:deps",
