@@ -2,11 +2,18 @@
 @use "../abstracts/functions" as *;
 
 @mixin generate-default {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
   html {
     box-sizing: border-box;
     height: 100%;
     padding: 0;
     margin: 0;
+    // prevent iOS font size change
     -webkit-text-size-adjust: 100%; // stylelint-disable-line property-no-vendor-prefix
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
