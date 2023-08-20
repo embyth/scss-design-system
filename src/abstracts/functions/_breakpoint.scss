@@ -1,0 +1,32 @@
+@use "sass:map";
+@use "../../config" as *;
+
+/// Get available breakpoint value from config map.
+/// @param {string} $point - Value from `$breakpoint` map.
+/// @return {number} - The media breakpoint value.
+/// @throws {Error} - If the breakpoint doesn't exist.
+@function bp($point) {
+  $fetched-breakpoint: map.get($config-breakpoint, $point);
+
+  @if type-of($point) == number {
+    @if $range == 0 {
+      @return 0;
+    }
+
+    @if (unitless($point)) {
+      @return $point * 1px;
+    }
+
+    @else {
+      @return $point;
+    }
+  }
+
+  @if type-of($fetched-breakpoint) {
+    @return $fetched-breakpoint;
+  }
+
+  @else {
+    @error "Breakpoint with such key `#{$point}` not found. Available breakpoints: #{$config-breakpoint}";
+  }
+}

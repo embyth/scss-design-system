@@ -1,0 +1,113 @@
+@use "sass:map";
+@use "../../config" as *;
+
+/// Returns the font family for a given family definition.
+/// @param {string} $family - The font family.
+/// @return {string} The font-family for the text.
+@function font-family($family: default) {
+  $fetched-font-family: map.get($config-font-stack, $family);
+
+  @if type-of($fetched-font-family) {
+    @return $fetched-font-family;
+  }
+
+  @else {
+    @error "Font family `#{$family}` not found. Available font families: #{$config-font-stack}";
+  }
+}
+
+/// Returns the font size for a given range.
+/// @param {number} $range - The font style.
+/// @return {number} The font-size for the text-style.
+@function font-size($range) {
+  $fetched-font-size: map.get($config-font-size, $range);
+
+  @if type-of($range) == number {
+    @if $range == 0 {
+      @return 0;
+    }
+
+    @if (unitless($range)) {
+      @return $range * 1px;
+    }
+
+    @else {
+      @return $range;
+    }
+  }
+
+  @if type-of($fetched-font-size) {
+    @return $fetched-font-size;
+  }
+
+  @else {
+    @error "Font size range `#{$range}` not found. Available font sizes: #{$config-font-size}";
+  }
+}
+
+/// Returns the font weight for a given weight definition.
+/// @param {string} $weight - The font weight. Could be a number or a key from the config.
+/// @return {number} The font-weight for the text-weight.
+@function font-weight($weight: regular) {
+  $fetched-font-weight: map.get($config-font-weight, $weight);
+
+  @if type-of($weight) == number {
+    @return $weight;
+  }
+
+  @if type-of($fetched-font-weight) {
+    @return $fetched-font-weight;
+  }
+
+  @else {
+    @error "Font weight `#{$weight}` not found. Available font weights: #{$config-font-weight}";
+  }
+}
+
+/// Returns the line height for a given range.
+/// @param {number} $range - The font style.
+/// @return {number} The line-height for the text-style.
+@function line-height($range: normal) {
+  $fetched-line-height: map.get($config-line-height, $range);
+
+  @if type-of($range) == number {
+    @return $range;
+  }
+
+  @if type-of($fetched-line-height) {
+    @return $fetched-line-height;
+  }
+
+  @else {
+    @error "Line height `#{$range}` not found. Available line heights: #{$config-line-height}";
+  }
+}
+
+/// Returns the letter spacing for a given definition.
+/// @param {string} $letter-spacing - The letter spacing.
+/// @return {number} The letter-spacing.
+@function letter-spacing($letter-spacing: 0) {
+  $fetched-letter-spacing: map.get($config-letter-spacing, $letter-spacing);
+
+  @if type-of($letter-spacing) == number {
+    @if $letter-spacing == 0 {
+      @return 0;
+    }
+
+    @if (unitless($letter-spacing)) {
+      @return $letter-spacing * 1px;
+    }
+
+    @else {
+      @return $letter-spacing;
+    }
+  }
+
+  @if type-of($fetched-letter-spacing) {
+    @return $fetched-letter-spacing;
+  }
+
+  @else {
+    @error "letter spacing `#{$letter-spacing}` not found. Available letter spacings: #{$config-letter-spacing}";
+  }
+}

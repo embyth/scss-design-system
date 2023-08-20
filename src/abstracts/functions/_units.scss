@@ -1,0 +1,77 @@
+@use "sass:math";
+@use "sass:meta";
+@use "typography" as *;
+
+/// Strip unit on CSS value.
+/// @param {number} $value - The value to be stripped.
+/// @return {number} value without the unit.
+@function strip-unit($value) {
+  @if meta.type-of($value) != "number" {
+    @error "Invalid `#{meta.type-of($value)}` type. Choose a number type instead.";
+  }
+
+  @else if meta.type-of($value) == "number" and not math.is-unitless($value) {
+    @return math.div($value, ($value * 0 + 1));
+  }
+
+  @return $value;
+}
+
+/// Returns the value in rem for a given pixel value.
+/// @param {number} $value - The pixel value to be converted.
+/// @return {number} The converted value in rem.
+@function rem($value) {
+  $unit: math.unit($value);
+  $default-font-size: font-size("default");
+  $stripped-default: strip-unit($default-font-size);
+
+  @if $value == 0 {
+    @return 0;
+  }
+
+  @if (unitless($value)) {
+    @return math.div($value, $stripped-default) * 1rem;
+  }
+
+  @else if $unit == "rem" {
+    @return $value;
+  }
+
+  @else if $unit == "px" {
+    @return math.div($value, $default-font-size) * 1rem;
+  }
+
+  @else {
+    @error "Value must be in px, rem or just a number.";
+  }
+}
+
+/// Returns the value in ems for a given pixel value. Note that this
+/// only works for elements that have had no font-size changes.
+/// @param {number} $value - The pixel value to be converted.
+/// @return {number} The converted value in ems.
+@function em($value) {
+  $unit: math.unit($value);
+  $default-font-size: font-size("default");
+  $stripped-default: strip-unit($default-font-size);
+
+  @if $value == 0 {
+    @return 0;
+  }
+
+  @if (unitless($value)) {
+    @return math.div($value, $stripped-default) * 1em;
+  }
+
+  @if $unit == "em" {
+    @return $value;
+  }
+
+  @if $unit == "px" {
+    @return math.div($value, $default-font-size) * 1em;
+  }
+
+  @else {
+    @error "Value must be in px, em or just a number.";
+  }
+}

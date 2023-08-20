@@ -1,0 +1,30 @@
+@use "sass:map";
+@use "../../config" as *;
+
+/// Returns the spacing value for a given variant.
+/// @param {string} $space - how much space do you need.
+/// @param {map} $map - The map to search for the variant.
+/// @return {number} The spacing for the variant in px.
+@function space($space: default, $map: $config-space) {
+  @if map.has-key($map, $space) {
+    @return map.get($map, $space);
+  }
+
+  @if type-of($space) == number {
+    @if $space == 0 {
+      @return 0;
+    }
+
+    @if (unitless($space)) {
+      @return $space * 1px;
+    }
+
+    @else {
+      @return $space;
+    }
+  }
+
+  @else {
+    @error "Spacing variant `#{$space}` not found. Available variants: #{$map}";
+  }
+}
