@@ -1,0 +1,10 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+@include describe("config()") {
+  @include it("should return a value from config map") {
+    @include assert-equal(config("prefix"), null);
+    @include assert-equal(config("normalize", "generators"), false);
+  }
+}

@@ -1,0 +1,13 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+@include describe("strip-unit()") {
+  @include it("should return a value without the unit") {
+    @include assert-equal(strip-unit(20px), 20);
+    @include assert-equal(strip-unit(100%), 100);
+    @include assert-equal(strip-unit(30vh), 30);
+    @include assert-equal(strip-unit(42vw), 42);
+    @include assert-equal(strip-unit(1rem), 1);
+    @include assert-equal(strip-unit(2em), 2);
+  }
+}

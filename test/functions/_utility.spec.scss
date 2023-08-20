@@ -1,0 +1,29 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+$__test-map: (
+  "foo": "foo",
+  "bar": 42,
+);
+
+$__test-map_2: (
+  "foo": "foo",
+  "bar": 42,
+  "baz": (
+    "foo": "foo",
+  ),
+);
+
+@include describe("available-names()") {
+  @include it("should return a list of available names from a given map") {
+    @include assert-equal(available-names($__test-map), "(foo, bar)");
+    @include assert-equal(available-names($__test-map_2, 2), "(foo, bar, baz(foo))");
+  }
+}
+
+@include describe("str-replace()") {
+  @include it("should return a string with replaced text") {
+    @include assert-equal(str-replace("Some random string", "random", "cool"), "Some cool string");
+    @include assert-equal(str-replace("TrIcKy42.String!42", "42", ""), "TrIcKy.String!");
+  }
+}

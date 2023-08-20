@@ -1,0 +1,13 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+@include describe("color()") {
+  @include it("should return a color value from config map as css variable.") {
+    @include assert-equal(color("default", 50), var(--default-color-50));
+  }
+
+  @include it("should return a color value from config map as value") {
+    @include assert-equal(color("default", 50, true), #fafafa);
+  }
+}

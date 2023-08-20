@@ -1,0 +1,11 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+@include describe("space()") {
+  @include it("should return a space value from config map") {
+    @include assert-equal(space("xs"), 2px);
+    @include assert-equal(space(12), 44px);
+    @include assert-equal(space(42px), 42px);
+  }
+}
