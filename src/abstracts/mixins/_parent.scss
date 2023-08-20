@@ -1,0 +1,8 @@
+/// Override current selector from parent selector
+/// @param {string} $selector - Parent selector to escape to.
+/// @return {mixin} - The generated mixin at combined parent selector and current level selector.
+@mixin escape-to-parent($selector) {
+  @at-root #{$selector} #{&} {
+    @content;
+  }
+}

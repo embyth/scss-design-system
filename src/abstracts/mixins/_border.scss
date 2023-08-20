@@ -1,0 +1,81 @@
+/// Complex border mixin with support for all kind of directions.
+/// @param {string} $direction - The direction of the border. Available options: `all`, `no-top`, `no-bottom`, `no-left`, `no-right`, `top`, `vertical`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `left`, `horizontal`, `right`.
+/// @param {string} $size - The size of the border.
+/// @param {string} $style - The style of the border.
+/// @param {string} $color - The color of the border.
+/// @return {mixin} - The border mixin.
+@mixin border($direction: all, $size: 1px, $style: solid, $color: currentColor) {
+  @if ($direction == "all")
+    or ($direction == "no-top")
+    or ($direction == "no-bottom")
+    or ($direction == "no-left")
+    or ($direction == "no-right") {
+    border: $size $style $color;
+
+    @if $direction == "no-top" { // stylelint-disable-line order/order
+      border-top: 0;
+    }
+
+    @if $direction == "no-bottom" {
+      border-bottom: 0;
+    }
+
+    @if $direction == "no-left" {
+      border-left: 0;
+    }
+
+    @if $direction == "no-right" {
+      border-right: 0;
+    }
+  }
+
+  @else if ($direction == "top")
+    or ($direction == "vertical")
+    or ($direction == "top-left")
+    or ($direction == "top-right") {
+    border-top: $size $style $color;
+
+    @if $direction == "vertical" { // stylelint-disable-line order/order
+      border-bottom: $size $style $color;
+    }
+
+    @if $direction == "top-left" {
+      border-left: $size $style $color;
+    }
+
+    @if $direction == "top-right" {
+      border-right: $size $style $color;
+    }
+  }
+
+  @else if ($direction == "bottom")
+    or ($direction == "bottom-left")
+    or ($direction == "bottom-right") {
+    border-bottom: $size $style $color;
+
+    @if $direction == "bottom-left" { // stylelint-disable-line order/order
+      border-left: $size $style $color;
+    }
+
+    @if $direction == "bottom-right" {
+      border-right: $size $style $color;
+    }
+  }
+
+  @else if ($direction == "left")
+    or ($direction == "horizontal") {
+    border-left: $size $style $color;
+
+    @if $direction == "horizontal" { // stylelint-disable-line order/order
+      border-right: $size $style $color;
+    }
+  }
+
+  @else if ($direction == "right") {
+    border-right: $size $style $color;
+  }
+
+  @else {
+    @warn "This property does not exist in this property map.";
+  }
+}

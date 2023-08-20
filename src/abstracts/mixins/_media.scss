@@ -1,0 +1,303 @@
+@use "../functions" as *;
+
+/// Return a media query for a breakpoint based on min-width.
+/// @param {string} $breakpoint - The breakpoint name.
+/// @param {string} $logic - The logic operator.
+/// @param {boolean} $mobile-first - Whether to use min-width or max-width.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin breakpoint(
+  $breakpoint,
+  $logic: "only screen",
+  $mobile-first: true
+) {
+  $target-breakpoint: bp($breakpoint);
+  $width: if($mobile-first, min-width, max-width);
+
+  @if $target-breakpoint {
+    $calculated-breakpoint: if($mobile-first, $target-breakpoint, $target-breakpoint - 1px);
+
+    @media #{$logic} and (#{$width}: $calculated-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// Targets the extra small breakpoint only
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin only-xs($logic: "only screen") {
+  $xs-breakpoint: bp("xs") - 1px;
+
+  @if $xs-breakpoint {
+    @media #{$logic} and (max-width: $xs-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// Targets the small breakpoint only
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin only-sm($logic: "only screen") {
+  $xs-breakpoint: bp("xs");
+  $sm-breakpoint: bp("sm") - 1px;
+
+  @if $xs-breakpoint and $sm-breakpoint {
+    @media #{$logic} and (min-width: $xs-breakpoint) and (max-width: $sm-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// Targets the medium breakpoint only
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin only-md($logic: "only screen") {
+  $sm-breakpoint: bp("sm");
+  $md-breakpoint: bp("md") - 1px;
+
+  @if $sm-breakpoint and $md-breakpoint {
+    @media #{$logic} and (min-width: $sm-breakpoint) and (max-width: $md-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// Targets the large breakpoint only
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin only-lg($logic: "only screen") {
+  $md-breakpoint: bp("md");
+  $lg-breakpoint: bp("lg") - 1px;
+
+  @if $md-breakpoint and $lg-breakpoint {
+    @media #{$logic} and (min-width: $md-breakpoint) and (max-width: $lg-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// Targets the extra large breakpoint only
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin only-xl($logic: "only screen") {
+  $lg-breakpoint: bp("lg");
+  $xl-breakpoint: bp("xl") - 1px;
+
+  @if $lg-breakpoint and $xl-breakpoint {
+    @media #{$logic} and (min-width: $lg-breakpoint) and (max-width: $xl-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// Targets the extra extra large breakpoint only
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin only-xxl($logic: "only screen") {
+  $xl-breakpoint: bp("xl");
+  $xxl-breakpoint: bp("xxl") - 1px;
+
+  @if $xl-breakpoint and $xxl-breakpoint {
+    @media #{$logic} and (min-width: $xl-breakpoint) and (max-width: $xxl-breakpoint) {
+      @content;
+    }
+  }
+
+  @else {
+    @error "Invalid breakpoint: #{$breakpoint}.";
+  }
+}
+
+/// A "mobile first" style breakpoint that targets the extra small breakpoint and above
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin min-xs($logic: "only screen") {
+  @include breakpoint("xs", $logic) {
+    @content;
+  }
+}
+
+/// A "mobile first" style breakpoint that targets the small breakpoint and above
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin min-sm($logic: "only screen") {
+  @include breakpoint("sm", $logic) {
+    @content;
+  }
+}
+
+/// A "mobile first" style breakpoint that targets the medium breakpoint and above
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin min-md($logic: "only screen") {
+  @include breakpoint("md", $logic) {
+    @content;
+  }
+}
+
+/// A "mobile first" style breakpoint that targets the large breakpoint and above
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin min-lg($logic: "only screen") {
+  @include breakpoint("lg", $logic) {
+    @content;
+  }
+}
+
+/// A "mobile first" style breakpoint that targets the extra large breakpoint and above
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin min-xl($logic: "only screen") {
+  @include breakpoint("xl", $logic) {
+    @content;
+  }
+}
+
+/// A "mobile first" style breakpoint that targets the extra extra large breakpoint and above
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint doesn't exist.
+@mixin min-xxl($logic: "only screen") {
+  @include breakpoint("xxl", $logic) {
+    @content;
+  }
+}
+
+/// A "desktop first" style breakpoint that targets the extra small breakpoint and below
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint is invalid.
+@mixin max-xs($logic: "only screen") {
+  @include breakpoint("xs", $logic, false) {
+    @content;
+  }
+}
+
+/// A "desktop first" style breakpoint that targets the small breakpoint and below
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint is invalid.
+@mixin max-sm($logic: "only screen") {
+  @include breakpoint("sm", $logic, false) {
+    @content;
+  }
+}
+
+/// A "desktop first" style breakpoint that targets the medium breakpoint and below
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint is invalid.
+@mixin max-md($logic: "only screen") {
+  @include breakpoint("md", $logic, false) {
+    @content;
+  }
+}
+
+/// A "desktop first" style breakpoint that targets the large breakpoint and below
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint is invalid.
+@mixin max-lg($logic: "only screen") {
+  @include breakpoint("lg", $logic, false) {
+    @content;
+  }
+}
+
+/// A "desktop first" style breakpoint that targets the extra large breakpoint and below
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint is invalid.
+@mixin max-xl($logic: "only screen") {
+  @include breakpoint("xl", $logic, false) {
+    @content;
+  }
+}
+
+/// A "desktop first" style breakpoint that targets the extra extra large breakpoint and below
+/// @param {string} $logic - The logic operator.
+/// @return {string} - The media query.
+/// @throws {error} - If the breakpoint is invalid.
+@mixin max-xxl($logic: "only screen") {
+  @include breakpoint("xxl", $logic, false) {
+    @content;
+  }
+}
+
+/// Equivalent to the `min-xs` breakpoint mixin but with different naming to make it more readable.
+@mixin not-xs($logic: "only screen") {
+  @include breakpoint("xs", $logic) {
+    @content;
+  }
+}
+
+/// Equivalent to the `min-sm` breakpoint mixin but with different naming to make it more readable.
+@mixin not-sm($logic: "only screen") {
+  @include breakpoint("sm", $logic) {
+    @content;
+  }
+}
+
+/// Equivalent to the `min-md` breakpoint mixin but with different naming to make it more readable.
+@mixin not-md($logic: "only screen") {
+  @include breakpoint("md", $logic) {
+    @content;
+  }
+}
+
+/// Equivalent to the `min-lg` breakpoint mixin but with different naming to make it more readable.
+@mixin not-lg($logic: "only screen") {
+  @include breakpoint("lg", $logic) {
+    @content;
+  }
+}
+
+/// Equivalent to the `min-xl` breakpoint mixin but with different naming to make it more readable.
+@mixin not-xl($logic: "only screen") {
+  @include breakpoint("xl", $logic) {
+    @content;
+  }
+}
+
+/// Equivalent to the `min-xxl` breakpoint mixin but with different naming to make it more readable.
+@mixin not-xxl($logic: "only screen") {
+  @include breakpoint("xxl", $logic) {
+    @content;
+  }
+}

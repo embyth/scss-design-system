@@ -1,0 +1,91 @@
+@use "sass:list";
+@use "sass:math";
+@use "sass:string";
+
+/// Mixin to produce content skeletons while the element is empty
+/// @param $lines - number of skeleton lines (last line will always be of random length)
+/// @param $line-height - Height (px) of each skeleton line
+/// @param $line-gap - Gap (px) between each skeleton line
+/// @param $background - Background color of the skeleton element
+/// @param $shimmer - Color of the shimmer effect. Note that due to the fact that shimmer is a single element animated across the entire line group
+/// it'll need to be chosen carefully to make sure it's not visible in the container.
+/// @param $speed - Speed of the animation effect
+/// @param $level - The level of the selector to apply the mixin to. Should be "selector" or "empty". Empty will apply skeleton styles to the empty pseudo class.
+/// @throws - If $level is not "selector" or "empty"
+/// @example @include skeleton(2, 16px, 8px, #dddddd, transparentize(255,255,255,.6), 2s)
+/// Will add 2 lines of skeleton - each 16px high, with an 8px gap between.
+@mixin skeleton(
+  $lines: 2,
+  $line-height: 24px,
+  $line-gap: 8px,
+  $background: #e1e4e8,
+  $shimmer: rgba(255, 255, 255, 0.6),
+  $speed: 3s,
+  $level: "selector"
+) {
+  $key: string.unique-id();
+  $background-images: ();
+  $background-sizes: ();
+  $background-positions: ();
+  $background-blend-modes: ();
+  $background-images: list.append(
+    $background-images,
+    linear-gradient(115deg, transparent 20%, $shimmer 50%, transparent 80%),
+    comma
+  );
+  $background-sizes: list.append($background-sizes, 50% 100%, comma);
+  $background-positions: list.append($background-positions, -60% 0, comma);
+
+  @for $i from 1 through $lines {
+    $background-images: list.append($background-images, linear-gradient($background 0%, $background 100%), comma);
+    $background-positions: list.append($background-positions, 0 (($i - 1) * ($line-height + $line-gap)));
+
+    @if $i != $lines {
+      $background-sizes: list.append($background-sizes, 100% $line-height, comma);
+    }
+
+    @if $lines == 1 {
+      $background-sizes: list.append($background-sizes, 100% $line-height, comma);
+    }
+
+    @else {
+      $background-sizes: list.append($background-sizes, math.random(4) * 23% $line-height, comma);
+    }
+  }
+
+  $background-positions-animated: list.set-nth($background-positions, 1, 180% 0); // stylelint-disable-line order/order
+
+  @keyframes skeleton-shimmer-#{$key} {
+    to {
+      background-position: $background-positions-animated;
+    }
+  }
+
+  @if $level == "selector" {
+    display: block;
+    width: 100%;
+    min-height: $lines * ($line-height + $line-gap) - $line-gap;
+    background-image: $background-images;
+    background-repeat: no-repeat;
+    background-position: $background-positions;
+    background-size: $background-sizes;
+    animation: skeleton-shimmer-#{$key} $speed infinite;
+  }
+
+  @else if $level == "empty" {
+    &:empty {
+      display: block;
+      width: 100%;
+      min-height: $lines * ($line-height + $line-gap) - $line-gap;
+      background-image: $background-images;
+      background-repeat: no-repeat;
+      background-position: $background-positions;
+      background-size: $background-sizes;
+      animation: skeleton-shimmer-#{$key} $speed infinite;
+    }
+  }
+
+  @else {
+    @error "The argument `$level` one of the followings: `selector`, `empty`";
+  }
+}

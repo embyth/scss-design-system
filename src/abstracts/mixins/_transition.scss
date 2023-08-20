@@ -1,0 +1,87 @@
+@use "sass:map";
+@use "sass:list";
+@use "../../config" as *;
+@use "../functions" as *;
+
+/// Generates transition related declarations.
+/// @param {string} $property - The property to which the transition is applied.
+/// @param {string} $duration - The duration of the transition.
+/// @param {string} $timing-function - The speed curve of the transition.
+/// @param {string} $delay - The delay of the transition.
+/// @return {string} - The generated transition declarations.
+/// @throws {error} - If the duration or timing-function is invalid.
+@mixin transition($property: all, $duration: base, $timing-function: standard, $delay: none) {
+  $transition: ();
+  $will-change: ();
+
+  @for $i from 1 through length($property) {
+    @for $j from 0 to (length($property)) - (length($duration)) {
+      $duration: list.join($duration, list.nth($duration, -1));
+    }
+
+    @for $j from 0 to (length($property)) - (length($timing-function)) {
+      $timing-function: list.join($timing-function, list.nth($timing-function, -1));
+    }
+
+    @for $j from 0 to (length($property)) - (length($delay)) {
+      $delay: list.join($delay, list.nth($delay, -1));
+    }
+
+    // stylelint-disable order/order
+    $property-value: list.nth($property, $i);
+    $duration-value: map.get($config-motion-duration, list.nth($duration, $i));
+    $timing-value: map.get($config-motion-timing, list.nth($timing-function, $i));
+    $delay-value: map.get($config-motion-duration, list.nth($delay, $i));
+    // stylelint-enable order/order
+
+    @if not $duration-value {
+      $duration-attempt: list.nth($duration, $i);
+
+      @if type-of($value: $duration-attempt) == number {
+        $duration-value: strip-unit($duration-attempt) * 1ms;
+      }
+
+      @else {
+        @error "Duration variant `#{list.nth($duration, $i)}` not found. Available variants: #{$config-motion-duration}";
+      }
+    }
+
+    @if not $timing-value {
+      $timing-function-attempt: list.nth($timing-function, $i);
+
+      @if type-of($value: $timing-function-attempt) == string {
+        $timing-value: $timing-function-attempt;
+      }
+
+      @else {
+        @error "Timing-function variant `#{list.nth($timing-function, $i)}` not found. Available variants: #{$config-motion-timing}";
+      }
+    }
+
+    @if not $delay-value {
+      $delay-attempt: list.nth($delay, $i);
+
+      @if type-of($value: $delay-attempt) == number {
+        $delay-value: strip-unit($delay-attempt) * 1ms;
+      }
+
+      @else {
+        @error "Delay variant `#{list.nth($delay, $i)}` not found. Available variants: #{$config-motion-duration}";
+      }
+    }
+
+    // stylelint-disable order/order
+    $transition: list.append(
+      $transition,
+      ($property-value $duration-value $timing-value $delay-value),
+      $separator: comma
+    );
+    $will-change: list.append($will-change, $property-value, $separator: comma);
+    // stylelint-enable order/order
+  }
+
+  @if $property != all {
+    will-change: $will-change;
+  }
+  transition: $transition;
+}

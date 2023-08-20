@@ -1,0 +1,41 @@
+@use "sass:list";
+
+/// Border triangle helper mixin
+/// @param {number} $size - Triangle size
+/// @param {string} $color - Triangle color
+/// @param {string} $direction - Triangle direction, either `up`, `right`, `down` or `left`
+/// @return {mixin} - The triangle mixin.
+@mixin triangle($size, $color: currentColor, $direction: up) {
+  $width: list.nth($size, 1);
+  $height: list.nth($size, list.length($size));
+
+  $width: $width / 2;
+  $height: if(list.length($size) > 1, $height, $height / 2);
+
+  @if $direction == up {
+    border-right: $width solid transparent;
+    border-bottom: $height solid $color;
+    border-left: $width solid transparent;
+  }
+
+  @else if $direction == right {
+    border-top: $width solid transparent;
+    border-bottom: $width solid transparent;
+    border-left: $height solid $color;
+  }
+
+  @else if $direction == down {
+    border-top: $height solid $color;
+    border-right: $width solid transparent;
+    border-left: $width solid transparent;
+  }
+
+  @else if $direction == left {
+    border-top: $width solid transparent;
+    border-right: $height solid $color;
+    border-bottom: $width solid transparent;
+  }
+
+  width: 0;
+  height: 0;
+}

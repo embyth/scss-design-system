@@ -1,0 +1,102 @@
+@use "./shape" as *;
+@use "../functions" as *;
+
+$is-scrollbar-animation-exists: false;
+
+/// Generates keyframes for scrollbar.
+/// @param {string} $scrollbar-var-name - The name of the animation variable.
+/// @param {string} $thumb-background-color - The background color of the thumb.
+/// @param {string} $track-background-color - The background color of the track.
+/// @return {mixin} - The keyframe-gen mixin.
+@mixin keyframe-scrollbar-gen(
+  $scrollbar-var-name,
+  $thumb-background-color,
+  $track-background-color
+) {
+  @if not $is-scrollbar-animation-exists {
+    $is-scrollbar-animation-exists: true !global;
+
+    @at-root {
+      @property #{$scrollbar-var-name} {
+        syntax: "<color>";
+        inherits: true;
+        initial-value: $track-background-color;
+      }
+
+      // stylelint-disable max-nesting-depth
+      @keyframes scrollbar-fade-in {
+        0% {
+          #{$scrollbar-var-name}: $track-background-color;
+        }
+
+        100% {
+          #{$scrollbar-var-name}: $thumb-background-color;
+        }
+      }
+
+      @keyframes scrollbar-fade-out {
+        0% {
+          #{$scrollbar-var-name}: $thumb-background-color;
+        }
+
+        100% {
+          #{$scrollbar-var-name}: $track-background-color;
+        }
+      }
+      // stylelint-enable max-nesting-depth
+    }
+  }
+};
+
+/// Custom scrollbar.
+/// @param {string} $thumb-background-color - The background color of the thumb.
+/// @param {string} $track-background-color - The background color of the track.
+/// @param {string} $size - The size of the scrollbar.
+/// @param {string} $shape - The border radius of the scrollbar.
+/// @param {string} $stable - The stable value of the scrollbar gutter.
+/// @param {string} $transition - Indicates if transition applied to the scrollbar.
+/// @return {mixin} - The scrollbar mixin.
+@mixin scrollbar(
+  $thumb-background-color: color("default", 400),
+  $track-background-color: transparent,
+  $size: md,
+  $shape: md,
+  $stable: false,
+  $transition: false,
+  $transition-duration: 0.8s
+) {
+  $scrollbar-var-name: "--scrollbar-background-color";
+
+  @if ($stable) {
+    scrollbar-gutter: stable;
+  }
+
+  @if ($transition) {
+    @include keyframe-scrollbar-gen(
+      $scrollbar-var-name,
+      $thumb-background-color,
+      $track-background-color
+    );
+
+    animation: scrollbar-fade-out $transition-duration ease-in-out forwards;
+
+    &:hover {
+      animation: scrollbar-fade-in $transition-duration ease-in-out forwards;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: space($size);
+    background-color: $track-background-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @include shape($shape);
+
+    background-color: if($transition, var(#{$scrollbar-var-name}), $thumb-background-color);
+  }
+
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+}

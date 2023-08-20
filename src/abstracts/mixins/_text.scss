@@ -1,0 +1,54 @@
+/// Crop text and display an ellipsis with multiline.
+/// @param {number} $number-of-lines - The number of lines.
+/// @return {mixin} - The text ellipsis mixin.
+@mixin text-ellipsis(
+  $number-of-lines: 1
+) {
+  @if $number-of-lines == 1 {
+    white-space: nowrap;
+  }
+
+  @else {
+    white-space: inherit;
+
+    @supports (-webkit-line-clamp: $number-of-lines) {
+      -webkit-box-orient: vertical;
+      display: box;
+      -webkit-line-clamp: $number-of-lines;
+    }
+  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/// Break long string.
+/// @author Chris Coyier - https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+/// @return {mixin} - The word-wrap mixin.
+@mixin word-wrap {
+  hyphens: auto;
+  word-break: break-all;
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/// Text selection behavior.
+/// @param {string} $color - The color of the text selection.
+/// @param {string} $background-color - The background color of the text selection.
+/// @param {boolean} $is-direct - If true, the selection will be applied to the current element if false it will be applied to its children.
+/// @return {mixin} - The text selection mixin.
+@mixin text-selection($color, $background-color, $is-direct: true) {
+  @if $is-direct {
+    &::selection {
+      color: $color;
+      background-color: $background-color;
+    }
+  }
+
+  @else {
+    ::selection {
+      color: $color;
+      background-color: $background-color;
+    }
+  }
+}

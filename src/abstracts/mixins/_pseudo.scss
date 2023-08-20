@@ -1,0 +1,23 @@
+@use "positioning" as *;
+
+/// Pseudo element shorthand mixin.
+/// @param {string} $loc - The pseudo element location.
+/// @param {string} $content - The content property is used with the ::before and ::after pseudo-elements, to insert generated content.
+/// @param {string} $position - The position CSS property sets how an element is positioned in a document.
+/// @param {string} $top - Specifies how far an absolutely positioned box's top margin edge is offset below the top edge of the box's 'containing block'.
+/// @param {string} $right - Specifies how far an absolutely positioned box's right margin edge is offset to the left of the right edge of the box's 'containing block'.
+/// @param {string} $bottom - Specifies how far an absolutely positioned box's bottom margin edge is offset above the bottom edge of the box's 'containing block'.
+/// @param {string} $left - Specifies how far an absolutely positioned box's left margin edge is offset to the right of the left edge of the box's 'containing block'.
+/// @param {string} $axis - Specifies the axis to center the element. Available values: `both`, `horizontal`, `vertical`.
+/// @return {mixin} - Generated pseudo element mixin.
+@mixin pseudo($loc: before, $content: "", $position: absolute, $top: 0, $right: 0, $bottom: 0, $left: 0, $axis: null) {
+  position: relative;
+
+  &::#{$loc} {
+    @include position($position: $position, $top: $top, $right: $right, $bottom: $bottom, $left: $left, $axis: $axis);
+
+    content: $content;
+
+    @content; // stylelint-disable-line order/order
+  }
+}

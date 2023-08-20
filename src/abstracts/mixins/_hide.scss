@@ -1,0 +1,39 @@
+@use "media" as *;
+
+// Mixins that can be used to hide elements only at specific breakpoints.
+// Helpful for when you would like to hide elements outside of a Grid context
+@mixin hide-at-xs {
+  @include only-xs {
+    display: none;
+  }
+}
+
+@mixin hide-at-sm {
+  @include only-sm {
+    display: none;
+  }
+}
+
+@mixin hide-at-md {
+  @include only-md {
+    display: none;
+  }
+}
+
+@mixin hide-at-lg {
+  @include only-lg {
+    display: none;
+  }
+}
+
+@mixin hide-at-xl {
+  @include only-xl {
+    display: none;
+  }
+}
+
+@mixin hide-at-xxl {
+  @include only-xxl {
+    display: none;
+  }
+}

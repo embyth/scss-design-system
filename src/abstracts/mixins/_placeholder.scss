@@ -1,0 +1,23 @@
+/// Input or textarea placeholder mixin.
+/// @return {string} - The placeholder mixin content with browser prefixes.
+@mixin placeholder {
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &::placeholder {
+    @content;
+  }
+}

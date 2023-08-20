@@ -1,0 +1,24 @@
+@use "./transition" as *;
+
+/// Adds outline styles depending on specific type
+/// @param {string} $size - The size of the outline.
+/// @param {string} $offset - The offset size of the outline.
+/// @param {string} $color - The color of the outline.
+/// @param {string} $radius - The radius of the outline.
+/// @param {boolean} $thick - Indicates if ring is thick of not.
+/// @return {string} - The generated outline declarations.
+/// @example @include focus-ring();
+@mixin focus-ring($size: 1px, $offset: 3px, $color: -webkit-focus-ring-color, $radius: 0, $thick: false) {
+  @include transition($property: outline outline-offset border-radius, $duration: 150ms);
+  outline: solid $size transparent;
+
+  &:focus-visible {
+    border-radius: $radius;
+    outline: solid if($thick, #{$size + $offset}, $size) $color;
+    outline-offset: if($thick, 0, $offset);
+
+    @media screen and (prefers-contrast) {
+      outline-style: dotted;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+/// Hide something from the screen but keep it visible for assistive technology.
+/// @return {mixin} - The visually hidden mixin.
+@mixin visually-hidden() {
+  position: absolute;
+  width: 1px;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/// Show previously hidden element.
+/// @return {mixin} - The visually unhidden mixin.
+@mixin visually-unhidden() {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  white-space: normal;
+  border: medium none currentColor;
+}

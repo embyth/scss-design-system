@@ -1,0 +1,14 @@
+@use "../functions" as *;
+
+/// Set z-index mixin.
+/// @param {string} $layer - Value from `$z-indexes` map.
+/// @param {boolean} $important - Whether to add `!important` to the z-index value.
+@mixin z-index($layer: default, $important: false) {
+  @if ($important == true) {
+    z-index: z($layer) !important; // stylelint-disable-line declaration-no-important
+  }
+
+  @else {
+    z-index: z($layer);
+  }
+}

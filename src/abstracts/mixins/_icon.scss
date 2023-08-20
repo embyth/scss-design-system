@@ -1,0 +1,22 @@
+@use "../functions" as *;
+@use "../../config" as *;
+
+/// Sets size to an icon.
+/// If height omitted, it will be the same as width.
+/// @param {string} $width - Width size value.
+/// @param {string} $height - Height size value.
+/// @returns {string} Width and height size value.
+@mixin icon-size($width, $height: $width) {
+  $fetched-width: space($width, $config-iconography);
+
+  @if length($height) == 1 {
+    $fetched-height: space($height, $config-iconography);
+    width: $fetched-width;
+    height: $fetched-height;
+  }
+
+  @else {
+    width: $fetched-width;
+    height: $fetched-width;
+  }
+}

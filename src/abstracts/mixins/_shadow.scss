@@ -1,0 +1,30 @@
+@use "sass:map";
+@use "../../config" as *;
+
+/// Adds box shadow
+/// @param {number} $x - The horizontal offset of the shadow.
+/// @param {number} $y - The vertical offset of the shadow.
+/// @param {number} $blur - The blur radius of the shadow.
+/// @param {number} $spread - The spread radius of the shadow.
+/// @param {color} $color - The color of the shadow.
+/// @param {string} $elevation - The predefined map of elevation values for a shadow.
+/// @return {string} - The generated box-shadow declarations.
+/// @throws {error} - If the elevation is invalid.
+/// @example @include shadow;
+@mixin shadow($x: 0, $y: 0, $blur: 0, $spread: 1px, $color: #000, $elevation: null) {
+  @if $elevation {
+    $shadow-value: map.get($config-shadow, $elevation);
+
+    @if type-of($shadow-value) == list {
+      box-shadow: $shadow-value;
+    }
+
+    @else {
+      @error "Shadow variant `#{$elevation}` not found. Available variants: #{$config-shadow}";
+    }
+  }
+
+  @else {
+    box-shadow: $x $y $blur $spread $color;
+  }
+}
