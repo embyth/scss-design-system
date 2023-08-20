@@ -1,0 +1,32 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("border()") {
+  @include it("should return content within requested border parameters") {
+    @include assert {
+      @include output {
+        .button {
+          @include border($color: #000000);
+        }
+
+        .button-2 {
+          @include border($direction: "no-top", $color: #000000, $size: 3px, $style: dotted);
+        }
+      }
+
+      @include expect {
+        .button {
+          border: 1px solid #000000;
+        }
+
+        .button-2 {
+          border: 3px dotted #000000;
+          border-top: 0;
+        }
+      }
+    }
+  }
+}

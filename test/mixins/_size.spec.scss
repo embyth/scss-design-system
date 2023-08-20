@@ -1,0 +1,42 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("size()") {
+  @include it("should return a valid size values") {
+    @include assert {
+      @include output {
+        .card {
+          @include size(2.25rem);
+        }
+
+        .card-2 {
+          @include size($width: "md");
+        }
+
+        .card-3 {
+          @include size($width: "md", $height: 20px);
+        }
+      }
+
+      @include expect {
+        .card {
+          width: 2.25rem;
+          height: 2.25rem;
+        }
+
+        .card-2 {
+          width: 8px;
+          height: 8px;
+        }
+
+        .card-3 {
+          width: 8px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}

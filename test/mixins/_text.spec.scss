@@ -1,0 +1,93 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("text-ellipsis()") {
+  @include it("should return a text ellipsis styles") {
+    @include assert {
+      @include output {
+        .paragraph {
+          @include text-ellipsis();
+        }
+
+        .paragraph-2 {
+          @include text-ellipsis(2);
+        }
+      }
+
+      @include expect {
+        .paragraph {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .paragraph-2 {
+          white-space: inherit;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        @supports (-webkit-line-clamp: 2) {
+          .paragraph-2 {
+            -webkit-box-orient: vertical;
+            display: box;
+            -webkit-line-clamp: 2;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe("word-wrap()") {
+  @include it("should return a word wrap styles") {
+    @include assert {
+      @include output {
+        .paragraph {
+          @include word-wrap;
+        }
+      }
+
+      @include expect {
+        .paragraph {
+          hyphens: auto;
+          word-break: break-all;
+          word-break: break-word;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+        }
+      }
+    }
+  }
+}
+
+@include describe("text-selection()") {
+  @include it("should return a text selection styles") {
+    @include assert {
+      @include output {
+        .paragraph {
+          @include text-selection(#f2f2f2, #000000);
+        }
+
+        .paragraph-2 {
+          @include text-selection(#e99700, #ffffff, $is-direct: false);
+        }
+      }
+
+      @include expect {
+        .paragraph::selection {
+          color: #f2f2f2;
+          background-color: #000000;
+        }
+
+        .paragraph-2 ::selection {
+          color: #e99700;
+          background-color: #ffffff;
+        }
+      }
+    }
+  }
+}

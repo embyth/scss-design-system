@@ -1,0 +1,39 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("shape()") {
+  @include it("should return a valid border-radius value") {
+    @include assert {
+      @include output {
+        .card {
+          @include shape(1.5rem);
+        }
+
+        .card-2 {
+          @include shape($size: "lg");
+        }
+
+        .card-3 {
+          @include shape($size: "sm", $important: true);
+        }
+      }
+
+      @include expect {
+        .card {
+          border-radius: 1.5rem;
+        }
+
+        .card-2 {
+          border-radius: 10px;
+        }
+
+        .card-3 {
+          border-radius: 6px !important; // stylelint-disable-line declaration-no-important
+        }
+      }
+    }
+  }
+}

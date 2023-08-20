@@ -1,0 +1,25 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("escape-to-parent()") {
+  @include it("should return a combined parent selector and current level selector") {
+    @include assert {
+      @include output(false) {
+        .slide {
+          @include escape-to-parent(".slider") {
+            color: #000000;
+          }
+        }
+      }
+
+      @include expect(false) {
+        .slider .slide {
+          color: #000000;
+        }
+      }
+    }
+  }
+}

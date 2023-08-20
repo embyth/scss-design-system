@@ -1,0 +1,49 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("clear-btn()") {
+  @include it("should return reset styles for a button") {
+    @include assert {
+      @include output {
+        .button {
+          @include clear-btn();
+        }
+      }
+
+      @include expect {
+        .button {
+          padding: 0;
+          font: inherit;
+          color: inherit;
+          background: none;
+          border: 0;
+          outline: inherit;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@include describe("clear-list()") {
+  @include it("should return reset styles for a list") {
+    @include assert {
+      @include output {
+        .list {
+          @include clear-list();
+        }
+      }
+
+      @include expect {
+        .list {
+          padding: 0;
+          margin: 0;
+          list-style: none;
+        }
+      }
+    }
+  }
+}

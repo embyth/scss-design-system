@@ -1,0 +1,57 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("keyframe-gen()") {
+  @include it("should return a keyframe animation declaration") {
+    @include assert {
+      @include output {
+        @include keyframe-gen("fade-in");
+      }
+
+      @include expect {
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+
+          100% {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe("animate()") {
+  @include it("should return an animation declaration from a requested parameters") {
+    @include assert {
+      @include output {
+        .sparkle {
+          @include animate("fade-in", 500ms, ease, 0s, infinite, reverse);
+        }
+      }
+
+      @include expect {
+        @keyframes fade-in {
+          0% {
+            opacity: 0;
+          }
+
+          100% {
+            opacity: 1;
+          }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+          .sparkle {
+            animation: "fade-in" 500ms ease 0s infinite reverse;
+          }
+        }
+      }
+    }
+  }
+}

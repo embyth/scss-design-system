@@ -1,0 +1,39 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("scrollbar()") {
+  @include it("should return a valid scrollbar styles") {
+    @include assert {
+      @include output {
+        body {
+          @include scrollbar(#000000, #ffffff, md, md, true, false);
+        }
+      }
+
+      @include expect {
+        body {
+          scrollbar-gutter: stable;
+        }
+
+        body::-webkit-scrollbar {
+          width: 8px;
+          background-color: #ffffff;
+        }
+
+        body::-webkit-scrollbar-thumb {
+          border-radius: 8px;
+          background-color: #000000;
+        }
+
+        body::-webkit-scrollbar-track {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// TODO: add test for scrollbar with transition; sass-true doesn't support @property in expected output (20.08.2023)

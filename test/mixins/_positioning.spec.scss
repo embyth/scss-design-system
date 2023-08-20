@@ -1,0 +1,28 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("position()") {
+  @include it("should return a valid position styles") {
+    @include assert {
+      @include output {
+        .icon {
+          @include position($axis: both);
+        }
+      }
+
+      @include expect {
+        .icon {
+          transform: translateX(-50%) translateY(-50%);
+          position: absolute;
+          top: 50%;
+          right: 0;
+          bottom: 0;
+          left: 50%;
+        }
+      }
+    }
+  }
+}

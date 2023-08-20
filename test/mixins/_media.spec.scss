@@ -1,0 +1,27 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("breakpoint()") {
+  @include it("should return a valid media query") {
+    @include assert {
+      @include output {
+        .image {
+          @include breakpoint("sm") {
+            width: 100%;
+          }
+        }
+      }
+
+      @include expect {
+        @media only screen and (min-width: 768px) {
+          .image {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

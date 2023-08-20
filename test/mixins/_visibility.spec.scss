@@ -1,0 +1,58 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("visually-hidden()") {
+  @include it("should return a visually hidden styles") {
+    @include assert {
+      @include output {
+        .element {
+          @include visually-hidden;
+        }
+      }
+
+      @include expect {
+        .element {
+          position: absolute;
+          width: 1px;
+          height: 0;
+          padding: 0;
+          margin: 0;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+          white-space: nowrap;
+          border: 0;
+        }
+      }
+    }
+  }
+}
+
+@include describe("visually-unhidden()") {
+  @include it("should return a visually unhidden styles") {
+    @include assert {
+      @include output {
+        .element {
+          @include visually-unhidden;
+        }
+      }
+
+      @include expect {
+        .element {
+          position: static;
+          width: auto;
+          height: auto;
+          padding: 0;
+          margin: 0;
+          overflow: visible;
+          clip: auto;
+          clip-path: none;
+          white-space: normal;
+          border: medium none currentColor;
+        }
+      }
+    }
+  }
+}

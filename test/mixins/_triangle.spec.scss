@@ -1,0 +1,27 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("triangle()") {
+  @include it("should return a border triangle styles") {
+    @include assert {
+      @include output {
+        .element {
+          @include triangle($size: 10px, $color: #ff00ff, $direction: "right");
+        }
+      }
+
+      @include expect {
+        .element {
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+          border-left: 5px solid #ff00ff;
+          width: 0;
+          height: 0;
+        }
+      }
+    }
+  }
+}

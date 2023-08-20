@@ -1,0 +1,42 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("icon-size()") {
+  @include it("should return a width and height size value") {
+    @include assert {
+      @include output {
+        .icon {
+          @include icon-size(24px);
+        }
+
+        .icon-2 {
+          @include icon-size(10px, 20px);
+        }
+
+        .icon-3 {
+          @include icon-size("sm", "md");
+        }
+      }
+
+      @include expect {
+        .icon {
+          width: 24px;
+          height: 24px;
+        }
+
+        .icon-2 {
+          width: 10px;
+          height: 20px;
+        }
+
+        .icon-3 {
+          width: 16px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}

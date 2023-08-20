@@ -1,0 +1,31 @@
+@use "true" as *;
+@import "../../src/abstracts";
+
+// stylelint-disable max-nesting-depth
+// stylelint-disable order/properties-order
+// stylelint-disable order/order
+@include describe("z-index()") {
+  @include it("should return a valid z-index value from config map") {
+    @include assert {
+      @include output {
+        .element {
+          @include z-index("modal");
+        }
+
+        .element-2 {
+          @include z-index(42);
+        }
+      }
+
+      @include expect {
+        .element {
+          z-index: 700;
+        }
+
+        .element-2 {
+          z-index: 42;
+        }
+      }
+    }
+  }
+}
