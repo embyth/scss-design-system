@@ -1,0 +1,44 @@
+@use "sass:map";
+
+// Manage vertical stacking order across the project with z-indexes.
+$config-z-index: () !default;
+$config-z-index: map.deep-merge(
+  (
+    // Deep z-index is used to stack something behind everything else.
+    "deep": -999999,
+    // Hide z-index is used to hide something from the screen.
+    "hide": -1,
+    // Base z-index is used to reset z-index to zero.
+    "base": 0,
+    // The default z-index for components and elements inside components.
+    "default": 1,
+    // Default z-index for masked elements.
+    "masked": 100,
+    // Default z-index for masking elements.
+    "mask": 200,
+    // Default z-index for sticky interface elements.
+    "sticky": 300,
+    // Default z-index for fixed interface elements.
+    "fixed": 400,
+    // Default z-index for modal and popup overlays or backdrops.
+    "overlay": 500,
+    // Default z-index for spinners, stacking on top of overlay.
+    "loader": 600,
+    // Default z-index for modals that stacks on top of overlays and other elements, but still allows popups to be visible.
+    "modal": 700,
+    // Default z-index for popups that stacks on top of modals and overlays.
+    "popup": 750,
+    // Note: Dropdowns that render outside of a Modal should render above a Modal.
+    // Dropdowns below the modal will close when the Modal is opened, so
+    // having a higher z-index *should* not cause issues.
+    // Z-index for dropdown menus.
+    "dropdown": 800,
+    // Default z-index for toast or notification messages.
+    "notification": 900,
+    // Default z-index for tooltips and popovers.
+    "tooltip": 950,
+    // Top z-index value for displaying something above everything else.
+    "above-all": 999999,
+  ),
+  $config-z-index,
+);

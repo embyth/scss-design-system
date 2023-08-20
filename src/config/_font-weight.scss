@@ -1,0 +1,20 @@
+@use "sass:map";
+
+$config-font-weight: () !default;
+$config-font-weight: map.deep-merge(
+  (
+    "default": 400, // Value that will be applied to root element
+    "thin": 100,
+    "extra-light": 200,
+    "light": 300,
+    "regular": 400,
+    "normal": 400, // Alias for "regular
+    "base": 400, // Alias for "regular
+    "medium": 500,
+    "semi-bold": 600,
+    "bold": 700,
+    "extra-bold": 800,
+    "black": 900,
+  ),
+  $config-font-weight
+);

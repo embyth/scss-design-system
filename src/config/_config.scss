@@ -1,0 +1,35 @@
+@use "sass:map";
+
+$settings: () !default;
+$settings: map.deep-merge(
+  (
+    // List of generators to include into the styles.
+    "generators": (
+      // Whether to include the reset of sensible defaults.
+      "light-reset": true,
+      // Whether to include the normalize.css file.
+      "normalize": false,
+      // Whether to include the root css variables.
+      "root": true,
+    ),
+    // The prefix to use for all CSS variables.
+    "prefix": null,
+    // Whether the project is poly-themed or not.
+    "poly-themed": false,
+    // Whenever to use the color fallbacks for CSS variables.
+    "color-fallback": false,
+    // The paths to use for the images, icons and fonts.
+    "paths": (
+      "images": "./images",
+      "icons": "./icons",
+      "fonts": "./fonts"
+    ),
+  ),
+  $settings
+);
+
+// We use this value to prefix our CSS variables. The only difference to the default prefix value that we add the '-' suffix.
+$internal-prefix: if(map.get($settings, prefix), map.get($settings, prefix) + "-", "");
+
+// This is the list of all generated keyframes to avoid duplicates.
+$included-animations: ();
