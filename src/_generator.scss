@@ -1,0 +1,27 @@
+@use "./abstracts" as *;
+@use "./vendor" as *;
+@use "./foundation" as *;
+@use "./config" as *;
+
+/// Generate all the styles.
+@mixin generate-styles {
+  @if config("light-reset", "generators") {
+    @include generate-reset;
+  }
+
+  @if config("normalize", "generators") {
+    @include generate-normalize;
+  }
+
+  @if config("root", "generators") {
+    @include generate-color-variables;
+
+    @if config("poly-themed") {
+      @each $key, $value in $config-theme {
+        @include generate-color-variables($colors: $value, $selector: "[data-theme=#{$key}]:root");
+      }
+    }
+  }
+
+  @include generate-default;
+}

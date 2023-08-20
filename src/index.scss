@@ -1,1 +1,4 @@
-@import "./0-base/_index";
+@forward "./config";
+@forward "./abstracts";
+@forward "./vendor";
+@forward "./generator";
