@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - id: release
+        uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: node
+          command: manifest
+          config-file: .github/release-please-config.json
+          manifest-file: .github/release-please-manifest.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - if: ${{ steps.release.outputs.releases_created }}
+        uses: ./.github/actions/release
+        with:
+          npm: ${{ secrets.NPM_TOKEN }}
