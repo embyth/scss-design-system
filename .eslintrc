@@ -1,7 +1,0 @@
-{
-  "extends": [
-    "plugin:@embyth/core",
-    "plugin:@embyth/react",
-    "plugin:@embyth/typescript"
-  ]
-}
