@@ -1,0 +1,39 @@
+// SYSTEM SETUP: (Generators, Prefix, General settings etc.)
+// ===============================================
+@import "@embyth/scss-design-system";
+
+// SYSTEM CONFIGURATION: (Sizes, Colors, etc.)
+// ===============================================
+$settings: (
+  // List of generators to include into the styles.
+  "generators": (
+    // Whether to include the reset of sensible defaults.
+    "light-reset": true,
+    // Whether to include the normalize.css file.
+    "normalize": false,
+    // Whether to include the root css variables.
+    "root": true,
+  ),
+  // The prefix to use for all CSS variables.
+  "prefix": "sass-ds",
+  // Whether the project is poly-themed or not.
+  "poly-themed": true,
+  // Whenever to use the color fallbacks for CSS variables.
+  "color-fallback": false,
+  // The paths to use for the images, icons and fonts.
+  "paths": (
+    "images": "./images",
+    "icons": "./icons",
+    "fonts": "./fonts"
+  ),
+);
+
+$config-font-stack: (
+  "default": ("Montserrat", "Verdana", sans-serif),
+);
+
+$config-font-size: (
+  "default": 16px, // Will be applied to root element
+  "h1": rem(32px),
+  "text": rem(16px),
+);

@@ -1,0 +1,1 @@
+export { NoiseCanvas } from './NoiseCanvas';

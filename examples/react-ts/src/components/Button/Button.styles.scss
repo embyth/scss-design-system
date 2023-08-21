@@ -1,0 +1,58 @@
+.button {
+  @include clear-btn();
+  @include z-index(default);
+
+  @include pseudo("before", "", absolute, $right: 0, $bottom: 0) {
+    @include z-index("deep");
+    @include transition(all);
+    @include shape("lg");
+
+    width: 100%;
+    height: 100%;
+    background: color(default, 100);
+    transform: translate(0%, 0%);
+  }
+
+  @include pseudo("after", "", absolute, $right: 0, $bottom: 0) {
+    @include z-index("hide");
+    @include shape("circle");
+    @include transition(all);
+
+    top: unset;
+    left: unset;
+    width: 30px;
+    height: 30px;
+    background: color(default, 800);
+    opacity: 15%;
+    transform: translate(10px, 10px);
+    backdrop-filter: blur(5px);
+  }
+
+  padding: space("lg") space("xl");
+  font-size: font-size(default);
+  font-weight: font-weight(regular);
+  line-height: line-height(default);
+  color: color(default, 800);
+  letter-spacing: letter-spacing(default);
+
+  &:hover {
+    &::before {
+      width: 110%;
+      height: 110%;
+      transform: translate(-5%, 20%);
+    }
+
+    &::after {
+      @include shape("lg");
+
+      width: 100%;
+      height: 100%;
+      transform: translate(0, 0);
+    }
+  }
+
+  &:active::after {
+    transition: 0s;
+    transform: translate(0, 5%);
+  }
+}

@@ -1,0 +1,56 @@
+.github_svg {
+  @include transition(all);
+  @include shape("lg");
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: color(default, 100);
+
+  svg {
+    @include transition(all);
+
+    fill: color(default, 800);
+  }
+}
+
+.github_backdrop {
+  @include z-index("hide");
+  @include shape("lg");
+  @include transition(all);
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: color(default, 800);
+  opacity: 15%;
+  pointer-events: none;
+  backdrop-filter: blur(0);
+}
+
+.github {
+  @include clear-btn;
+  @include transition(all);
+  @include shape("lg");
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+
+  &:hover {
+    .github_backdrop {
+      transform: rotate(35deg);
+      transform-origin: bottom;
+      backdrop-filter: blur(5px);
+    }
+
+    .github_svg svg {
+      fill: color(default, 800);
+    }
+  }
+}

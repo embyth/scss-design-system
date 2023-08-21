@@ -1,0 +1,45 @@
+$switch-width: 56px;
+$switch-height: 32px;
+$switch-icon-size: 22px;
+$switch-slider-offset: 5px;
+
+.switch_slider {
+  @include position(absolute, 0, 0, 0, 0);
+  @include transition(all);
+  @include shape(30px);
+
+  @include pseudo("before") {
+    @include transition(all);
+    @include shape(20px);
+
+    top: 50%;
+    left: $switch-slider-offset;
+    width: $switch-icon-size;
+    height: $switch-icon-size;
+    // Gradient is a sun like circle
+    background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+    transform: translateY(-50%);
+  }
+
+  position: absolute;
+  background-color: color(default, 100);
+  cursor: pointer;
+}
+
+.switch {
+  position: relative;
+  display: block;
+  width: $switch-width;
+  height: $switch-height;
+}
+
+.switch_input {
+  @include visually-hidden;
+
+  &:checked + .switch_slider::before {
+    left: calc(100% - ($switch-icon-size + $switch-slider-offset));
+    background: color(default, 100);
+    // Shadow is a moon
+    box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+  }
+}
