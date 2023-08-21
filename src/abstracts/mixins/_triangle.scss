@@ -1,4 +1,5 @@
 @use "sass:list";
+@use "sass:math";
 
 /// Border triangle helper mixin
 /// @param {number} $size - Triangle size
@@ -9,8 +10,8 @@
   $width: list.nth($size, 1);
   $height: list.nth($size, list.length($size));
 
-  $width: $width / 2;
-  $height: if(list.length($size) > 1, $height, $height / 2);
+  $width: math.div($width, 2);
+  $height: if(list.length($size) > 1, $height, math.div($height, 2));
 
   @if $direction == up {
     border-right: $width solid transparent;
