@@ -1,6 +1,6 @@
 .github_svg {
   @include transition(all);
-  @include shape("lg");
+  @include shape('lg');
 
   display: flex;
   align-items: center;
@@ -17,8 +17,8 @@
 }
 
 .github_backdrop {
-  @include z-index("hide");
-  @include shape("lg");
+  @include z-index('hide');
+  @include shape('lg');
   @include transition(all);
 
   position: absolute;
@@ -33,7 +33,7 @@
 .github {
   @include clear-btn;
   @include transition(all);
-  @include shape("lg");
+  @include shape('lg');
 
   position: relative;
   display: flex;

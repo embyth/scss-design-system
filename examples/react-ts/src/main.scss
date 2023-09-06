@@ -4,33 +4,14 @@
 
 // FONT SETUP: Montserrat
 // ===============================================
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Regular', $exts: woff2 ttf);
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Italic', $style: italic, $exts: woff2 ttf);
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Bold', $weight: 700, $exts: woff2 ttf);
 @include font-setup(
-  $name: "Montserrat",
-  $filename: "Montserrat-Regular",
-  $exts: woff2 ttf
-);
-@include font-setup(
-  $name: "Montserrat",
-  $filename: "Montserrat-Italic",
-  $style: italic,
-  $exts: woff2 ttf
-);
-@include font-setup(
-  $name: "Montserrat",
-  $filename: "Montserrat-Bold",
-  $weight: 700,
-  $exts: woff2 ttf
-);
-@include font-setup(
-  $name: "Montserrat",
-  $filename: "Montserrat-BoldItalic",
+  $name: 'Montserrat',
+  $filename: 'Montserrat-BoldItalic',
   $style: italic,
   $weight: 700,
   $exts: woff2 ttf
 );
-@include font-setup(
-  $name: "Montserrat",
-  $filename: "Montserrat-Light",
-  $weight: 300,
-  $exts: woff2 ttf
-);
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Light', $weight: 300, $exts: woff2 ttf);
