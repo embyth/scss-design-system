@@ -1,14 +1,10 @@
 /// Crop text and display an ellipsis with multiline.
 /// @param {number} $number-of-lines - The number of lines.
 /// @return {mixin} - The text ellipsis mixin.
-@mixin text-ellipsis(
-  $number-of-lines: 1
-) {
+@mixin text-ellipsis($number-of-lines: 1) {
   @if $number-of-lines == 1 {
     white-space: nowrap;
-  }
-
-  @else {
+  } @else {
     white-space: inherit;
 
     @supports (-webkit-line-clamp: $number-of-lines) {
@@ -26,7 +22,6 @@
 /// @return {mixin} - The word-wrap mixin.
 @mixin word-wrap {
   hyphens: auto;
-  word-break: break-all;
   word-break: break-word;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -43,9 +38,7 @@
       color: $color;
       background-color: $background-color;
     }
-  }
-
-  @else {
+  } @else {
     ::selection {
       color: $color;
       background-color: $background-color;

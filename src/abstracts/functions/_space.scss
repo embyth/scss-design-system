@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Returns the spacing value for a given variant.
 /// @param {string} $space - how much space do you need.
@@ -15,16 +15,12 @@
       @return 0;
     }
 
-    @if (unitless($space)) {
+    @if unitless($space) {
       @return $space * 1px;
-    }
-
-    @else {
+    } @else {
       @return $space;
     }
-  }
-
-  @else {
+  } @else {
     @error "Spacing variant `#{$space}` not found. Available variants: #{$map}";
   }
 }

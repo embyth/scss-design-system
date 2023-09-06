@@ -1,7 +1,7 @@
-@use "sass:string";
-@use "sass:map";
-@use "sass:list";
-@use "../functions" as *;
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:list';
+@use '../functions' as *;
 
 /// Generate font-face declaration.
 /// @param {string} $name - The font family name.
@@ -13,22 +13,22 @@
 /// @return {string} - The generated font-face declaration.
 @mixin font-setup($name, $filename, $weight: 400, $style: normal, $display: swap, $exts: eot woff2 woff ttf svg) {
   $src: null;
-  $full-path: config("fonts", "paths") + "/" + $filename;
+  $full-path: config('fonts', 'paths') + '/' + $filename;
 
   $extmods: (
-    eot: "?",
-    svg: "#" + str-replace($name, " ", "_")
+    eot: '?',
+    svg: '#' + str-replace($name, ' ', '_'),
   );
 
   $formats: (
-    otf: "opentype",
-    ttf: "truetype"
+    otf: 'opentype',
+    ttf: 'truetype',
   );
 
   @each $ext in $exts {
     $extmod: if(map.has-key($extmods, $ext), $ext + map.get($extmods, $ext), $ext);
     $format: if(map.has-key($formats, $ext), map.get($formats, $ext), $ext);
-    $src: list.append($src, url(quote($full-path + "." + $extmod)) format(string.quote($format)), comma);
+    $src: list.append($src, url(quote($full-path + '.' + $extmod)) format(string.quote($format)), comma);
   }
 
   @font-face {

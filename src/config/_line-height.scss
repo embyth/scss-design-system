@@ -1,12 +1,12 @@
-@use "sass:map";
+@use 'sass:map';
 
 $config-line-height: () !default;
 $config-line-height: map.deep-merge(
   (
-    "default": 1.5,
-    "h1": 1.5,
-    "h2": 1.5,
-    "text": 1.5,
+    'default': 1.5,
+    'h1': 1.5,
+    'h2': 1.5,
+    'text': 1.5,
   ),
-  $config-line-height,
+  $config-line-height
 );

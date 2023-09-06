@@ -1,16 +1,17 @@
-@use "sass:map";
+@use 'sass:map';
 
 $config-shape: () !default;
 $config-shape: map.deep-merge(
   (
-    "default": 0, // Most common shape
-    "circle": 50%,
-    "square": 0,
-    "sm": 6px,
-    "md": 8px,
-    "lg": 10px,
-    "xl": 12px,
-    "xxl": 14px,
+    'default': 0,
+    // Most common shape
+    'circle': 50%,
+    'square': 0,
+    'sm': 6px,
+    'md': 8px,
+    'lg': 10px,
+    'xl': 12px,
+    'xxl': 14px,
   ),
   $config-shape
 );

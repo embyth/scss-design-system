@@ -1,8 +1,8 @@
-@use "sass:color";
-@use "sass:map";
-@use "sass:math";
-@use "config" as *;
-@use "../../config" as *;
+@use 'sass:color';
+@use 'sass:map';
+@use 'sass:math';
+@use 'config' as *;
+@use '../../config' as *;
 
 /// Get any color value from $colors (or any) Sass map.
 /// @param {string} $type - The type of the color group (base, primary, secondary, etc.).
@@ -10,12 +10,7 @@
 /// @param {boolean} $only-color - If true, return only the color value.
 /// @param {map} $map - The map to get the color from.
 /// @return {color} - The color value or the variable.
-@function color(
-  $type: "default",
-  $key,
-  $only-color: false,
-  $map: $colors
-) {
+@function color($type: 'default', $key, $only-color: false, $map: $colors) {
   @if not map.has-key($map, $type, $key) {
     @error "The #{$key} key name doesn't exist under #{$type} at the specified map (default: $colors).";
   }
@@ -40,11 +35,7 @@
 /// @param {string} $key - The key name of the color.
 /// @param {map} $map - The map to get the color from.
 /// @return {color} - The color value.
-@function color-value(
-  $type: "default",
-  $key,
-  $map: $colors
-) {
+@function color-value($type: 'default', $key, $map: $colors) {
   @if not map.has-key($map, $type, $key) {
     @error "The #{$key} key name doesn't exist under #{$type} at the specified map (default: $colors).";
   }
@@ -61,14 +52,16 @@
 /// @param {color} $color - The color to get the contrast color.
 /// @return {color} - The contrast color.
 @function color-contrast($color) {
-  $color-brightness: math.round((color.red($color) * 299) + (color.green($color) * 587) + math.div(color.blue($color) * 114, 1000));
-  $light-color: math.round((color.red(#ffffff) * 299) + (color.green(#ffffff) * 587) + math.div(color.blue(#ffffff) * 114, 1000));
+  $color-brightness: math.round(
+    (color.red($color) * 299) + (color.green($color) * 587) + math.div(color.blue($color) * 114, 1000)
+  );
+  $light-color: math.round(
+    (color.red(#ffffff) * 299) + (color.green(#ffffff) * 587) + math.div(color.blue(#ffffff) * 114, 1000)
+  );
 
   @if abs($color-brightness) < math.div($light-color, 2) {
     @return hsl(0 0% 100%);
-  }
-
-  @else {
+  } @else {
     @return hsl(0 100% 0%);
   }
 }

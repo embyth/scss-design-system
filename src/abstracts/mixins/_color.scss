@@ -1,19 +1,17 @@
-@use "sass:map";
-@use "../functions" as *;
-@use "../../config" as *;
+@use 'sass:map';
+@use '../functions' as *;
+@use '../../config' as *;
 
 /// Generate color variables.
 /// @param {map} $colors - The colors map.
 /// @param {string} $selector - The selector.
 /// @return {string} - The generated color variables.
-@mixin generate-color-variables(
-  $colors: $colors,
-  $selector: ":root"
-) {
+@mixin generate-color-variables($colors: $colors, $selector: ':root') {
   @each $key, $value in $colors {
     #{$selector} {
       @each $name, $color in $value {
-        @if $color { // stylelint-disable-line max-nesting-depth
+        // stylelint-disable-next-line max-nesting-depth
+        @if $color {
           --#{$internal-prefix}#{$key}-color-#{$name}: #{$color};
         }
       }

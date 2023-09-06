@@ -1,16 +1,14 @@
-@use "sass:math";
-@use "sass:meta";
-@use "typography" as *;
+@use 'sass:math';
+@use 'sass:meta';
+@use 'typography' as *;
 
 /// Strip unit on CSS value.
 /// @param {number} $value - The value to be stripped.
 /// @return {number} value without the unit.
 @function strip-unit($value) {
-  @if meta.type-of($value) != "number" {
+  @if meta.type-of($value) != 'number' {
     @error "Invalid `#{meta.type-of($value)}` type. Choose a number type instead.";
-  }
-
-  @else if meta.type-of($value) == "number" and not math.is-unitless($value) {
+  } @else if meta.type-of($value) == 'number' and not math.is-unitless($value) {
     @return math.div($value, ($value * 0 + 1));
   }
 
@@ -22,26 +20,20 @@
 /// @return {number} The converted value in rem.
 @function rem($value) {
   $unit: math.unit($value);
-  $default-font-size: font-size("default");
+  $default-font-size: font-size('default');
   $stripped-default: strip-unit($default-font-size);
 
   @if $value == 0 {
     @return 0;
   }
 
-  @if (unitless($value)) {
+  @if unitless($value) {
     @return math.div($value, $stripped-default) * 1rem;
-  }
-
-  @else if $unit == "rem" {
+  } @else if $unit == 'rem' {
     @return $value;
-  }
-
-  @else if $unit == "px" {
+  } @else if $unit == 'px' {
     @return math.div($value, $default-font-size) * 1rem;
-  }
-
-  @else {
+  } @else {
     @error "Value must be in px, rem or just a number.";
   }
 }
@@ -52,26 +44,24 @@
 /// @return {number} The converted value in ems.
 @function em($value) {
   $unit: math.unit($value);
-  $default-font-size: font-size("default");
+  $default-font-size: font-size('default');
   $stripped-default: strip-unit($default-font-size);
 
   @if $value == 0 {
     @return 0;
   }
 
-  @if (unitless($value)) {
+  @if unitless($value) {
     @return math.div($value, $stripped-default) * 1em;
   }
 
-  @if $unit == "em" {
+  @if $unit == 'em' {
     @return $value;
   }
 
-  @if $unit == "px" {
+  @if $unit == 'px' {
     @return math.div($value, $default-font-size) * 1em;
-  }
-
-  @else {
+  } @else {
     @error "Value must be in px, em or just a number.";
   }
 }

@@ -1,15 +1,12 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Get available value from $settings map.
 /// @param {string} $key - The key name.
 /// @param {string} $group - The group name.
 /// @return {string} - The value of the key.
 /// @throws {error} - If the key doesn't exist.
-@function config(
-  $key,
-  $group: null
-) {
+@function config($key, $group: null) {
   @if $group {
     @if not map.has-key($settings, $group) {
       @error "The #{$group} key name doesn't exist at the $settings map. Available settings keys: #{map.keys($settings)}";

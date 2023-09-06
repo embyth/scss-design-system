@@ -1,14 +1,12 @@
-@use "../functions" as *;
+@use '../functions' as *;
 
 /// Set shape to an element (border radius) mixin.
 /// @param {string} $size - Size from `$config-shape` map or a number.
 /// @param {boolean} $important - Whether to add `!important` to the border-radius value.
 @mixin shape($size: default, $important: false) {
-  @if ($important == true) {
+  @if $important == true {
     border-radius: shape($size) !important; // stylelint-disable-line declaration-no-important
-  }
-
-  @else {
+  } @else {
     border-radius: shape($size);
   }
 }

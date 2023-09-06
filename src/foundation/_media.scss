@@ -1,5 +1,5 @@
-@use "../config" as *;
-@use "../abstracts/functions" as *;
+@use '../config' as *;
+@use '../abstracts/functions' as *;
 
 @mixin generate-media {
   img {
