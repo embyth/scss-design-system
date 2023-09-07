@@ -1,0 +1,247 @@
+@import 'design-system';
+
+// STYLES GENERATOR: (Reset, Normalize, etc.)
+// ===============================================
+@include generate-styles;
+
+// FONT SETUP: Montserrat
+// ===============================================
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Regular', $exts: woff2 ttf);
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Italic', $style: italic, $exts: woff2 ttf);
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Bold', $weight: 700, $exts: woff2 ttf);
+@include font-setup(
+  $name: 'Montserrat',
+  $filename: 'Montserrat-BoldItalic',
+  $style: italic,
+  $weight: 700,
+  $exts: woff2 ttf
+);
+@include font-setup($name: 'Montserrat', $filename: 'Montserrat-Light', $weight: 300, $exts: woff2 ttf);
+
+// App
+body {
+  color: color(default, 800);
+  background-color: color(default, 50);
+}
+
+// Canvas
+.noise-abstraction {
+  @include position;
+  @include size(100%);
+  @include z-index(base);
+}
+
+// Card
+.card {
+  @include animate(fade-in, 1s);
+  @include position($axis: vertical);
+  @include z-index(masked);
+  @include shape(xxl);
+  @include shadow($elevation: xl);
+  right: 15%;
+  left: unset;
+  max-width: 664px;
+  height: fit-content;
+  padding: space('3xl');
+  background-color: color-mix(in sRGB, color(default, 50) 30%, transparent);
+  -webkit-backdrop-filter: blur(16px); // stylelint-disable-line property-no-vendor-prefix
+  backdrop-filter: blur(16px);
+}
+
+.card_title {
+  margin-bottom: space('2xl');
+  font-family: font-family('default');
+  font-size: font-size(h1);
+  font-weight: font-weight(bold);
+  line-height: line-height(h1);
+  color: color(default, 800);
+  letter-spacing: letter-spacing(h1);
+}
+
+.card_paragraph {
+  font-family: font-family('default');
+  font-size: font-size(text);
+  font-weight: font-weight(normal);
+  line-height: line-height(text);
+  color: color(default, 700);
+  letter-spacing: letter-spacing(h1);
+}
+
+.card_controls {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: space('4xl');
+}
+
+// Switch
+$switch-width: 56px;
+$switch-height: 32px;
+$switch-icon-size: 22px;
+$switch-slider-offset: 5px;
+
+.switch_slider {
+  @include position(absolute, 0, 0, 0, 0);
+  @include transition(all);
+  @include shape(30px);
+
+  @include pseudo('before') {
+    @include transition(all);
+    @include shape(20px);
+
+    top: 50%;
+    left: $switch-slider-offset;
+    width: $switch-icon-size;
+    height: $switch-icon-size;
+
+    // Gradient is a sun like circle
+    background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
+    transform: translateY(-50%);
+  }
+
+  position: absolute;
+  background-color: color(default, 100);
+  cursor: pointer;
+}
+
+.switch {
+  position: relative;
+  display: block;
+  width: $switch-width;
+  height: $switch-height;
+}
+
+.switch_input {
+  @include visually-hidden;
+
+  &:checked + .switch_slider::before {
+    left: calc(100% - ($switch-icon-size + $switch-slider-offset));
+    background: color(default, 100);
+
+    // Shadow is a moon
+    box-shadow:
+      inset -3px -2px 5px -2px #8983f7,
+      inset -10px -4px 0 0 #a3dafb;
+  }
+}
+
+// Button
+.button {
+  @include clear-btn;
+  @include z-index(default);
+
+  @include pseudo('before', '', absolute, $right: 0, $bottom: 0) {
+    @include z-index('deep');
+    @include transition(all);
+    @include shape('lg');
+
+    width: 100%;
+    height: 100%;
+    background: color(default, 100);
+    transform: translate(0%, 0%);
+  }
+
+  @include pseudo('after', '', absolute, $right: 0, $bottom: 0) {
+    @include z-index('hide');
+    @include shape('circle');
+    @include transition(all);
+
+    top: unset;
+    left: unset;
+    width: 30px;
+    height: 30px;
+    background: color(default, 800);
+    opacity: 15%;
+    transform: translate(10px, 10px);
+    backdrop-filter: blur(5px);
+  }
+
+  padding: space('lg') space('xl');
+  font-size: font-size(default);
+  font-weight: font-weight(regular);
+  line-height: line-height(default);
+  color: color(default, 800);
+  letter-spacing: letter-spacing(default);
+
+  &:hover {
+    &::before {
+      width: 110%;
+      height: 110%;
+      transform: translate(-5%, 20%);
+    }
+
+    &::after {
+      @include shape('lg');
+
+      width: 100%;
+      height: 100%;
+      transform: translate(0, 0);
+    }
+  }
+
+  &:active::after {
+    transition-duration: 0s;
+    transform: translate(0, 5%);
+  }
+}
+
+// Github
+.github_svg {
+  @include transition(all);
+  @include shape('lg');
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: color(default, 100);
+
+  svg {
+    @include transition(all);
+
+    fill: color(default, 800);
+  }
+}
+
+.github_backdrop {
+  @include z-index('hide');
+  @include shape('lg');
+  @include transition(all);
+
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: color(default, 800);
+  opacity: 15%;
+  pointer-events: none;
+  backdrop-filter: blur(0);
+}
+
+.github {
+  @include clear-btn;
+  @include transition(all);
+  @include shape('lg');
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  text-decoration: none;
+
+  &:hover {
+    .github_backdrop {
+      transform: rotate(35deg);
+      transform-origin: bottom;
+      backdrop-filter: blur(5px);
+    }
+
+    .github_svg svg {
+      fill: color(default, 800);
+    }
+  }
+}

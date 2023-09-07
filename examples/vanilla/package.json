@@ -1,0 +1,28 @@
+{
+  "name": "vanilla",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js --config .eslintrc --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext js --config .eslintrc --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint:css": "pnpm exec stylelint \"src/**/*.scss\" --config .stylelintrc",
+    "lint:css:fix": "pnpm exec stylelint \"src/**/*.scss\" --config .stylelintrc --fix"
+  },
+  "dependencies": {
+    "simplex-noise": "4.0.1"
+  },
+  "devDependencies": {
+    "@embyth/eslint-plugin": "0.2.0",
+    "@embyth/prettier-config": "1.0.0",
+    "@embyth/scss-design-system": "workspace:*",
+    "@embyth/stylelint-config": "0.3.0",
+    "eslint": "8.48.0",
+    "prettier": "3.0.3",
+    "stylelint": "15.10.3",
+    "vite": "4.4.9"
+  }
+}
