@@ -28,8 +28,8 @@
     "clean:cache": "rimraf dist",
     "clean:deps": "rimraf node_modules",
     "clean": "pnpm run clean:cache && pnpm run clean:deps",
-    "lint": "pnpm exec stylelint \"src/**/*.scss\" --config .stylelintrc",
-    "lint:fix": "pnpm exec stylelint \"src/**/*.scss\" --config .stylelintrc --fix",
+    "lint": "pnpm exec stylelint \"{test,src}/**/*.scss\" --config .stylelintrc",
+    "lint:fix": "pnpm exec stylelint \"{test,src}/**/*.scss\" --config .stylelintrc --fix",
     "test": "jest"
   },
   "devDependencies": {
