@@ -1,8 +1,8 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 $__test-map-colors: (
-  "default": (
+  'default': (
     50: #fafafa,
     100: #f4f4f5,
     200: #e4e4e7,
@@ -17,13 +17,11 @@ $__test-map-colors: (
 );
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("generate-color-variables()") {
-  @include it("should return generated color variables") {
+@include describe('generate-color-variables()') {
+  @include it('should return generated color variables') {
     @include assert {
       @include output {
-        @include generate-color-variables($colors: $__test-map-colors, $selector: "body");
+        @include generate-color-variables($colors: $__test-map-colors, $selector: 'body');
       }
 
       @include expect {

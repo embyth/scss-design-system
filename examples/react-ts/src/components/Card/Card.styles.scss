@@ -8,15 +8,15 @@
   left: unset;
   max-width: 664px;
   height: fit-content;
-  padding: space("3xl");
+  padding: space('3xl');
   background-color: color-mix(in sRGB, color(default, 50) 30%, transparent);
   -webkit-backdrop-filter: blur(16px); // stylelint-disable-line property-no-vendor-prefix
   backdrop-filter: blur(16px);
 }
 
 .card_title {
-  margin-bottom: space("2xl");
-  font-family: font-family("default");
+  margin-bottom: space('2xl');
+  font-family: font-family('default');
   font-size: font-size(h1);
   font-weight: font-weight(bold);
   line-height: line-height(h1);
@@ -25,7 +25,7 @@
 }
 
 .card_paragraph {
-  font-family: font-family("default");
+  font-family: font-family('default');
   font-size: font-size(text);
   font-weight: font-weight(normal);
   line-height: line-height(text);
@@ -39,5 +39,5 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: space("4xl");
+  margin-top: space('4xl');
 }

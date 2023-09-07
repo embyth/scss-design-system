@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:list";
-@use "../../config" as *;
-@use "../functions" as *;
+@use 'sass:map';
+@use 'sass:list';
+@use '../../config' as *;
+@use '../functions' as *;
 
 /// Generates transition related declarations.
 /// @param {string} $property - The property to which the transition is applied.
@@ -39,9 +39,7 @@
 
       @if type-of($value: $duration-attempt) == number {
         $duration-value: strip-unit($duration-attempt) * 1ms;
-      }
-
-      @else {
+      } @else {
         @error "Duration variant `#{list.nth($duration, $i)}` not found. Available variants: #{$config-motion-duration}";
       }
     }
@@ -51,9 +49,7 @@
 
       @if type-of($value: $timing-function-attempt) == string {
         $timing-value: $timing-function-attempt;
-      }
-
-      @else {
+      } @else {
         @error "Timing-function variant `#{list.nth($timing-function, $i)}` not found. Available variants: #{$config-motion-timing}";
       }
     }
@@ -63,9 +59,7 @@
 
       @if type-of($value: $delay-attempt) == number {
         $delay-value: strip-unit($delay-attempt) * 1ms;
-      }
-
-      @else {
+      } @else {
         @error "Delay variant `#{list.nth($delay, $i)}` not found. Available variants: #{$config-motion-duration}";
       }
     }

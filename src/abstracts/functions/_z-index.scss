@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Get available z-index value from config map.
 /// @param {string} $layer - Value from `$z-indexes` map.
@@ -14,9 +14,7 @@
 
   @if type-of($fetched-z-index) {
     @return $fetched-z-index;
-  }
-
-  @else {
+  } @else {
     @error "Z-index with such layer `#{$layer}` not found. Available z-indexes: #{$config-z-index}";
   }
 }

@@ -1,11 +1,12 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
 // stylelint-disable order/properties-order
 // stylelint-disable order/order
-@include describe("focus-ring()") {
-  @include it("should return content within requested focus ring parameters") {
+// stylelint-disable plugin/no-low-performance-animation-properties
+@include describe('focus-ring()') {
+  @include it('should return content within requested focus ring parameters') {
     @include assert {
       @include output {
         .button {
@@ -16,7 +17,10 @@
       @include expect {
         .button {
           will-change: outline, outline-offset, border-radius;
-          transition: outline 150ms cubic-bezier(0.5, 0, 0.1, 1) 0ms, outline-offset 150ms cubic-bezier(0.5, 0, 0.1, 1) 0ms, border-radius 150ms cubic-bezier(0.5, 0, 0.1, 1) 0ms;
+          transition:
+            outline 150ms cubic-bezier(0.5, 0, 0.1, 1) 0ms,
+            outline-offset 150ms cubic-bezier(0.5, 0, 0.1, 1) 0ms,
+            border-radius 150ms cubic-bezier(0.5, 0, 0.1, 1) 0ms;
           outline: solid 1px transparent;
         }
 

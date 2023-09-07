@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Adds box shadow
 /// @param {number} $x - The horizontal offset of the shadow.
@@ -17,14 +17,10 @@
 
     @if type-of($shadow-value) == list {
       box-shadow: $shadow-value;
-    }
-
-    @else {
+    } @else {
       @error "Shadow variant `#{$elevation}` not found. Available variants: #{$config-shadow}";
     }
-  }
-
-  @else {
+  } @else {
     box-shadow: $x $y $blur $spread $color;
   }
 }

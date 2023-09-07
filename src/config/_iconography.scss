@@ -1,16 +1,16 @@
-@use "sass:map";
+@use 'sass:map';
 
 $config-iconography: () !default;
 $config-iconography: map.deep-merge(
   (
-    "default": 24px,
-    "none": 0,
-    "xs": 12px,
-    "sm": 16px,
-    "md": 20px,
-    "lg": 24px,
-    "xl": 28px,
-    "2xl": 32px,
+    'default': 24px,
+    'none': 0,
+    'xs': 12px,
+    'sm': 16px,
+    'md': 20px,
+    'lg': 24px,
+    'xl': 28px,
+    '2xl': 32px,
   ),
   $config-iconography
 );

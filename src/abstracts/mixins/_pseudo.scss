@@ -1,4 +1,4 @@
-@use "positioning" as *;
+@use 'positioning' as *;
 
 /// Pseudo element shorthand mixin.
 /// @param {string} $loc - The pseudo element location.
@@ -10,7 +10,7 @@
 /// @param {string} $left - Specifies how far an absolutely positioned box's left margin edge is offset to the right of the left edge of the box's 'containing block'.
 /// @param {string} $axis - Specifies the axis to center the element. Available values: `both`, `horizontal`, `vertical`.
 /// @return {mixin} - Generated pseudo element mixin.
-@mixin pseudo($loc: before, $content: "", $position: absolute, $top: 0, $right: 0, $bottom: 0, $left: 0, $axis: null) {
+@mixin pseudo($loc: before, $content: '', $position: absolute, $top: 0, $right: 0, $bottom: 0, $left: 0, $axis: null) {
   position: relative;
 
   &::#{$loc} {

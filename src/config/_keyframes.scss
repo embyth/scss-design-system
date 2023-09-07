@@ -1,89 +1,93 @@
-@use "sass:map";
+@use 'sass:map';
 
 $config-keyframes: () !default;
 $config-keyframes: map.deep-merge(
   (
     // Scrollbar animations
-    "scrollbar-fade-in": (
+    'scrollbar-fade-in':
+      (
+        0%: (
+          opacity: 0,
+        ),
+        100%: (
+          opacity: 1,
+        ),
+      ),
+    'scrollbar-fade-out': (
       0%: (
-        opacity: 0
+        opacity: 0,
       ),
       100%: (
         opacity: 1,
-      )
-    ),
-    "scrollbar-fade-out": (
-      0%: (
-        opacity: 0
       ),
-      100%: (
-        opacity: 1,
-      )
     ),
     // Apple style shake animation (ex: invalid form submit)
-    "apple-shake": (
-      0%: (
-        transform: translate3d(0, 0, 0),
+    'apple-shake':
+      (
+        0%: (
+          transform: translate3d(0, 0, 0),
+        ),
+        100%: (
+          transform: translate3d(0, 0, 0),
+        ),
+        10%: (
+          transform: translate3d(-10px, 0, 0),
+        ),
+        30%: (
+          transform: translate3d(-10px, 0, 0),
+        ),
+        50%: (
+          transform: translate3d(-10px, 0, 0),
+        ),
+        70%: (
+          transform: translate3d(-10px, 0, 0),
+        ),
+        90%: (
+          transform: translate3d(-10px, 0, 0),
+        ),
+        20%: (
+          transform: translate3d(10px, 0, 0),
+        ),
+        40%: (
+          transform: translate3d(10px, 0, 0),
+        ),
+        60%: (
+          transform: translate3d(10px, 0, 0),
+        ),
+        80%: (
+          transform: translate3d(10px, 0, 0),
+        ),
       ),
-      100%: (
-        transform: translate3d(0, 0, 0),
-      ),
-      10%: (
-        transform: translate3d(-10px, 0, 0),
-      ),
-      30%: (
-        transform: translate3d(-10px, 0, 0),
-      ),
-      50%: (
-        transform: translate3d(-10px, 0, 0),
-      ),
-      70%: (
-        transform: translate3d(-10px, 0, 0),
-      ),
-      90%: (
-        transform: translate3d(-10px, 0, 0),
-      ),
-      20%: (
-        transform: translate3d(10px, 0, 0),
-      ),
-      40%: (
-        transform: translate3d(10px, 0, 0),
-      ),
-      60%: (
-        transform: translate3d(10px, 0, 0),
-      ),
-      80%: (
-        transform: translate3d(10px, 0, 0),
-      ),
-    ),
     // Fades
-    "fade-in": (
+    'fade-in':
+      (
+        0%: (
+          opacity: 0,
+        ),
+        100%: (
+          opacity: 1,
+        ),
+      ),
+    'fade-out': (
       0%: (
-        opacity: 0,
+        opacity: 1,
       ),
       100%: (
-        opacity: 1,
-      )
-    ),
-    "fade-out": (
-      0%: (
-        opacity: 1,
-      ),
-      100%: (
         opacity: 0,
-      )
+      ),
     ),
     // Zooms
-    "zoom-in": (
-      0%: (
-        opacity: 0,
-        transform: scale3d(0.3, 0.3, 0.3),
+    'zoom-in':
+      (
+        0%: (
+          opacity: 0,
+          transform: scale3d(0.3, 0.3, 0.3),
+        ),
+        50%: (
+          opacity: 1,
+        ),
       ),
-      50%: (
-        opacity: 1,
-      ),
-    ),
-    "zoom-out": (
+    'zoom-out': (
       0%: (
         opacity: 1,
       ),

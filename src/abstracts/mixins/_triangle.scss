@@ -1,5 +1,5 @@
-@use "sass:list";
-@use "sass:math";
+@use 'sass:list';
+@use 'sass:math';
 
 /// Border triangle helper mixin
 /// @param {number} $size - Triangle size
@@ -17,21 +17,15 @@
     border-right: $width solid transparent;
     border-bottom: $height solid $color;
     border-left: $width solid transparent;
-  }
-
-  @else if $direction == right {
+  } @else if $direction == right {
     border-top: $width solid transparent;
     border-bottom: $width solid transparent;
     border-left: $height solid $color;
-  }
-
-  @else if $direction == down {
+  } @else if $direction == down {
     border-top: $height solid $color;
     border-right: $width solid transparent;
     border-left: $width solid transparent;
-  }
-
-  @else if $direction == left {
+  } @else if $direction == left {
     border-top: $width solid transparent;
     border-right: $height solid $color;
     border-bottom: $width solid transparent;

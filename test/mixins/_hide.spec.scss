@@ -1,11 +1,9 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("hide-at-xs()") {
-  @include it("should return a media query that hides elements at the xs breakpoint") {
+@include describe('hide-at-xs()') {
+  @include it('should return a media query that hides elements at the xs breakpoint') {
     @include assert {
       @include output {
         .text {
@@ -24,8 +22,8 @@
   }
 }
 
-@include describe("hide-at-sm()") {
-  @include it("should return a media query that hides elements at the sm breakpoint") {
+@include describe('hide-at-sm()') {
+  @include it('should return a media query that hides elements at the sm breakpoint') {
     @include assert {
       @include output {
         .text {
@@ -44,8 +42,8 @@
   }
 }
 
-@include describe("hide-at-md()") {
-  @include it("should return a media query that hides elements at the md breakpoint") {
+@include describe('hide-at-md()') {
+  @include it('should return a media query that hides elements at the md breakpoint') {
     @include assert {
       @include output {
         .text {
@@ -64,8 +62,8 @@
   }
 }
 
-@include describe("hide-at-lg()") {
-  @include it("should return a media query that hides elements at the lg breakpoint") {
+@include describe('hide-at-lg()') {
+  @include it('should return a media query that hides elements at the lg breakpoint') {
     @include assert {
       @include output {
         .text {
@@ -84,8 +82,8 @@
   }
 }
 
-@include describe("hide-at-xl()") {
-  @include it("should return a media query that hides elements at the xl breakpoint") {
+@include describe('hide-at-xl()') {
+  @include it('should return a media query that hides elements at the xl breakpoint') {
     @include assert {
       @include output {
         .text {
@@ -104,8 +102,8 @@
   }
 }
 
-@include describe("hide-at-xxl()") {
-  @include it("should return a media query that hides elements at the xxl breakpoint") {
+@include describe('hide-at-xxl()') {
+  @include it('should return a media query that hides elements at the xxl breakpoint') {
     @include assert {
       @include output {
         .text {

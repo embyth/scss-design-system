@@ -1,5 +1,5 @@
-@use "./shape" as *;
-@use "../functions" as *;
+@use './shape' as *;
+@use '../functions' as *;
 
 $is-scrollbar-animation-exists: false;
 
@@ -8,17 +8,13 @@ $is-scrollbar-animation-exists: false;
 /// @param {string} $thumb-background-color - The background color of the thumb.
 /// @param {string} $track-background-color - The background color of the track.
 /// @return {mixin} - The keyframe-gen mixin.
-@mixin keyframe-scrollbar-gen(
-  $scrollbar-var-name,
-  $thumb-background-color,
-  $track-background-color
-) {
+@mixin keyframe-scrollbar-gen($scrollbar-var-name, $thumb-background-color, $track-background-color) {
   @if not $is-scrollbar-animation-exists {
     $is-scrollbar-animation-exists: true !global;
 
     @at-root {
       @property #{$scrollbar-var-name} {
-        syntax: "<color>";
+        syntax: '<color>';
         inherits: true;
         initial-value: $track-background-color;
       }
@@ -46,7 +42,7 @@ $is-scrollbar-animation-exists: false;
       // stylelint-enable max-nesting-depth
     }
   }
-};
+}
 
 /// Custom scrollbar.
 /// @param {string} $thumb-background-color - The background color of the thumb.
@@ -57,7 +53,7 @@ $is-scrollbar-animation-exists: false;
 /// @param {string} $transition - Indicates if transition applied to the scrollbar.
 /// @return {mixin} - The scrollbar mixin.
 @mixin scrollbar(
-  $thumb-background-color: color("default", 400),
+  $thumb-background-color: color('default', 400),
   $track-background-color: transparent,
   $size: md,
   $shape: md,
@@ -65,18 +61,14 @@ $is-scrollbar-animation-exists: false;
   $transition: false,
   $transition-duration: 0.8s
 ) {
-  $scrollbar-var-name: "--scrollbar-background-color";
+  $scrollbar-var-name: '--scrollbar-background-color';
 
-  @if ($stable) {
+  @if $stable {
     scrollbar-gutter: stable;
   }
 
-  @if ($transition) {
-    @include keyframe-scrollbar-gen(
-      $scrollbar-var-name,
-      $thumb-background-color,
-      $track-background-color
-    );
+  @if $transition {
+    @include keyframe-scrollbar-gen($scrollbar-var-name, $thumb-background-color, $track-background-color);
 
     animation: scrollbar-fade-out $transition-duration ease-in-out forwards;
 

@@ -1,4 +1,4 @@
-@use "../functions" as *;
+@use '../functions' as *;
 
 /// Sets size to an element.
 /// If height omitted, it will be the same as width.
@@ -12,9 +12,7 @@
     $fetched-height: space($height);
     width: $fetched-width;
     height: $fetched-height;
-  }
-
-  @else {
+  } @else {
     width: $fetched-width;
     height: $fetched-width;
   }

@@ -1,15 +1,14 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
 // stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("pseudo()") {
-  @include it("should return a valid pseudo element styles") {
+@include describe('pseudo()') {
+  @include it('should return a valid pseudo element styles') {
     @include assert {
       @include output {
         .icon {
-          @include pseudo($loc: "after", $axis: both);
+          @include pseudo($loc: 'after', $axis: both);
         }
       }
 
@@ -25,7 +24,7 @@
           right: 0;
           bottom: 0;
           left: 50%;
-          content: "";
+          content: '';
         }
       }
     }

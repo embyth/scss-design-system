@@ -1,11 +1,10 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
-// stylelint-disable max-nesting-depth
-@include describe("shape()") {
-  @include it("should return a shape value from config map") {
-    @include assert-equal(shape("circle"), 50%);
-    @include assert-equal(shape("square"), 0);
+@include describe('shape()') {
+  @include it('should return a shape value from config map') {
+    @include assert-equal(shape('circle'), 50%);
+    @include assert-equal(shape('square'), 0);
     @include assert-equal(shape(42px), 42px);
   }
 }

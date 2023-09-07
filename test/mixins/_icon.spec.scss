@@ -1,11 +1,9 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("icon-size()") {
-  @include it("should return a width and height size value") {
+@include describe('icon-size()') {
+  @include it('should return a width and height size value') {
     @include assert {
       @include output {
         .icon {
@@ -17,7 +15,7 @@
         }
 
         .icon-3 {
-          @include icon-size("sm", "md");
+          @include icon-size('sm', 'md');
         }
       }
 

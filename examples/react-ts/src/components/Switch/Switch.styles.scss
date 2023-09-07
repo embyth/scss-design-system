@@ -8,7 +8,7 @@ $switch-slider-offset: 5px;
   @include transition(all);
   @include shape(30px);
 
-  @include pseudo("before") {
+  @include pseudo('before') {
     @include transition(all);
     @include shape(20px);
 
@@ -16,6 +16,7 @@ $switch-slider-offset: 5px;
     left: $switch-slider-offset;
     width: $switch-icon-size;
     height: $switch-icon-size;
+
     // Gradient is a sun like circle
     background: linear-gradient(40deg, #ff0080, #ff8c00 70%);
     transform: translateY(-50%);
@@ -39,7 +40,10 @@ $switch-slider-offset: 5px;
   &:checked + .switch_slider::before {
     left: calc(100% - ($switch-icon-size + $switch-slider-offset));
     background: color(default, 100);
+
     // Shadow is a moon
-    box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+    box-shadow:
+      inset -3px -2px 5px -2px #8983f7,
+      inset -10px -4px 0 0 #a3dafb;
   }
 }

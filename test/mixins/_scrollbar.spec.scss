@@ -1,11 +1,10 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
 // stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("scrollbar()") {
-  @include it("should return a valid scrollbar styles") {
+@include describe('scrollbar()') {
+  @include it('should return a valid scrollbar styles') {
     @include assert {
       @include output {
         body {

@@ -1,12 +1,12 @@
-@use "sass:map";
-@use "./color" as *;
+@use 'sass:map';
+@use './color' as *;
 
 // Additional themes colors map.
 $config-theme: () !default;
 $config-theme: map.deep-merge(
   (
-    "dark": (
-      "default": (
+    'dark': (
+      'default': (
         50: #18181b,
         100: #27272a,
         200: #3f3f46,
@@ -18,7 +18,7 @@ $config-theme: map.deep-merge(
         800: #f4f4f5,
         900: #fafafa,
       ),
-      "primary": (
+      'primary': (
         50: #001731,
         100: #002e62,
         200: #004493,
@@ -30,7 +30,7 @@ $config-theme: map.deep-merge(
         800: #cce3fd,
         900: #e6f1fe,
       ),
-      "secondary": (
+      'secondary': (
         50: #180828,
         100: #301050,
         200: #481878,
@@ -42,7 +42,7 @@ $config-theme: map.deep-merge(
         800: #e4d4f4,
         900: #f2eafa,
       ),
-      "success": (
+      'success': (
         50: #095028,
         100: #095028,
         200: #0e793c,
@@ -54,7 +54,7 @@ $config-theme: map.deep-merge(
         800: #d1f4e0,
         900: #e8faf0,
       ),
-      "warning": (
+      'warning': (
         50: #312107,
         100: #62420e,
         200: #936316,
@@ -66,7 +66,7 @@ $config-theme: map.deep-merge(
         800: #fdedd3,
         900: #fefce8,
       ),
-      "danger": (
+      'danger': (
         50: #310413,
         100: #610726,
         200: #920b3a,
@@ -77,7 +77,7 @@ $config-theme: map.deep-merge(
         700: #faa0bf,
         800: #fdd0df,
         900: #fee7ef,
-      )
+      ),
     ),
   ),
   $config-theme

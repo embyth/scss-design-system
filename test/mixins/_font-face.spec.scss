@@ -1,30 +1,26 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("font-setup()") {
-  @include it("should return generated font face declarations") {
+@include describe('font-setup()') {
+  @include it('should return generated font face declarations') {
     @include assert {
       @include output {
         .text {
-          @include font-setup(
-            $name: "Montserrat",
-            $filename: "Montserrat-Regular",
-            $exts: woff2 ttf
-          );
+          @include font-setup($name: 'Montserrat', $filename: 'Montserrat-Regular', $exts: woff2 ttf);
         }
       }
 
       @include expect {
         .text {
           @font-face {
-            font-family: "Montserrat";
+            font-family: 'Montserrat';
             font-style: normal;
             font-weight: 400;
             font-display: swap;
-            src: url("./fonts/Montserrat-Regular.woff2") format("woff2"), url("./fonts/Montserrat-Regular.ttf") format("truetype");
+            src:
+              url('./fonts/Montserrat-Regular.woff2') format('woff2'),
+              url('./fonts/Montserrat-Regular.ttf') format('truetype');
           }
         }
       }

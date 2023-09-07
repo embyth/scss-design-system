@@ -1,11 +1,9 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("visually-hidden()") {
-  @include it("should return a visually hidden styles") {
+@include describe('visually-hidden()') {
+  @include it('should return a visually hidden styles') {
     @include assert {
       @include output {
         .element {
@@ -30,8 +28,8 @@
   }
 }
 
-@include describe("visually-unhidden()") {
-  @include it("should return a visually unhidden styles") {
+@include describe('visually-unhidden()') {
+  @include it('should return a visually unhidden styles') {
     @include assert {
       @include output {
         .element {

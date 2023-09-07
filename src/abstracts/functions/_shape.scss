@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Returns the shape value for a given shape name and group.
 /// @param {string} $size - The shape's size.
@@ -12,20 +12,16 @@
       @return 0;
     }
 
-    @if (unitless($size)) {
+    @if unitless($size) {
       @return $size * 1px;
-    }
-
-    @else {
+    } @else {
       @return $size;
     }
   }
 
   @if type-of($fetched-shape) {
     @return $fetched-shape;
-  }
-
-  @else {
+  } @else {
     @error "Shape `#{$size}` not found. Available shapes: #{$config-shape}";
   }
 }

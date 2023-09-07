@@ -1,5 +1,5 @@
-@use "../functions" as *;
-@use "../../config" as *;
+@use '../functions' as *;
+@use '../../config' as *;
 
 /// Sets size to an icon.
 /// If height omitted, it will be the same as width.
@@ -13,9 +13,7 @@
     $fetched-height: space($height, $config-iconography);
     width: $fetched-width;
     height: $fetched-height;
-  }
-
-  @else {
+  } @else {
     width: $fetched-width;
     height: $fetched-width;
   }

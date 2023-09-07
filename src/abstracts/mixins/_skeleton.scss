@@ -1,6 +1,6 @@
-@use "sass:list";
-@use "sass:math";
-@use "sass:string";
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:string';
 
 /// Mixin to produce content skeletons while the element is empty
 /// @param $lines - number of skeleton lines (last line will always be of random length)
@@ -21,7 +21,7 @@
   $background: #e1e4e8,
   $shimmer: rgba(255, 255, 255, 0.6),
   $speed: 3s,
-  $level: "selector"
+  $level: 'selector'
 ) {
   $key: string.unique-id();
   $background-images: ();
@@ -46,9 +46,7 @@
 
     @if $lines == 1 {
       $background-sizes: list.append($background-sizes, 100% $line-height, comma);
-    }
-
-    @else {
+    } @else {
       $background-sizes: list.append($background-sizes, math.random(4) * 23% $line-height, comma);
     }
   }
@@ -57,11 +55,12 @@
 
   @keyframes skeleton-shimmer-#{$key} {
     to {
+      // stylelint-disable-next-line plugin/no-low-performance-animation-properties
       background-position: $background-positions-animated;
     }
   }
 
-  @if $level == "selector" {
+  @if $level == 'selector' {
     display: block;
     width: 100%;
     min-height: $lines * ($line-height + $line-gap) - $line-gap;
@@ -70,9 +69,7 @@
     background-position: $background-positions;
     background-size: $background-sizes;
     animation: skeleton-shimmer-#{$key} $speed infinite;
-  }
-
-  @else if $level == "empty" {
+  } @else if $level == 'empty' {
     &:empty {
       display: block;
       width: 100%;
@@ -83,9 +80,7 @@
       background-size: $background-sizes;
       animation: skeleton-shimmer-#{$key} $speed infinite;
     }
-  }
-
-  @else {
+  } @else {
     @error "The argument `$level` one of the followings: `selector`, `empty`";
   }
 }

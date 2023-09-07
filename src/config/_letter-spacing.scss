@@ -1,12 +1,12 @@
-@use "sass:map";
+@use 'sass:map';
 
 $config-letter-spacing: () !default;
 $config-letter-spacing: map.deep-merge(
   (
-    "default": 0,
-    "h1": 0,
-    "h2": 0,
-    "text": 0,
+    'default': 0,
+    'h1': 0,
+    'h2': 0,
+    'text': 0,
   ),
-  $config-letter-spacing,
+  $config-letter-spacing
 );

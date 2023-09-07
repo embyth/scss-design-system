@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Returns the font family for a given family definition.
 /// @param {string} $family - The font family.
@@ -9,9 +9,7 @@
 
   @if type-of($fetched-font-family) {
     @return $fetched-font-family;
-  }
-
-  @else {
+  } @else {
     @error "Font family `#{$family}` not found. Available font families: #{$config-font-stack}";
   }
 }
@@ -27,20 +25,16 @@
       @return 0;
     }
 
-    @if (unitless($range)) {
+    @if unitless($range) {
       @return $range * 1px;
-    }
-
-    @else {
+    } @else {
       @return $range;
     }
   }
 
   @if type-of($fetched-font-size) {
     @return $fetched-font-size;
-  }
-
-  @else {
+  } @else {
     @error "Font size range `#{$range}` not found. Available font sizes: #{$config-font-size}";
   }
 }
@@ -57,9 +51,7 @@
 
   @if type-of($fetched-font-weight) {
     @return $fetched-font-weight;
-  }
-
-  @else {
+  } @else {
     @error "Font weight `#{$weight}` not found. Available font weights: #{$config-font-weight}";
   }
 }
@@ -76,9 +68,7 @@
 
   @if type-of($fetched-line-height) {
     @return $fetched-line-height;
-  }
-
-  @else {
+  } @else {
     @error "Line height `#{$range}` not found. Available line heights: #{$config-line-height}";
   }
 }
@@ -94,20 +84,16 @@
       @return 0;
     }
 
-    @if (unitless($letter-spacing)) {
+    @if unitless($letter-spacing) {
       @return $letter-spacing * 1px;
-    }
-
-    @else {
+    } @else {
       @return $letter-spacing;
     }
   }
 
   @if type-of($fetched-letter-spacing) {
     @return $fetched-letter-spacing;
-  }
-
-  @else {
+  } @else {
     @error "letter spacing `#{$letter-spacing}` not found. Available letter spacings: #{$config-letter-spacing}";
   }
 }

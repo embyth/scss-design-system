@@ -1,5 +1,5 @@
-@use "sass:map";
-@use "../../config" as *;
+@use 'sass:map';
+@use '../../config' as *;
 
 /// Get available breakpoint value from config map.
 /// @param {string} $point - Value from `$breakpoint` map.
@@ -13,20 +13,16 @@
       @return 0;
     }
 
-    @if (unitless($point)) {
+    @if unitless($point) {
       @return $point * 1px;
-    }
-
-    @else {
+    } @else {
       @return $point;
     }
   }
 
   @if type-of($fetched-breakpoint) {
     @return $fetched-breakpoint;
-  }
-
-  @else {
+  } @else {
     @error "Breakpoint with such key `#{$point}` not found. Available breakpoints: #{$config-breakpoint}";
   }
 }

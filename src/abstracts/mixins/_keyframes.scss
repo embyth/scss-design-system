@@ -1,5 +1,5 @@
-@use "sass:list";
-@use "../../config" as *;
+@use 'sass:list';
+@use '../../config' as *;
 
 /// Generates keyframes from a map
 /// @param {string} $name - The name of the animation
@@ -9,13 +9,14 @@
   @keyframes #{$name} {
     @each $position, $change in map-get($map-animations, $name) {
       #{$position} {
-        @each $prop, $val in $change { // stylelint-disable-line max-nesting-depth
+        // stylelint-disable-next-line max-nesting-depth
+        @each $prop, $val in $change {
           #{$prop}: #{$val};
         }
       }
     }
   }
-};
+}
 
 /// Generates animation property from existing keyframes
 /// @param {string} $name - The name of the animation
@@ -26,10 +27,10 @@
 /// @param {string} $direction - The direction of the animation
 /// @return {mixin} - The animate mixin.
 @mixin animate($name, $duration: null, $timing: null, $delay: null, $iterations: null, $direction: null) {
-  $exists: list.index($included-animations, "#{$name}");
+  $exists: list.index($included-animations, '#{$name}');
 
   @if not $exists {
-    $included-animations: list.append($included-animations, "#{$name}") !global;
+    $included-animations: list.append($included-animations, '#{$name}') !global;
 
     @at-root {
       @include keyframe-gen($name);
@@ -39,4 +40,4 @@
   @media (prefers-reduced-motion: no-preference) {
     animation: $name $duration $timing $delay $iterations $direction;
   }
-};
+}

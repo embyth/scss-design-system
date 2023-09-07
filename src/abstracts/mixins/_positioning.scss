@@ -7,14 +7,13 @@
 /// @param {string} $axis - Specifies the axis to center the element. Available values: `both`, `horizontal`, `vertical`.
 /// @return {mixin} - The position mixin.
 @mixin position($position: absolute, $top: 0, $right: 0, $bottom: 0, $left: 0, $axis: null) {
-  @if ($axis) {
-    transform:
-      if($axis == "horizontal", translateX(-50%), if($axis == "both", translateX(-50%), null))
-      if($axis == "vertical", translateY(-50%), if($axis == "both", translateY(-50%), null));
+  @if $axis {
+    transform: if($axis == 'horizontal', translateX(-50%), if($axis == 'both', translateX(-50%), null))
+      if($axis == 'vertical', translateY(-50%), if($axis == 'both', translateY(-50%), null));
   }
   position: $position;
-  top: if($axis == "vertical", 50%, if($axis == "both", 50%, $top));
+  top: if($axis == 'vertical', 50%, if($axis == 'both', 50%, $top));
   right: $right;
   bottom: $bottom;
-  left: if($axis == "horizontal", 50%, if($axis == "both", 50%, $top));
+  left: if($axis == 'horizontal', 50%, if($axis == 'both', 50%, $top));
 }
