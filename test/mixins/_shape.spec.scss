@@ -1,11 +1,9 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("shape()") {
-  @include it("should return a valid border-radius value") {
+@include describe('shape()') {
+  @include it('should return a valid border-radius value') {
     @include assert {
       @include output {
         .card {
@@ -13,11 +11,11 @@
         }
 
         .card-2 {
-          @include shape($size: "lg");
+          @include shape($size: 'lg');
         }
 
         .card-3 {
-          @include shape($size: "sm", $important: true);
+          @include shape($size: 'sm', $important: true);
         }
       }
 

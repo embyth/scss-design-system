@@ -1,11 +1,9 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("placeholder()") {
-  @include it("should return a placeholder selector") {
+@include describe('placeholder()') {
+  @include it('should return a placeholder selector') {
     @include assert {
       @include output {
         .input {

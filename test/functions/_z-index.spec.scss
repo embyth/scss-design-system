@@ -1,11 +1,11 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
-@include describe("z()") {
-  @include it("should return a z-index value from config map") {
-    @include assert-equal(z("base"), 0);
-    @include assert-equal(z("default"), 1);
-    @include assert-equal(z("modal"), 700);
-    @include assert-equal(z("above-all"), 999999);
+@include describe('z()') {
+  @include it('should return a z-index value from config map') {
+    @include assert-equal(z('base'), 0);
+    @include assert-equal(z('default'), 1);
+    @include assert-equal(z('modal'), 700);
+    @include assert-equal(z('above-all'), 999999);
   }
 }

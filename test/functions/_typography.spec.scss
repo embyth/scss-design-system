@@ -1,46 +1,63 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
-@include describe("font-family()") {
-  @include it("should return a font-family value from config map") {
+@include describe('font-family()') {
+  @include it('should return a font-family value from config map') {
     @include assert-equal(
-      font-family("default"),
-      ("system-ui", "-apple-system", "Segoe UI", "Roboto", "Ubuntu", "Cantarell", "Noto Sans", sans-serif, "BlinkMacSystemFont", "Segoe UI", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol")
+      font-family('default'),
+      (
+        'system-ui',
+        '-apple-system',
+        'Segoe UI',
+        'Roboto',
+        'Ubuntu',
+        'Cantarell',
+        'Noto Sans',
+        sans-serif,
+        'BlinkMacSystemFont',
+        'Segoe UI',
+        'Helvetica',
+        'Arial',
+        sans-serif,
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol'
+      )
     );
   }
 }
 
-@include describe("font-size()") {
-  @include it("should return a font-size value from config map") {
-    @include assert-equal(font-size("default"), 16px);
+@include describe('font-size()') {
+  @include it('should return a font-size value from config map') {
+    @include assert-equal(font-size('default'), 16px);
   }
 }
 
-@include describe("font-weight()") {
-  @include it("should return a font-weight value from config map") {
-    @include assert-equal(font-weight("default"), 400);
-    @include assert-equal(font-weight("base"), 400);
-    @include assert-equal(font-weight("normal"), 400);
-    @include assert-equal(font-weight("regular"), 400);
-    @include assert-equal(font-weight("thin"), 100);
-    @include assert-equal(font-weight("extra-light"), 200);
-    @include assert-equal(font-weight("light"), 300);
-    @include assert-equal(font-weight("medium"), 500);
-    @include assert-equal(font-weight("semi-bold"), 600);
-    @include assert-equal(font-weight("bold"), 700);
-    @include assert-equal(font-weight("extra-bold"), 800);
-    @include assert-equal(font-weight("black"), 900);
+@include describe('font-weight()') {
+  @include it('should return a font-weight value from config map') {
+    @include assert-equal(font-weight('default'), 400);
+    @include assert-equal(font-weight('base'), 400);
+    @include assert-equal(font-weight('normal'), 400);
+    @include assert-equal(font-weight('regular'), 400);
+    @include assert-equal(font-weight('thin'), 100);
+    @include assert-equal(font-weight('extra-light'), 200);
+    @include assert-equal(font-weight('light'), 300);
+    @include assert-equal(font-weight('medium'), 500);
+    @include assert-equal(font-weight('semi-bold'), 600);
+    @include assert-equal(font-weight('bold'), 700);
+    @include assert-equal(font-weight('extra-bold'), 800);
+    @include assert-equal(font-weight('black'), 900);
   }
 }
 
-@include describe("line-height()") {
-  @include it("should return a line-height value from config map") {
-    @include assert-equal(line-height("default"), 1.5);
+@include describe('line-height()') {
+  @include it('should return a line-height value from config map') {
+    @include assert-equal(line-height('default'), 1.5);
   }
 }
 
-@include describe("letter-spacing()") {
-  @include it("should return a letter-spacing value from config map") {
-    @include assert-equal(letter-spacing("default"), 0);
+@include describe('letter-spacing()') {
+  @include it('should return a letter-spacing value from config map') {
+    @include assert-equal(letter-spacing('default'), 0);
   }
 }

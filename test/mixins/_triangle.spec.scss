@@ -1,15 +1,14 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
 // stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("triangle()") {
-  @include it("should return a border triangle styles") {
+@include describe('triangle()') {
+  @include it('should return a border triangle styles') {
     @include assert {
       @include output {
         .element {
-          @include triangle($size: 10px, $color: #ff00ff, $direction: "right");
+          @include triangle($size: 10px, $color: #ff00ff, $direction: 'right');
         }
       }
 

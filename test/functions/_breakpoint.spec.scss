@@ -1,29 +1,28 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
-// stylelint-disable max-nesting-depth
-@include describe("bp()") {
-  @include it("should return xs breakpoint value from config map.") {
-    @include assert-equal(bp("xs"), 320px);
+@include describe('bp()') {
+  @include it('should return xs breakpoint value from config map.') {
+    @include assert-equal(bp('xs'), 320px);
   }
 
-  @include it("should return sm breakpoint value from config map.") {
-    @include assert-equal(bp("sm"), 768px);
+  @include it('should return sm breakpoint value from config map.') {
+    @include assert-equal(bp('sm'), 768px);
   }
 
-  @include it("should return md breakpoint value from config map.") {
-    @include assert-equal(bp("md"), 900px);
+  @include it('should return md breakpoint value from config map.') {
+    @include assert-equal(bp('md'), 900px);
   }
 
-  @include it("should return lg breakpoint value from config map.") {
-    @include assert-equal(bp("lg"), 1024px);
+  @include it('should return lg breakpoint value from config map.') {
+    @include assert-equal(bp('lg'), 1024px);
   }
 
-  @include it("should return xl breakpoint value from config map.") {
-    @include assert-equal(bp("xl"), 1280px);
+  @include it('should return xl breakpoint value from config map.') {
+    @include assert-equal(bp('xl'), 1280px);
   }
 
-  @include it("should return xxl breakpoint value from config map.") {
-    @include assert-equal(bp("xxl"), 1440px);
+  @include it('should return xxl breakpoint value from config map.') {
+    @include assert-equal(bp('xxl'), 1440px);
   }
 }

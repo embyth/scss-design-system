@@ -1,15 +1,15 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
 // stylelint-disable order/properties-order
 // stylelint-disable order/order
-@include describe("text-ellipsis()") {
-  @include it("should return a text ellipsis styles") {
+@include describe('text-ellipsis()') {
+  @include it('should return a text ellipsis styles') {
     @include assert {
       @include output {
         .paragraph {
-          @include text-ellipsis();
+          @include text-ellipsis;
         }
 
         .paragraph-2 {
@@ -42,8 +42,8 @@
   }
 }
 
-@include describe("word-wrap()") {
-  @include it("should return a word wrap styles") {
+@include describe('word-wrap()') {
+  @include it('should return a word wrap styles') {
     @include assert {
       @include output {
         .paragraph {
@@ -54,7 +54,6 @@
       @include expect {
         .paragraph {
           hyphens: auto;
-          word-break: break-all;
           word-break: break-word;
           word-wrap: break-word;
           overflow-wrap: break-word;
@@ -64,8 +63,8 @@
   }
 }
 
-@include describe("text-selection()") {
-  @include it("should return a text selection styles") {
+@include describe('text-selection()') {
+  @include it('should return a text selection styles') {
     @include assert {
       @include output {
         .paragraph {

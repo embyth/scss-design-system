@@ -1,22 +1,20 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("transition()") {
-  @include it("should return a transition declaration") {
+@include describe('transition()') {
+  @include it('should return a transition declaration') {
     @include assert {
       @include output {
         .card {
-          @include transition(border, "slow", "excite", "none");
+          @include transition(transform, 'slow', 'excite', 'none');
         }
       }
 
       @include expect {
         .card {
-          will-change: border;
-          transition: border 300ms cubic-bezier(0.18, 0.67, 0.6, 1.22) 0ms;
+          will-change: transform;
+          transition: transform 300ms cubic-bezier(0.18, 0.67, 0.6, 1.22) 0ms;
         }
       }
     }

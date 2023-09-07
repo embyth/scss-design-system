@@ -1,8 +1,8 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
-@include describe("strip-unit()") {
-  @include it("should return a value without the unit") {
+@include describe('strip-unit()') {
+  @include it('should return a value without the unit') {
     @include assert-equal(strip-unit(20px), 20);
     @include assert-equal(strip-unit(100%), 100);
     @include assert-equal(strip-unit(30vh), 30);

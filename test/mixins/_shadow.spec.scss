@@ -1,11 +1,9 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
-@include describe("shadow()") {
-  @include it("should return a valid box-shadow styles") {
+@include describe('shadow()') {
+  @include it('should return a valid box-shadow styles') {
     @include assert {
       @include output {
         .card {
@@ -13,7 +11,7 @@
         }
 
         .card-2 {
-          @include shadow($elevation: "lg");
+          @include shadow($elevation: 'lg');
         }
       }
 
@@ -23,7 +21,9 @@
         }
 
         .card-2 {
-          box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+          box-shadow:
+            0 4px 6px -2px rgb(0 0 0 / 0.05),
+            0 10px 15px -3px rgb(0 0 0 / 0.1);
         }
       }
     }

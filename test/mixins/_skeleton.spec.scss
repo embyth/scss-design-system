@@ -1,16 +1,22 @@
-@use "true" as *;
-@import "../../src/abstracts";
+@use 'true' as *;
+@use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
-// stylelint-disable order/order
 // stylelint-disable length-zero-no-unit
-@include describe("skeleton()") {
-  @include it("should return a content placeholder as a skeleton") {
+@include describe('skeleton()') {
+  @include it('should return a content placeholder as a skeleton') {
     @include assert {
       @include output {
         .card {
-          @include skeleton($lines: 3, $line-height: 20px, $line-gap: 7px, $background: #f5f5f5, $shimmer: #e0e0e0, $speed: 1s, $level: "selector");
+          @include skeleton(
+            $lines: 3,
+            $line-height: 20px,
+            $line-gap: 7px,
+            $background: #f5f5f5,
+            $shimmer: #e0e0e0,
+            $speed: 1s,
+            $level: 'selector'
+          );
         }
       }
 
@@ -19,9 +25,16 @@
           display: block;
           width: 100%;
           min-height: 74px;
-          background-image: linear-gradient(115deg, transparent 20%, #e0e0e0 50%, transparent 80%), linear-gradient(#f5f5f5 0%, #f5f5f5 100%), linear-gradient(#f5f5f5 0%, #f5f5f5 100%), linear-gradient(#f5f5f5 0%, #f5f5f5 100%);
+          background-image: linear-gradient(115deg, transparent 20%, #e0e0e0 50%, transparent 80%),
+            linear-gradient(#f5f5f5 0%, #f5f5f5 100%), linear-gradient(#f5f5f5 0%, #f5f5f5 100%),
+            linear-gradient(#f5f5f5 0%, #f5f5f5 100%);
           background-repeat: no-repeat;
-          background-position: -60% 0, 0 0px, 0 27px, 0 54px;
+          background-position:
+            -60% 0,
+            0 0px,
+            0 27px,
+            0 54px;
+
           // NOTE: Code below is a valid output but it has randomly generated values, so it's not possible to test it.
           // background-size: 50% 100%, 100% 20px, 46% 20px, 100% 20px, 92% 20px, 23% 20px;
           // animation: skeleton-shimmer-uhi7gzz 1s infinite;
