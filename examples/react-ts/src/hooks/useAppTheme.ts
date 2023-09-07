@@ -9,23 +9,19 @@ const ThemeMode = {
   // SYSTEM: 'system',
 } as const;
 
-type TThemeMode = typeof ThemeMode[keyof typeof ThemeMode];
+type TThemeMode = (typeof ThemeMode)[keyof typeof ThemeMode];
 
 type TUseAppThemeOutput = {
-  mode: TThemeMode
-  toggle: () => void
-  setLight: () => void
-  setDark: () => void
-  setMode: (mode: TThemeMode) => void
-}
+  mode: TThemeMode;
+  toggle: () => void;
+  setLight: () => void;
+  setDark: () => void;
+  setMode: (mode: TThemeMode) => void;
+};
 
-export const useAppTheme = (
-  defaultValue?: TThemeMode,
-): TUseAppThemeOutput => {
+export const useAppTheme = (defaultValue?: TThemeMode): TUseAppThemeOutput => {
   const isDarkOS = useMediaQuery(COLOR_SCHEME_QUERY);
-  const osPrefersMode = isDarkOS
-    ? ThemeMode.DARK
-    : ThemeMode.LIGHT;
+  const osPrefersMode = isDarkOS ? ThemeMode.DARK : ThemeMode.LIGHT;
   const [themeMode, setThemeMode] = useLocalStorage<TThemeMode>(
     'app-theme',
     defaultValue ?? osPrefersMode ?? ThemeMode.LIGHT,
@@ -45,9 +41,7 @@ export const useAppTheme = (
 
   return {
     mode: themeMode,
-    toggle: () => setThemeMode((previous) => (previous === ThemeMode.DARK
-      ? ThemeMode.LIGHT
-      : ThemeMode.DARK)),
+    toggle: () => setThemeMode((previous) => (previous === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK)),
     setLight: () => setThemeMode(ThemeMode.LIGHT),
     setDark: () => setThemeMode(ThemeMode.DARK),
     setMode: (mode) => setThemeMode(mode),
