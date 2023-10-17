@@ -45,7 +45,7 @@
     "rimraf": "5.0.1",
     "sass": "1.66.1",
     "sass-true": "7.0.0",
-    "stylelint": "15.10.3"
+    "stylelint": "15.11.0"
   },
   "dependencies": {
     "normalize.css": "8.0.1"
