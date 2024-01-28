@@ -33,8 +33,8 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.7.1",
-    "@commitlint/config-conventional": "17.7.0",
+    "@commitlint/cli": "17.8.1",
+    "@commitlint/config-conventional": "17.8.1",
     "@embyth/prettier-config": "1.0.0",
     "@embyth/stylelint-config": "0.3.0",
     "devmoji": "2.3.0",
