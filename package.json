@@ -44,14 +44,14 @@
     "jest-environment-node-single-context": "29.2.0",
     "prettier": "3.2.4",
     "rimraf": "5.0.5",
-    "sass": "1.66.1",
+    "sass": "1.70.0",
     "sass-true": "7.0.1",
-    "stylelint": "15.11.0"
+    "stylelint": "16.2.0"
   },
   "dependencies": {
     "normalize.css": "8.0.1"
   },
   "peerDependencies": {
-    "sass": "1.66.1"
+    "sass": "1.70.0"
   }
 }
