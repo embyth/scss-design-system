@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
-module.exports = {
+export default {
   // The test environment that will be used for testing
   // Workaround for:
   // - https://github.com/facebook/jest/issues/2549

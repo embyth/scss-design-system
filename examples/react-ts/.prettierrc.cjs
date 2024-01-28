@@ -1,1 +1,1 @@
-module.exports = require('@embyth/prettier-config');
+export default '@embyth/prettier-config';
