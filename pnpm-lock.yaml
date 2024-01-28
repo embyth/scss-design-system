@@ -43,11 +43,11 @@ importers:
         specifier: 5.0.5
         version: 5.0.5
       sass:
-        specifier: 1.66.1
-        version: 1.66.1
+        specifier: 1.70.0
+        version: 1.70.0
       sass-true:
         specifier: 7.0.1
-        version: 7.0.1(sass@1.66.1)
+        version: 7.0.1(sass@1.70.0)
       stylelint:
         specifier: 15.11.0
         version: 15.11.0(typescript@5.2.2)
@@ -108,7 +108,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.5.1)(sass@1.66.1)
+        version: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
       vite-tsconfig-paths:
         specifier: 4.2.0
         version: 4.2.0(typescript@5.2.2)(vite@4.4.9)
@@ -142,7 +142,7 @@ importers:
         version: 15.10.3(typescript@5.2.2)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.5.1)(sass@1.66.1)
+        version: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
 
 packages:
 
@@ -1868,7 +1868,7 @@ packages:
       vite: ^4
     dependencies:
       '@swc/core': 1.3.83
-      vite: 4.4.9(@types/node@20.5.1)(sass@1.66.1)
+      vite: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
@@ -5897,7 +5897,7 @@ packages:
       is-regex: 1.1.4
     dev: true
 
-  /sass-true@7.0.1(sass@1.66.1):
+  /sass-true@7.0.1(sass@1.70.0):
     resolution: {integrity: sha512-7qt24tkX45b3Cs/U5e6+OiHHoorCISzrDACQLtPV8cHDZc//++KMUFSJisXhoVfwuWEVJugzImQITI1GfzoTFQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
@@ -5906,11 +5906,11 @@ packages:
       '@adobe/css-tools': 4.3.3
       jest-diff: 29.7.0
       lodash: 4.17.21
-      sass: 1.66.1
+      sass: 1.70.0
     dev: true
 
-  /sass@1.66.1:
-    resolution: {integrity: sha512-50c+zTsZOJVgFfTgwwEzkjA3/QACgdNsKueWPyAR0mRINIvLAStVQBbPg14iuqEQ74NPDbXzJARJ/O4SI1zftA==}
+  /sass@1.70.0:
+    resolution: {integrity: sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -6842,13 +6842,13 @@ packages:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 2.1.2(typescript@5.2.2)
-      vite: 4.4.9(@types/node@20.5.1)(sass@1.66.1)
+      vite: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /vite@4.4.9(@types/node@20.5.1)(sass@1.66.1):
+  /vite@4.4.9(@types/node@20.5.1)(sass@1.70.0):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -6880,7 +6880,7 @@ packages:
       esbuild: 0.18.20
       postcss: 8.4.29
       rollup: 3.29.0
-      sass: 1.66.1
+      sass: 1.70.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
