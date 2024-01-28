@@ -1,3 +1,6 @@
 {
-  "extends": "@embyth/stylelint-config"
+  "extends": "@embyth/stylelint-config",
+  "rules": {
+    "scss/double-slash-comment-inline": null
+  }
 }
