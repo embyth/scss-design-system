@@ -18,7 +18,7 @@
 /// Returns the value in rem for a given pixel value.
 /// @param {number} $value - The pixel value to be converted.
 /// @return {number} The converted value in rem.
-@function rem($value) {
+@function remify($value) {
   $unit: math.unit($value);
   $default-font-size: font-size('default');
   $stripped-default: strip-unit($default-font-size);

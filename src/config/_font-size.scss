@@ -5,11 +5,11 @@ $config-font-size: map.deep-merge(
   (
     'default': 16px,
     // Will be applied to root element
-    'h1': rem(24px),
-    'h2': rem(20px),
-    'text': rem(16px),
-    'small': rem(14px),
-    'tiny': rem(12px),
+    'h1': remify(24px),
+    'h2': remify(20px),
+    'text': remify(16px),
+    'small': remify(14px),
+    'tiny': remify(12px),
   ),
   $config-font-size
 );

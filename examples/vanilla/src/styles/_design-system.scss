@@ -42,6 +42,6 @@ $config-font-stack: (
 $config-font-size: (
   // Will be applied to root element
   'default': 16px,
-  'h1': rem(32px),
-  'text': rem(16px)
+  'h1': remify(32px),
+  'text': remify(16px)
 );
