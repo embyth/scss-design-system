@@ -34,8 +34,8 @@ importers:
         specifier: 29.7.0
         version: 29.7.0(@types/node@20.5.1)
       jest-environment-node-single-context:
-        specifier: 29.2.0
-        version: 29.2.0
+        specifier: 29.4.0
+        version: 29.4.0
       prettier:
         specifier: 3.2.4
         version: 3.2.4
@@ -4505,8 +4505,8 @@ packages:
       pretty-format: 29.7.0
     dev: true
 
-  /jest-environment-node-single-context@29.2.0:
-    resolution: {integrity: sha512-EoaIJR8ofURhwOLKD4vMCe1SQws5xB1fjM1BDFUPoUS9HWGmKyzrc9bv5yFVxIYy3MOMpFh5fmv38XezYJ6icQ==}
+  /jest-environment-node-single-context@29.4.0:
+    resolution: {integrity: sha512-VOuB0Pf3/+Tu0eImZ888SeHpFIiujRiW/3b6NTST1/zdv6ZdRAblCV2q5SisF0PlDA8y9SHJWjKFtFXNJ7U6CQ==}
     dependencies:
       jest-environment-node: 29.7.0
     dev: true
