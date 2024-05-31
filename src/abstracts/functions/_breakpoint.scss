@@ -1,4 +1,6 @@
 @use 'sass:map';
+@use 'sass:meta';
+@use 'sass:math';
 @use '../../config' as *;
 
 /// Get available breakpoint value from config map.
@@ -13,7 +15,7 @@
       @return 0;
     }
 
-    @if math.unitless($point) {
+    @if math.is-unitless($point) {
       @return $point * 1px;
     } @else {
       @return $point;

@@ -1,4 +1,6 @@
 @use 'sass:map';
+@use 'sass:meta';
+@use 'sass:math';
 @use '../../config' as *;
 
 /// Returns the font family for a given family definition.
@@ -25,7 +27,7 @@
       @return 0;
     }
 
-    @if math.unitless($range) {
+    @if math.is-unitless($range) {
       @return $range * 1px;
     } @else {
       @return $range;
@@ -84,7 +86,7 @@
       @return 0;
     }
 
-    @if math.unitless($letter-spacing) {
+    @if math.is-unitless($letter-spacing) {
       @return $letter-spacing * 1px;
     } @else {
       @return $letter-spacing;

@@ -1,4 +1,6 @@
 @use 'sass:map';
+@use 'sass:meta';
+@use 'sass:math';
 @use '../../config' as *;
 
 /// Returns the spacing value for a given variant.
@@ -15,7 +17,7 @@
       @return 0;
     }
 
-    @if math.unitless($space) {
+    @if math.is-unitless($space) {
       @return $space * 1px;
     } @else {
       @return $space;

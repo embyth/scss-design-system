@@ -1,5 +1,6 @@
 @use 'sass:list';
 @use 'sass:string';
+@use 'sass:meta';
 
 /// Returns the list of available names in a given map.
 /// @param {Map} $map - The map of data to list the names from.
@@ -35,7 +36,7 @@
   @if $index {
     // stylelint-disable-next-line scss/operator-no-newline-after
     @return string.slice($string, 1, $index - 1) + $replace +
-      str-replace(string.slice($string, $index + string.slice($search)), $search, $replace);
+      str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
   }
 
   @return $string;

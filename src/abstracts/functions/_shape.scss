@@ -1,4 +1,6 @@
 @use 'sass:map';
+@use 'sass:meta';
+@use 'sass:math';
 @use '../../config' as *;
 
 /// Returns the shape value for a given shape name and group.
@@ -12,7 +14,7 @@
       @return 0;
     }
 
-    @if math.unitless($size) {
+    @if math.is-unitless($size) {
       @return $size * 1px;
     } @else {
       @return $size;
