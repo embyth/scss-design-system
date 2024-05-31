@@ -1,4 +1,6 @@
 @use 'sass:map';
+@use 'sass:meta';
+@use 'sass:math';
 @use '../../config' as *;
 
 /// Returns the spacing value for a given variant.
@@ -10,12 +12,12 @@
     @return map.get($map, $space);
   }
 
-  @if type-of($space) == number {
+  @if meta.type-of($space) == number {
     @if $space == 0 {
       @return 0;
     }
 
-    @if unitless($space) {
+    @if math.is-unitless($space) {
       @return $space * 1px;
     } @else {
       @return $space;

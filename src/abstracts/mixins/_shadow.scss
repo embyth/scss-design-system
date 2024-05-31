@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:meta';
 @use '../../config' as *;
 
 /// Adds box shadow
@@ -15,7 +16,7 @@
   @if $elevation {
     $shadow-value: map.get($config-shadow, $elevation);
 
-    @if type-of($shadow-value) == list {
+    @if meta.type-of($shadow-value) == list {
       box-shadow: $shadow-value;
     } @else {
       @error "Shadow variant `#{$elevation}` not found. Available variants: #{$config-shadow}";

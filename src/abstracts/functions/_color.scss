@@ -59,7 +59,7 @@
     (color.red(#ffffff) * 299) + (color.green(#ffffff) * 587) + math.div(color.blue(#ffffff) * 114, 1000)
   );
 
-  @if abs($color-brightness) < math.div($light-color, 2) {
+  @if math.abs($color-brightness) < math.div($light-color, 2) {
     @return hsl(0 0% 100%);
   } @else {
     @return hsl(0 100% 0%);

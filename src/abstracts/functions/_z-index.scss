@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use 'sass:meta';
 @use '../../config' as *;
 
 /// Get available z-index value from config map.
@@ -8,11 +9,11 @@
 @function z($layer: default) {
   $fetched-z-index: map.get($config-z-index, $layer);
 
-  @if type-of($layer) == number {
+  @if meta.type-of($layer) == number {
     @return $layer;
   }
 
-  @if type-of($fetched-z-index) {
+  @if meta.type-of($fetched-z-index) {
     @return $fetched-z-index;
   } @else {
     @error "Z-index with such layer `#{$layer}` not found. Available z-indexes: #{$config-z-index}";

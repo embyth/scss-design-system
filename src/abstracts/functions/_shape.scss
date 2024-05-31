@@ -1,4 +1,6 @@
 @use 'sass:map';
+@use 'sass:meta';
+@use 'sass:math';
 @use '../../config' as *;
 
 /// Returns the shape value for a given shape name and group.
@@ -7,19 +9,19 @@
 @function shape($size: default) {
   $fetched-shape: map.get($config-shape, $size);
 
-  @if type-of($size) == number {
+  @if meta.type-of($size) == number {
     @if $size == 0 {
       @return 0;
     }
 
-    @if unitless($size) {
+    @if math.is-unitless($size) {
       @return $size * 1px;
     } @else {
       @return $size;
     }
   }
 
-  @if type-of($fetched-shape) {
+  @if meta.type-of($fetched-shape) {
     @return $fetched-shape;
   } @else {
     @error "Shape `#{$size}` not found. Available shapes: #{$config-shape}";
