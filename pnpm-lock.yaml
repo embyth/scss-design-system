@@ -19,8 +19,8 @@ importers:
         specifier: 19.2.2
         version: 19.2.2
       '@embyth/prettier-config':
-        specifier: 1.0.1
-        version: 1.0.1(prettier@3.2.5)
+        specifier: 1.1.0
+        version: 1.1.0(prettier@3.2.5)
       '@embyth/stylelint-config':
         specifier: 0.4.0
         version: 0.4.0(@typescript-eslint/eslint-plugin@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@16.6.1(typescript@5.2.2))(typescript@5.2.2)
@@ -458,11 +458,11 @@ packages:
     peerDependencies:
       prettier: 3.0.3
 
-  '@embyth/prettier-config@1.0.1':
-    resolution: {integrity: sha512-Dn2QCvO4b5zwqIXiTjhjj2CXho3oH8fp2/GUZrIRUFxjlL5U+45F80EH75yqP3Tn7Bp6HRIn7q8mlu1ULyhrCg==}
+  '@embyth/prettier-config@1.1.0':
+    resolution: {integrity: sha512-kytRzxqxBJNyDfs7SuunJfHsIvj7sYBBWzNxvxbBMjsaOiMcJzweapOsFIqu50ccLT/srHYIY0rRZMY5UMiQqQ==}
     engines: {node: '>=18.15.0', pnpm: '>=8.1.0'}
     peerDependencies:
-      prettier: 3.2.4
+      prettier: 3.2.5
 
   '@embyth/stylelint-config@0.3.0':
     resolution: {integrity: sha512-z6qk5dFmqg2hhvfueLri/v+Ese5/WnPLOZRT/GOh/QiwwKl3dNyqk/ORiFT5b/XD0zDS7E5toI5ZXmfsMvC6JQ==}
@@ -4169,7 +4169,7 @@ snapshots:
     dependencies:
       prettier: 3.0.3
 
-  '@embyth/prettier-config@1.0.1(prettier@3.2.5)':
+  '@embyth/prettier-config@1.1.0(prettier@3.2.5)':
     dependencies:
       prettier: 3.2.5
 
