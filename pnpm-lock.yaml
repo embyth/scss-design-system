@@ -46,8 +46,8 @@ importers:
         specifier: 1.77.4
         version: 1.77.4
       sass-true:
-        specifier: 7.0.1
-        version: 7.0.1(sass@1.77.4)
+        specifier: 8.0.0
+        version: 8.0.0
       stylelint:
         specifier: 16.6.1
         version: 16.6.1(typescript@5.2.2)
@@ -3183,11 +3183,9 @@ packages:
   safe-regex-test@1.0.0:
     resolution: {integrity: sha512-JBUUzyOgEwXQY1NuPtvcj/qcBDbDmEvWufhlnXZIm75DEHp+afM1r1ujJpJsV/gSM4t59tpDyPi1sd6ZaPFfsA==}
 
-  sass-true@7.0.1:
-    resolution: {integrity: sha512-7qt24tkX45b3Cs/U5e6+OiHHoorCISzrDACQLtPV8cHDZc//++KMUFSJisXhoVfwuWEVJugzImQITI1GfzoTFQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      sass: '>=1.45.0'
+  sass-true@8.0.0:
+    resolution: {integrity: sha512-bk6m12BFxjRWnu0DHfqmsF36Eoxg3grLlLM4PhcgN6Znd9DvK2xVGJtWQ05u5RqEos3JaIX50MMN+gsAYUnEDA==}
+    engines: {node: '>=18'}
 
   sass@1.77.4:
     resolution: {integrity: sha512-vcF3Ckow6g939GMA4PeU7b2K/9FALXk2KF9J87txdHzXbUF9XRQRwSxcAs/fGaTnJeBFd7UoV22j3lzMLdM0Pw==}
@@ -7322,12 +7320,11 @@ snapshots:
       get-intrinsic: 1.2.1
       is-regex: 1.1.4
 
-  sass-true@7.0.1(sass@1.77.4):
+  sass-true@8.0.0:
     dependencies:
       '@adobe/css-tools': 4.3.3
       jest-diff: 29.7.0
       lodash: 4.17.21
-      sass: 1.77.4
 
   sass@1.77.4:
     dependencies:
