@@ -9,7 +9,7 @@
   $output: '(';
   $i: 1;
 
-  @if type-of($map) != 'map' {
+  @if meta.type-of($map) != 'map' {
     @return null;
   }
 
@@ -34,8 +34,8 @@
 
   @if $index {
     // stylelint-disable-next-line scss/operator-no-newline-after
-    @return str-slice($string, 1, $index - 1) + $replace +
-      str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    @return string.slice($string, 1, $index - 1) + $replace +
+      str-replace(string.slice($string, $index + string.slice($search)), $search, $replace);
   }
 
   @return $string;

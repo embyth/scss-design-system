@@ -7,7 +7,7 @@
 @function font-family($family: default) {
   $fetched-font-family: map.get($config-font-stack, $family);
 
-  @if type-of($fetched-font-family) {
+  @if meta.type-of($fetched-font-family) {
     @return $fetched-font-family;
   } @else {
     @error "Font family `#{$family}` not found. Available font families: #{$config-font-stack}";
@@ -20,19 +20,19 @@
 @function font-size($range) {
   $fetched-font-size: map.get($config-font-size, $range);
 
-  @if type-of($range) == number {
+  @if meta.type-of($range) == number {
     @if $range == 0 {
       @return 0;
     }
 
-    @if unitless($range) {
+    @if math.unitless($range) {
       @return $range * 1px;
     } @else {
       @return $range;
     }
   }
 
-  @if type-of($fetched-font-size) {
+  @if meta.type-of($fetched-font-size) {
     @return $fetched-font-size;
   } @else {
     @error "Font size range `#{$range}` not found. Available font sizes: #{$config-font-size}";
@@ -45,11 +45,11 @@
 @function font-weight($weight: regular) {
   $fetched-font-weight: map.get($config-font-weight, $weight);
 
-  @if type-of($weight) == number {
+  @if meta.type-of($weight) == number {
     @return $weight;
   }
 
-  @if type-of($fetched-font-weight) {
+  @if meta.type-of($fetched-font-weight) {
     @return $fetched-font-weight;
   } @else {
     @error "Font weight `#{$weight}` not found. Available font weights: #{$config-font-weight}";
@@ -62,11 +62,11 @@
 @function line-height($range: normal) {
   $fetched-line-height: map.get($config-line-height, $range);
 
-  @if type-of($range) == number {
+  @if meta.type-of($range) == number {
     @return $range;
   }
 
-  @if type-of($fetched-line-height) {
+  @if meta.type-of($fetched-line-height) {
     @return $fetched-line-height;
   } @else {
     @error "Line height `#{$range}` not found. Available line heights: #{$config-line-height}";
@@ -79,19 +79,19 @@
 @function letter-spacing($letter-spacing: 0) {
   $fetched-letter-spacing: map.get($config-letter-spacing, $letter-spacing);
 
-  @if type-of($letter-spacing) == number {
+  @if meta.type-of($letter-spacing) == number {
     @if $letter-spacing == 0 {
       @return 0;
     }
 
-    @if unitless($letter-spacing) {
+    @if math.unitless($letter-spacing) {
       @return $letter-spacing * 1px;
     } @else {
       @return $letter-spacing;
     }
   }
 
-  @if type-of($fetched-letter-spacing) {
+  @if meta.type-of($fetched-letter-spacing) {
     @return $fetched-letter-spacing;
   } @else {
     @error "letter spacing `#{$letter-spacing}` not found. Available letter spacings: #{$config-letter-spacing}";

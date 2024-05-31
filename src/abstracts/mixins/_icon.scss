@@ -9,7 +9,7 @@
 @mixin icon-size($width, $height: $width) {
   $fetched-width: space($width, $config-iconography);
 
-  @if length($height) == 1 {
+  @if list.length($height) == 1 {
     $fetched-height: space($height, $config-iconography);
     width: $fetched-width;
     height: $fetched-height;

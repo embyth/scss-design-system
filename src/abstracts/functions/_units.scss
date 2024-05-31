@@ -27,7 +27,7 @@
     @return 0;
   }
 
-  @if unitless($value) {
+  @if math.unitless($value) {
     @return math.div($value, $stripped-default) * 1rem;
   } @else if $unit == 'rem' {
     @return $value;
@@ -51,7 +51,7 @@
     @return 0;
   }
 
-  @if unitless($value) {
+  @if math.unitless($value) {
     @return math.div($value, $stripped-default) * 1em;
   }
 

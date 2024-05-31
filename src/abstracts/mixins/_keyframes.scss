@@ -7,7 +7,7 @@
 /// @return {mixin} - The keyframe-gen mixin.
 @mixin keyframe-gen($name, $map-animations: $config-keyframes) {
   @keyframes #{$name} {
-    @each $position, $change in map-get($map-animations, $name) {
+    @each $position, $change in map.get($map-animations, $name) {
       #{$position} {
         // stylelint-disable-next-line max-nesting-depth
         @each $prop, $val in $change {

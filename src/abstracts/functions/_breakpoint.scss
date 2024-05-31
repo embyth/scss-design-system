@@ -8,19 +8,19 @@
 @function bp($point) {
   $fetched-breakpoint: map.get($config-breakpoint, $point);
 
-  @if type-of($point) == number {
+  @if meta.type-of($point) == number {
     @if $range == 0 {
       @return 0;
     }
 
-    @if unitless($point) {
+    @if math.unitless($point) {
       @return $point * 1px;
     } @else {
       @return $point;
     }
   }
 
-  @if type-of($fetched-breakpoint) {
+  @if meta.type-of($fetched-breakpoint) {
     @return $fetched-breakpoint;
   } @else {
     @error "Breakpoint with such key `#{$point}` not found. Available breakpoints: #{$config-breakpoint}";

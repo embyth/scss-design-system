@@ -14,16 +14,16 @@
   $transition: ();
   $will-change: ();
 
-  @for $i from 1 through length($property) {
-    @for $j from 0 to (length($property)) - (length($duration)) {
+  @for $i from 1 through list.length($property) {
+    @for $j from 0 to (list.length($property)) - (list.length($duration)) {
       $duration: list.join($duration, list.nth($duration, -1));
     }
 
-    @for $j from 0 to (length($property)) - (length($timing-function)) {
+    @for $j from 0 to (list.length($property)) - (list.length($timing-function)) {
       $timing-function: list.join($timing-function, list.nth($timing-function, -1));
     }
 
-    @for $j from 0 to (length($property)) - (length($delay)) {
+    @for $j from 0 to (list.length($property)) - (list.length($delay)) {
       $delay: list.join($delay, list.nth($delay, -1));
     }
 
@@ -37,7 +37,7 @@
     @if not $duration-value {
       $duration-attempt: list.nth($duration, $i);
 
-      @if type-of($value: $duration-attempt) == number {
+      @if meta.type-of($value: $duration-attempt) == number {
         $duration-value: strip-unit($duration-attempt) * 1ms;
       } @else {
         @error "Duration variant `#{list.nth($duration, $i)}` not found. Available variants: #{$config-motion-duration}";
@@ -47,7 +47,7 @@
     @if not $timing-value {
       $timing-function-attempt: list.nth($timing-function, $i);
 
-      @if type-of($value: $timing-function-attempt) == string {
+      @if meta.type-of($value: $timing-function-attempt) == string {
         $timing-value: $timing-function-attempt;
       } @else {
         @error "Timing-function variant `#{list.nth($timing-function, $i)}` not found. Available variants: #{$config-motion-timing}";
@@ -57,7 +57,7 @@
     @if not $delay-value {
       $delay-attempt: list.nth($delay, $i);
 
-      @if type-of($value: $delay-attempt) == number {
+      @if meta.type-of($value: $delay-attempt) == number {
         $delay-value: strip-unit($delay-attempt) * 1ms;
       } @else {
         @error "Delay variant `#{list.nth($delay, $i)}` not found. Available variants: #{$config-motion-duration}";

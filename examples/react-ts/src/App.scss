@@ -1,4 +1,13 @@
 body {
+  @include scrollbar(
+    color(default, 300, $only-color: true),
+    $size: 4px,
+    $shape: shape("md"),
+    $stable: true,
+    $transition: true,
+    $transition-duration: 0.5s
+  );
+
   color: color(default, 800);
   background-color: color(default, 50);
 }

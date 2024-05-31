@@ -8,7 +8,7 @@
 @mixin size($width, $height: $width) {
   $fetched-width: space($width);
 
-  @if length($height) == 1 {
+  @if list.length($height) == 1 {
     $fetched-height: space($height);
     width: $fetched-width;
     height: $fetched-height;
