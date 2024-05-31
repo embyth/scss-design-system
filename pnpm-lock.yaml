@@ -43,11 +43,11 @@ importers:
         specifier: 5.0.7
         version: 5.0.7
       sass:
-        specifier: 1.70.0
-        version: 1.70.0
+        specifier: 1.77.4
+        version: 1.77.4
       sass-true:
         specifier: 7.0.1
-        version: 7.0.1(sass@1.70.0)
+        version: 7.0.1(sass@1.77.4)
       stylelint:
         specifier: 16.2.0
         version: 16.2.0(typescript@5.2.2)
@@ -93,7 +93,7 @@ importers:
         version: 6.6.0(eslint@8.48.0)(typescript@5.2.2)
       '@vitejs/plugin-react-swc':
         specifier: 3.3.2
-        version: 3.3.2(vite@4.4.9(@types/node@20.5.1)(sass@1.70.0))
+        version: 3.3.2(vite@4.4.9(@types/node@20.5.1)(sass@1.77.4))
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -108,10 +108,10 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
+        version: 4.4.9(@types/node@20.5.1)(sass@1.77.4)
       vite-tsconfig-paths:
         specifier: 4.2.0
-        version: 4.2.0(typescript@5.2.2)(vite@4.4.9(@types/node@20.5.1)(sass@1.70.0))
+        version: 4.2.0(typescript@5.2.2)(vite@4.4.9(@types/node@20.5.1)(sass@1.77.4))
 
   examples/vanilla:
     dependencies:
@@ -142,7 +142,7 @@ importers:
         version: 15.10.3(typescript@5.2.2)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
+        version: 4.4.9(@types/node@20.5.1)(sass@1.77.4)
 
 packages:
 
@@ -3152,8 +3152,8 @@ packages:
     peerDependencies:
       sass: '>=1.45.0'
 
-  sass@1.70.0:
-    resolution: {integrity: sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==}
+  sass@1.77.4:
+    resolution: {integrity: sha512-vcF3Ckow6g939GMA4PeU7b2K/9FALXk2KF9J87txdHzXbUF9XRQRwSxcAs/fGaTnJeBFd7UoV22j3lzMLdM0Pw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -4761,10 +4761,10 @@ snapshots:
       '@typescript-eslint/types': 6.6.0
       eslint-visitor-keys: 3.4.3
 
-  '@vitejs/plugin-react-swc@3.3.2(vite@4.4.9(@types/node@20.5.1)(sass@1.70.0))':
+  '@vitejs/plugin-react-swc@3.3.2(vite@4.4.9(@types/node@20.5.1)(sass@1.77.4))':
     dependencies:
       '@swc/core': 1.3.83
-      vite: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
+      vite: 4.4.9(@types/node@20.5.1)(sass@1.77.4)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -7244,14 +7244,14 @@ snapshots:
       get-intrinsic: 1.2.1
       is-regex: 1.1.4
 
-  sass-true@7.0.1(sass@1.70.0):
+  sass-true@7.0.1(sass@1.77.4):
     dependencies:
       '@adobe/css-tools': 4.3.3
       jest-diff: 29.7.0
       lodash: 4.17.21
-      sass: 1.70.0
+      sass: 1.77.4
 
-  sass@1.70.0:
+  sass@1.77.4:
     dependencies:
       chokidar: 3.5.3
       immutable: 4.3.2
@@ -7775,18 +7775,18 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite-tsconfig-paths@4.2.0(typescript@5.2.2)(vite@4.4.9(@types/node@20.5.1)(sass@1.70.0)):
+  vite-tsconfig-paths@4.2.0(typescript@5.2.2)(vite@4.4.9(@types/node@20.5.1)(sass@1.77.4)):
     dependencies:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 2.1.2(typescript@5.2.2)
     optionalDependencies:
-      vite: 4.4.9(@types/node@20.5.1)(sass@1.70.0)
+      vite: 4.4.9(@types/node@20.5.1)(sass@1.77.4)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@4.4.9(@types/node@20.5.1)(sass@1.70.0):
+  vite@4.4.9(@types/node@20.5.1)(sass@1.77.4):
     dependencies:
       esbuild: 0.18.20
       postcss: 8.4.29
@@ -7794,7 +7794,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 20.5.1
       fsevents: 2.3.3
-      sass: 1.70.0
+      sass: 1.77.4
 
   walker@1.0.8:
     dependencies:
