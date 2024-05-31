@@ -20,7 +20,7 @@ importers:
         version: 18.6.0
       '@embyth/prettier-config':
         specifier: 1.0.1
-        version: 1.0.1(prettier@3.2.4)
+        version: 1.0.1(prettier@3.2.5)
       '@embyth/stylelint-config':
         specifier: 0.4.0
         version: 0.4.0(@typescript-eslint/eslint-plugin@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@16.2.0(typescript@5.2.2))(typescript@5.2.2)
@@ -37,8 +37,8 @@ importers:
         specifier: 29.2.0
         version: 29.2.0
       prettier:
-        specifier: 3.2.4
-        version: 3.2.4
+        specifier: 3.2.5
+        version: 3.2.5
       rimraf:
         specifier: 5.0.7
         version: 5.0.7
@@ -78,7 +78,7 @@ importers:
         version: link:../..
       '@embyth/stylelint-config':
         specifier: 0.3.0
-        version: 0.3.0(@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)
+        version: 0.3.0(@typescript-eslint/eslint-plugin@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)
       '@types/react':
         specifier: 18.2.21
         version: 18.2.21
@@ -130,7 +130,7 @@ importers:
         version: link:../..
       '@embyth/stylelint-config':
         specifier: 0.3.0
-        version: 0.3.0(@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)
+        version: 0.3.0(@typescript-eslint/eslint-plugin@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)
       eslint:
         specifier: 8.48.0
         version: 8.48.0
@@ -1940,9 +1940,11 @@ packages:
 
   glob@7.1.7:
     resolution: {integrity: sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   global-dirs@0.1.1:
     resolution: {integrity: sha512-NknMLn7F2J7aflwFOlGdNIuCDpN3VGoSoB+aap3KABFWbHVn1TCgFC+np23J8W2BiZbjfEw3BFBycSMv1AFblg==}
@@ -2089,6 +2091,7 @@ packages:
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
+    deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -2939,6 +2942,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prettier@3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -3101,6 +3109,7 @@ packages:
 
   rimraf@3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
+    deprecated: Rimraf versions prior to v4 are no longer supported
     hasBin: true
 
   rimraf@5.0.1:
@@ -4118,11 +4127,11 @@ snapshots:
     dependencies:
       prettier: 3.0.3
 
-  '@embyth/prettier-config@1.0.1(prettier@3.2.4)':
+  '@embyth/prettier-config@1.0.1(prettier@3.2.5)':
     dependencies:
-      prettier: 3.2.4
+      prettier: 3.2.5
 
-  '@embyth/stylelint-config@0.3.0(@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)':
+  '@embyth/stylelint-config@0.3.0(@typescript-eslint/eslint-plugin@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)':
     dependencies:
       postcss: 8.4.29
       postcss-scss: 4.0.7(postcss@8.4.29)
@@ -7041,6 +7050,8 @@ snapshots:
   prettier@3.0.3: {}
 
   prettier@3.2.4: {}
+
+  prettier@3.2.5: {}
 
   pretty-format@29.7.0:
     dependencies:
