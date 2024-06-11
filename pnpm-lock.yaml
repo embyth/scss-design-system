@@ -20,7 +20,7 @@ importers:
         version: 19.2.2
       '@embyth/prettier-config':
         specifier: 1.1.0
-        version: 1.1.0(prettier@3.2.5)
+        version: 1.1.0(prettier@3.3.2)
       '@embyth/stylelint-config':
         specifier: 0.6.0
         version: 0.6.0(stylelint@16.6.1(typescript@5.2.2))
@@ -37,8 +37,8 @@ importers:
         specifier: 29.4.0
         version: 29.4.0
       prettier:
-        specifier: 3.2.5
-        version: 3.2.5
+        specifier: 3.3.2
+        version: 3.3.2
       rimraf:
         specifier: 5.0.7
         version: 5.0.7
@@ -629,6 +629,7 @@ packages:
   '@humanwhocodes/config-array@0.11.11':
     resolution: {integrity: sha512-N2brEuAadi0CcdeMXUkhbZB84eskAc8MEX1By6qEchoVywSgXPIjou4rYsl0V3Hj0ZnuGycGCjdNgockbzeWNA==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -636,6 +637,7 @@ packages:
 
   '@humanwhocodes/object-schema@1.2.1':
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
+    deprecated: Use @eslint/object-schema instead
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -3000,6 +3002,11 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  prettier@3.3.2:
+    resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -4164,9 +4171,9 @@ snapshots:
     dependencies:
       prettier: 3.0.3
 
-  '@embyth/prettier-config@1.1.0(prettier@3.2.5)':
+  '@embyth/prettier-config@1.1.0(prettier@3.3.2)':
     dependencies:
-      prettier: 3.2.5
+      prettier: 3.3.2
 
   '@embyth/stylelint-config@0.3.0(@typescript-eslint/eslint-plugin@6.6.0(@typescript-eslint/parser@6.6.0(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(typescript@5.2.2))(eslint@8.48.0)(jest@29.7.0(@types/node@20.5.1))(stylelint@15.10.3(typescript@5.2.2))(typescript@5.2.2)':
     dependencies:
@@ -7126,6 +7133,8 @@ snapshots:
   prettier@3.0.3: {}
 
   prettier@3.2.5: {}
+
+  prettier@3.3.2: {}
 
   pretty-format@29.7.0:
     dependencies:
