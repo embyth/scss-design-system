@@ -22,8 +22,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1(prettier@3.3.3)
       '@embyth/stylelint-config':
-        specifier: 0.6.1
-        version: 0.6.1(stylelint@16.8.2(typescript@5.2.2))
+        specifier: 0.7.1
+        version: 0.7.1(stylelint@16.8.2(typescript@5.2.2))
       devmoji:
         specifier: 2.3.0
         version: 2.3.0
@@ -470,8 +470,8 @@ packages:
     peerDependencies:
       stylelint: 15.10.3
 
-  '@embyth/stylelint-config@0.6.1':
-    resolution: {integrity: sha512-fefJW/fwMDq/AfPiC92M/8yCAN6D6DPD2hFIkw9MTY7LIWMtdHNW0s6C9gWvrzicCDGvJtOHHFxJIIH+vdfekw==}
+  '@embyth/stylelint-config@0.7.1':
+    resolution: {integrity: sha512-D/uzK2lOG4t0BhyET1Af2FmJeUfrotiEkeTMyieOzZXQfDYXFXRtE8kbEKt2WfGtAi+U3IkihZMjKwJAVNuttA==}
     engines: {node: '>=18.15.0', pnpm: '>=8.1.0'}
     peerDependencies:
       stylelint: 16.8.2
@@ -4216,7 +4216,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@embyth/stylelint-config@0.6.1(stylelint@16.8.2(typescript@5.2.2))':
+  '@embyth/stylelint-config@0.7.1(stylelint@16.8.2(typescript@5.2.2))':
     dependencies:
       postcss: 8.4.41
       postcss-scss: 4.0.9(postcss@8.4.41)
