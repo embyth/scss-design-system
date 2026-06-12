@@ -3,6 +3,7 @@
 
 // stylelint-disable max-nesting-depth
 // stylelint-disable length-zero-no-unit
+// stylelint-disable color-function-notation -- expectations mirror Sass's legacy rgba() serialization
 @include describe('skeleton()') {
   @include it('should return a content placeholder as a skeleton') {
     @include assert {
@@ -20,31 +21,82 @@
         }
       }
 
+      // NOTE: the emitted @property --skeleton-pos and @keyframes
+      // skeleton-shimmer blocks cannot be asserted here — sass-true's
+      // contains() parser crashes on percentage keyframe selectors (0%/66%).
       @include contains {
         .card {
           display: block;
           width: 100%;
           min-height: 74px;
-          background-image: linear-gradient(115deg, transparent 20%, #e0e0e0 50%, transparent 80%),
-            linear-gradient(#f5f5f5 0%, #f5f5f5 100%), linear-gradient(#f5f5f5 0%, #f5f5f5 100%),
-            linear-gradient(#f5f5f5 0%, #f5f5f5 100%);
+          --skeleton-anim-pos: calc(var(--skeleton-pos) * (100vw + clamp(100px, 50vw, 500px) * 2) - clamp(100px, 50vw, 500px));
+          background-color: #f5f5f5;
+          background-image: linear-gradient(
+            96deg,
+            rgba(224, 224, 224, 0) var(--skeleton-anim-pos),
+            #e0e0e0 calc(var(--skeleton-anim-pos) + clamp(100px, 50vw, 500px)),
+            rgba(224, 224, 224, 0) calc(var(--skeleton-anim-pos) + clamp(100px, 50vw, 500px) + clamp(10px, 5vw, 50px))
+          );
           background-repeat: no-repeat;
-          background-position:
-            -60% 0,
+          background-attachment: fixed;
+          mask-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' rx='4'/%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' rx='4'/%3E%3C/svg%3E"),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' rx='4'/%3E%3C/svg%3E");
+          mask-repeat: no-repeat;
+          mask-position:
             0 0px,
             0 27px,
             0 54px;
-
-          // NOTE: Code below is a valid output but it has randomly generated values, so it's not possible to test it.
-          // background-size: 50% 100%, 100% 20px, 46% 20px, 100% 20px, 92% 20px, 23% 20px;
-          // animation: skeleton-shimmer-uhi7gzz 1s infinite;
+          mask-size:
+            100% 20px,
+            100% 20px,
+            61% 20px;
         }
 
-        // @keyframes skeleton-shimmer-uhi7gzz {
-        //   to {
-        //     background-position: 180% 0, 0 0px, 0 27px, 0 54px;
-        //   }
-        // }
+        @media (prefers-reduced-motion: no-preference) {
+          .card {
+            animation: skeleton-shimmer 1s cubic-bezier(0.5, 0, 0.1, 1) infinite;
+          }
+        }
+      }
+    }
+  }
+
+  @include it('should accept CSS variable shimmer values with transparent stops') {
+    @include assert {
+      @include output {
+        .card {
+          @include skeleton($lines: 1, $line-height: 20px, $shimmer: var(--shine), $shine-size: 200px, $shine-blur: 20px, $shine-angle: 90deg);
+        }
+      }
+
+      @include contains {
+        .card {
+          background-image: linear-gradient(
+            90deg,
+            transparent var(--skeleton-anim-pos),
+            var(--shine) calc(var(--skeleton-anim-pos) + 200px),
+            transparent calc(var(--skeleton-anim-pos) + 200px + 20px)
+          );
+        }
+      }
+    }
+  }
+
+  @include it('should draw square lines when radius is disabled') {
+    @include assert {
+      @include output {
+        .card {
+          @include skeleton($lines: 1, $line-height: 20px, $line-gap: 7px, $radius: null);
+        }
+      }
+
+      @include contains {
+        .card {
+          mask-image: linear-gradient(#000000 0%, #000000 100%);
+          mask-size: 100% 20px;
+        }
       }
     }
   }

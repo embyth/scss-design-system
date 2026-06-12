@@ -1,0 +1,22 @@
+@use 'true' as *;
+@use '../../src/abstracts' as *;
+
+// stylelint-disable max-nesting-depth
+@include describe('register-property()') {
+  @include it('should register a typed custom property and deduplicate repeats') {
+    @include assert {
+      @include output($selector: false) {
+        @include register-property('--glow-color', '<color>', $inherits: true, $initial-value: transparent);
+        @include register-property('--glow-color', '<color>', $inherits: true, $initial-value: transparent);
+      }
+
+      @include expect($selector: false) {
+        @property --glow-color {
+          initial-value: transparent;
+          syntax: '<color>';
+          inherits: true;
+        }
+      }
+    }
+  }
+}

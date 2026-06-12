@@ -1,5 +1,9 @@
-const path = require('path');
-const sassTrue = require('sass-true');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const sassFile = path.join(__dirname, 'test.scss');
-sassTrue.runSass({ describe, it }, sassFile);
+import { runSass } from 'sass-true';
+import { describe, it } from 'vitest';
+
+const sassFile = path.join(path.dirname(fileURLToPath(import.meta.url)), 'test.scss');
+
+runSass({ describe, it }, sassFile);

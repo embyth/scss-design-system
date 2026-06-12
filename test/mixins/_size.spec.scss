@@ -37,4 +37,21 @@
       }
     }
   }
+
+  @include it('should return logical properties when requested') {
+    @include assert {
+      @include output {
+        .card {
+          @include size(2.25rem, $logical: true);
+        }
+      }
+
+      @include expect {
+        .card {
+          inline-size: 2.25rem;
+          block-size: 2.25rem;
+        }
+      }
+    }
+  }
 }

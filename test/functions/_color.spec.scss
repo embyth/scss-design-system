@@ -1,3 +1,4 @@
+@use 'sass:meta';
 @use 'true' as *;
 @use '../../src/abstracts' as *;
 
@@ -8,5 +9,58 @@
 
   @include it('should return a color value from config map as value') {
     @include assert-equal(color('default', 50, true), #fafafa);
+  }
+}
+
+@include describe('channels()') {
+  @include it('should pass colors through untouched with the raw format') {
+    @include assert-equal(channels(#006fee, 'raw'), #006fee);
+  }
+
+  @include it('should convert to hsl channel triplets') {
+    @include assert-equal(meta.inspect(channels(#006fee, 'hsl')), '212 100% 46.7%');
+  }
+
+  @include it('should convert to oklch channel triplets') {
+    @include assert-equal(meta.inspect(channels(#006fee, 'oklch')), '56.7% 0.2095 257.9');
+  }
+}
+
+@include describe('semantic-value()') {
+  @include it('should resolve palette references') {
+    @include assert-equal(semantic-value(('primary', 500)), #006fee);
+  }
+
+  @include it('should pass raw colors through') {
+    @include assert-equal(semantic-value(#ffffff), #ffffff);
+  }
+}
+
+@include describe('token()') {
+  @include it('should return the semantic CSS variable with the raw default format') {
+    @include assert-equal(token('primary'), var(--color-primary));
+  }
+
+  @include it('should compose alpha via color-mix under the raw format') {
+    @include assert-equal(
+      meta.inspect(token('primary', 0.5)),
+      'color-mix(in oklab, var(--color-primary), transparent 50%)'
+    );
+  }
+}
+
+@include describe('color-contrast()') {
+  @include it('should return white for dark colors') {
+    @include assert-equal(color-contrast(#000000), hsl(0 0% 100%));
+    @include assert-equal(color-contrast(#18181b), hsl(0 0% 100%));
+    @include assert-equal(color-contrast(#0000ff), hsl(0 0% 100%));
+    @include assert-equal(color-contrast(#ff0000), hsl(0 0% 100%));
+  }
+
+  @include it('should return black for light colors') {
+    @include assert-equal(color-contrast(#ffffff), hsl(0 0% 0%));
+    @include assert-equal(color-contrast(#fafafa), hsl(0 0% 0%));
+    @include assert-equal(color-contrast(#00ff00), hsl(0 0% 0%));
+    @include assert-equal(color-contrast(#f5a524), hsl(0 0% 0%));
   }
 }

@@ -31,6 +31,14 @@
   @include it('should return a font-size value from config map') {
     @include assert-equal(font-size('default'), 16px);
   }
+
+  @include it('should return rem values for scale keys') {
+    @include assert-equal(font-size('h1'), 1.5rem);
+    @include assert-equal(font-size('h2'), 1.25rem);
+    @include assert-equal(font-size('text'), 1rem);
+    @include assert-equal(font-size('small'), 0.875rem);
+    @include assert-equal(font-size('tiny'), 0.75rem);
+  }
 }
 
 @include describe('font-weight()') {

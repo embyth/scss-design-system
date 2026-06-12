@@ -1,0 +1,18 @@
+@use 'sass:meta';
+@use 'true' as *;
+@use '../../src/abstracts' as *;
+
+@include describe('fluid()') {
+  @include it('should return a clamp expression interpolating between breakpoints') {
+    // xs: 320px (20rem), xl: 1280px (80rem); 16px -> 20px over that range.
+    @include assert-equal(meta.inspect(fluid(16px, 20px)), 'clamp(1rem, 0.9167rem + 0.4167vw, 1.25rem)');
+  }
+
+  @include it('should accept custom breakpoints as lengths') {
+    @include assert-equal(meta.inspect(fluid(16px, 24px, 400px, 800px)), 'clamp(1rem, 0.5rem + 2vw, 1.5rem)');
+  }
+
+  @include it('should order clamp bounds for descending values') {
+    @include assert-equal(meta.inspect(fluid(24px, 16px, 400px, 800px)), 'clamp(1rem, 2rem + -2vw, 1.5rem)');
+  }
+}
