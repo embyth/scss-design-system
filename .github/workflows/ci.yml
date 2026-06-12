@@ -8,20 +8,27 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22, 24]
     steps:
       - uses: actions/checkout@v4
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
+        uses: pnpm/action-setup@v4
       - name: Set node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ matrix.node-version }}
           cache: pnpm
       - name: Install
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Lint
         run: pnpm run lint
+      - name: Format check
+        run: pnpm run format
       - name: Test
         run: pnpm run test
+      - name: Package validation
+        run: pnpm exec publint
+      - name: Build examples
+        run: pnpm --filter "./examples/*" build

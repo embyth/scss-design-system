@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -13,14 +18,10 @@ jobs:
         with:
           fetch-depth: 0
       - id: release
-        uses: google-github-actions/release-please-action@v4
+        uses: googleapis/release-please-action@v4
         with:
-          release-type: node
-          command: manifest
           config-file: .github/release-please-config.json
           manifest-file: .github/release-please-manifest.json
           token: ${{ secrets.GITHUB_TOKEN }}
       - if: ${{ steps.release.outputs.releases_created }}
         uses: ./.github/actions/release
-        with:
-          npm: ${{ secrets.NPM_TOKEN }}
