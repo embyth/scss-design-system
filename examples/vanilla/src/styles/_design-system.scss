@@ -1,47 +1,44 @@
-// SYSTEM SETUP: (Generators, Prefix, General settings etc.)
+// SYSTEM SETUP & CONFIGURATION: (Generators, Prefix, Tokens, Fonts etc.)
 // ===============================================
-// stylelint-disable-next-line scss/partial-no-import
-@import '@embyth/scss-design-system';
-
-// SYSTEM CONFIGURATION: (Sizes, Colors, etc.)
-// ===============================================
-$settings: (
-  // List of generators to include into the styles.
-  'generators':
-    (
-      // Whether to include the reset of sensible defaults.
-      'light-reset': true,
-      // Whether to include the normalize.css file.
-      'normalize': false,
-      // Whether to include the root css variables.
-      'root': true
-    ),
-  // The prefix to use for all CSS variables.
-  'prefix': 'sass-ds',
-  // Whether the project is poly-themed or not.
-  'poly-themed': true,
-  // Whenever to use the color fallbacks for CSS variables.
-  'color-fallback': false,
-  // The paths to use for the images, icons and fonts.
-  'paths':
-    (
-      'images': './images',
-      'icons': './icons',
-      'fonts': './fonts',
-    )
-);
-
-$config-font-stack: (
-  'default': (
-    'Montserrat',
-    'Verdana',
-    sans-serif,
+// Settings are deep-merged with the system defaults — only overrides are needed.
+@forward '@embyth/scss-design-system' with (
+  $settings: (
+    // The prefix to use for all CSS variables.
+    'prefix': 'sass-ds',
+    // Emit tier-2 semantic tokens (consumed via the token() function).
+    'semantic': true,
+    // Emit color variables as OKLCH channel triplets for alpha composition.
+    'color-format': 'oklch',
+    // Wrap generated styles in CSS cascade layers (app styles stay unlayered and win).
+    'layers': true,
   ),
-);
-
-$config-font-size: (
-  // Will be applied to root element
-  'default': 16px,
-  'h1': remify(32px),
-  'text': remify(16px)
+  // Custom tier-2 tokens merge right into the semantic maps — the skeleton
+  // shine needs to contrast with the line color in BOTH themes: darker than
+  // the light-mode lines, lighter than the dark-mode ones.
+  $config-semantic:
+    (
+      'skeleton-shine': (
+        'default',
+        400,
+      ),
+    ),
+  $config-semantic-dark: (
+    'skeleton-shine': (
+      'default',
+      300,
+    ),
+  ),
+  $config-font-stack: (
+    'default': (
+      'Montserrat',
+      'Verdana',
+      sans-serif,
+    ),
+  ),
+  $config-font-size: (
+    // Will be applied to root element
+    'default': 16px,
+    'h1': 2rem,
+    'text': 1rem,
+  )
 );

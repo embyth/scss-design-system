@@ -1,0 +1,19 @@
+@use 'true' as *;
+@use '../../src/abstracts' as *;
+
+@include describe('shorthand aliases') {
+  @include it('should forward to their full-name counterparts') {
+    @include assert-equal(ff('default'), font-family('default'));
+    @include assert-equal(fs('h1'), font-size('h1'));
+    @include assert-equal(fw('bold'), font-weight('bold'));
+    @include assert-equal(lh('default'), line-height('default'));
+    @include assert-equal(ls('default'), letter-spacing('default'));
+    @include assert-equal(sp('md'), space('md'));
+    @include assert-equal(sh('circle'), shape('circle'));
+  }
+
+  @include it('should forward keyword arguments verbatim') {
+    @include assert-equal(fw($weight: 'semi-bold'), 600);
+    @include assert-equal(sp($space: 'xl'), 16px);
+  }
+}

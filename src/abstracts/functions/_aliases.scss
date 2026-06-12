@@ -1,0 +1,45 @@
+@use 'shape' as shape-module;
+@use 'space' as space-module;
+@use 'typography' as typography-module;
+
+// Shorthand aliases for the high-frequency getters. Each one forwards all
+// arguments verbatim to its full-name counterpart — same behavior, fewer
+// keystrokes in component stylesheets:
+//   font-size: fs('small');      // font-size()
+//   font-weight: fw('bold');     // font-weight()
+//   padding: sp('md') sp('xl');  // space()
+
+/// Alias of font-family().
+@function ff($args...) {
+  @return typography-module.font-family($args...);
+}
+
+/// Alias of font-size().
+@function fs($args...) {
+  @return typography-module.font-size($args...);
+}
+
+/// Alias of font-weight().
+@function fw($args...) {
+  @return typography-module.font-weight($args...);
+}
+
+/// Alias of line-height().
+@function lh($args...) {
+  @return typography-module.line-height($args...);
+}
+
+/// Alias of letter-spacing().
+@function ls($args...) {
+  @return typography-module.letter-spacing($args...);
+}
+
+/// Alias of space().
+@function sp($args...) {
+  @return space-module.space($args...);
+}
+
+/// Alias of shape().
+@function sh($args...) {
+  @return shape-module.shape($args...);
+}
