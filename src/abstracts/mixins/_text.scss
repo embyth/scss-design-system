@@ -2,6 +2,12 @@
 /// @param {number} $number-of-lines - The number of lines.
 /// @return {mixin} - The text ellipsis mixin.
 @mixin text-ellipsis($number-of-lines: 1) {
+  // Declarations must precede the nested @supports block — trailing
+  // declarations after nested rules trigger the Sass mixed-decls deprecation.
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  // stylelint-disable-next-line order/order
   @if $number-of-lines == 1 {
     white-space: nowrap;
   } @else {
@@ -9,12 +15,21 @@
 
     @supports (-webkit-line-clamp: $number-of-lines) {
       -webkit-box-orient: vertical;
-      display: box;
+      display: -webkit-box;
       -webkit-line-clamp: $number-of-lines;
+      line-clamp: $number-of-lines;
     }
   }
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+/// Balance line lengths in headings and other short text blocks.
+@mixin text-balance {
+  text-wrap: balance;
+}
+
+/// Avoid typographic orphans in body text where supported.
+@mixin text-pretty {
+  text-wrap: pretty;
 }
 
 /// Break long string.

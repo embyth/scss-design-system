@@ -9,11 +9,22 @@
 /// @param {string} $duration - The duration of the transition.
 /// @param {string} $timing-function - The speed curve of the transition.
 /// @param {string} $delay - The delay of the transition.
+/// @param {boolean} $will-change - Whether to emit the will-change hint.
+///   Blanket will-change is an anti-pattern; this will default to false in v1.0.0.
+/// @param {boolean} $respect-motion-preference - Wrap the transition declaration
+///   in a prefers-reduced-motion: no-preference media query. Will default to true in v1.0.0.
 /// @return {string} - The generated transition declarations.
 /// @throws {error} - If the duration or timing-function is invalid.
-@mixin transition($property: all, $duration: base, $timing-function: standard, $delay: none) {
+@mixin transition(
+  $property: all,
+  $duration: base,
+  $timing-function: standard,
+  $delay: none,
+  $will-change: true,
+  $respect-motion-preference: false
+) {
   $transition: ();
-  $will-change: ();
+  $will-change-properties: ();
 
   @for $i from 1 through list.length($property) {
     @for $j from 0 to (list.length($property)) - (list.length($duration)) {
@@ -71,12 +82,19 @@
       ($property-value $duration-value $timing-value $delay-value),
       $separator: comma
     );
-    $will-change: list.append($will-change, $property-value, $separator: comma);
+    $will-change-properties: list.append($will-change-properties, $property-value, $separator: comma);
     // stylelint-enable order/order
   }
 
-  @if $property != all {
-    will-change: $will-change;
+  @if $will-change and $property != all {
+    will-change: $will-change-properties;
   }
-  transition: $transition;
+
+  @if $respect-motion-preference {
+    @media (prefers-reduced-motion: no-preference) {
+      transition: $transition;
+    }
+  } @else {
+    transition: $transition;
+  }
 }

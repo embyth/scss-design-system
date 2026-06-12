@@ -31,7 +31,9 @@
   }
 
   body {
+    // stylelint-disable-next-line declaration-block-no-duplicate-properties
     min-height: 100vh;
+    min-height: 100dvh; // dynamic viewport unit, falls back to 100vh above
     padding: 0;
     margin: 0;
   }

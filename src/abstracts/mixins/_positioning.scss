@@ -1,3 +1,5 @@
+@use '../functions' as *;
+
 /// Positioning shorthand mixin.
 /// @param {string} $position - The position CSS property sets how an element is positioned in a document.
 /// @param {string} $top - Specifies how far an absolutely positioned box's top margin edge is offset below the top edge of the box's 'containing block'.
@@ -5,15 +7,27 @@
 /// @param {string} $bottom - Specifies how far an absolutely positioned box's bottom margin edge is offset above the bottom edge of the box's 'containing block'.
 /// @param {string} $left - Specifies how far an absolutely positioned box's left margin edge is offset to the right of the left edge of the box's 'containing block'.
 /// @param {string} $axis - Specifies the axis to center the element. Available values: `both`, `horizontal`, `vertical`.
+/// @param {boolean} $logical - Emit logical inset properties (inset-block/inset-inline) instead of physical offsets.
 /// @return {mixin} - The position mixin.
-@mixin position($position: absolute, $top: 0, $right: 0, $bottom: 0, $left: 0, $axis: null) {
+@mixin position($position: absolute, $top: 0, $right: 0, $bottom: 0, $left: 0, $axis: null, $logical: false) {
+  $top-value: ternary($axis == 'vertical', 50%, ternary($axis == 'both', 50%, $top));
+  $left-value: ternary($axis == 'horizontal', 50%, ternary($axis == 'both', 50%, $left));
+
   @if $axis {
-    transform: if($axis == 'horizontal', translateX(-50%), if($axis == 'both', translateX(-50%), null))
-      if($axis == 'vertical', translateY(-50%), if($axis == 'both', translateY(-50%), null));
+    transform: ternary($axis == 'horizontal', translateX(-50%), ternary($axis == 'both', translateX(-50%), null))
+      ternary($axis == 'vertical', translateY(-50%), ternary($axis == 'both', translateY(-50%), null));
+  }
+
+  @if $logical {
+    inset-block-start: $top-value;
+    inset-inline-end: $right;
+    inset-block-end: $bottom;
+    inset-inline-start: $left-value;
+  } @else {
+    top: $top-value;
+    right: $right;
+    bottom: $bottom;
+    left: $left-value;
   }
   position: $position;
-  top: if($axis == 'vertical', 50%, if($axis == 'both', 50%, $top));
-  right: $right;
-  bottom: $bottom;
-  left: if($axis == 'horizontal', 50%, if($axis == 'both', 50%, $top));
 }

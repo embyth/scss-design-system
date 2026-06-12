@@ -1,16 +1,84 @@
 @use 'sass:color';
+@use 'sass:list';
 @use 'sass:map';
 @use 'sass:math';
+@use 'sass:meta';
 @use 'config' as *;
+@use 'utility' as *;
 @use '../../config' as *;
+
+/// Round a number to the given amount of decimals.
+/// @access private
+@function -round-to($value, $decimals) {
+  $factor: math.pow(10, $decimals);
+
+  @return math.div(math.round($value * $factor), $factor);
+}
+
+/// Convert a color to a space-separated channel triplet for the configured
+/// (or given) color format, at compile time. With 'raw' the color is returned
+/// untouched. The triplet is meant to be stored in a CSS variable and applied
+/// via hsl(var(--token)) / oklch(var(--token)), enabling alpha composition:
+/// oklch(var(--token) / 0.5).
+/// @param {color} $color - The color to convert.
+/// @param {string} $format - 'raw' | 'hsl' | 'oklch'.
+/// @return {color | string} - The original color or the channel triplet.
+@function channels($color, $format: map.get($settings, 'color-format')) {
+  @if meta.type-of($color) != 'color' or $format == 'raw' or not $format {
+    @return $color;
+  }
+
+  @if $format == 'hsl' {
+    $hue: -round-to(math.div(color.channel($color, 'hue', $space: hsl), 1deg), 1);
+    $saturation: -round-to(color.channel($color, 'saturation', $space: hsl), 1);
+    $lightness: -round-to(color.channel($color, 'lightness', $space: hsl), 1);
+
+    @return #{$hue} #{$saturation} #{$lightness};
+  }
+
+  @if $format == 'oklch' {
+    $lightness: -round-to(color.channel($color, 'lightness', $space: oklch), 1);
+    $chroma: -round-to(color.channel($color, 'chroma', $space: oklch), 4);
+    $hue: -round-to(math.div(color.channel($color, 'hue', $space: oklch), 1deg), 1);
+
+    @return #{$lightness} #{$chroma} #{$hue};
+  }
+
+  @error "Unknown color format `#{$format}`. Available formats: raw, hsl, oklch.";
+}
+
+/// Wrap a CSS variable reference in the configured color-format function,
+/// optionally composing an alpha value.
+/// @access private
+@function -wrap-variable($variable, $alpha: null) {
+  $format: map.get($settings, 'color-format');
+  $whole-color: $format == 'raw' or not $format or map.get($settings, 'theme-strategy') == 'light-dark';
+
+  @if $whole-color {
+    @if $alpha {
+      @return color-mix(in oklab, #{$variable}, transparent #{math.percentage(1 - $alpha)});
+    }
+
+    @return $variable;
+  }
+
+  $function: ternary($format == 'oklch', 'oklch', 'hsl');
+
+  @if $alpha {
+    @return #{$function }(#{$variable} / #{$alpha});
+  }
+
+  @return #{$function }(#{$variable});
+}
 
 /// Get any color value from $colors (or any) Sass map.
 /// @param {string} $type - The type of the color group (base, primary, secondary, etc.).
 /// @param {string} $key - The key name of the color.
 /// @param {boolean} $only-color - If true, return only the color value.
 /// @param {map} $map - The map to get the color from.
+/// @param {number} $alpha - Optional alpha (0-1) composed onto the color.
 /// @return {color} - The color value or the variable.
-@function color($type: 'default', $key, $only-color: false, $map: $colors) {
+@function color($type: 'default', $key, $only-color: false, $map: $colors, $alpha: null) {
   @if not map.has-key($map, $type, $key) {
     @error "The #{$key} key name doesn't exist under #{$type} at the specified map (default: $colors).";
   }
@@ -20,14 +88,18 @@
   }
 
   @if $only-color {
-    @return map.get($map, $type, $key);
+    $value: map.get($map, $type, $key);
+
+    @return ternary($alpha, color.change($value, $alpha: $alpha or 1), $value);
   }
+
+  $variable: var(--#{$internal-prefix}#{$type}-color-#{$key});
 
   @if map.get($settings, color-fallback) {
-    @return var(--#{$internal-prefix}#{$type}-color-#{$key}, #{map.get($map, $type, $key)});
+    $variable: var(--#{$internal-prefix}#{$type}-color-#{$key}, #{channels(map.get($map, $type, $key))});
   }
 
-  @return var(--#{$internal-prefix}#{$type}-color-#{$key});
+  @return -wrap-variable($variable, $alpha);
 }
 
 /// Get any - just - color value from $colors (or any) Sass map.
@@ -47,21 +119,47 @@
   @return map.get($map, $type, $key);
 }
 
+/// Resolve a semantic token reference — either a (group, shade) pair pointing
+/// into the tier-1 palette or a raw color — to its color value.
+/// @param {list | color} $reference - The semantic reference to resolve.
+/// @param {map} $palette - The tier-1 palette to resolve against.
+/// @return {color} - The resolved color value.
+@function semantic-value($reference, $palette: $colors) {
+  @if meta.type-of($reference) == 'list' {
+    @return color-value(list.nth($reference, 1), list.nth($reference, 2), $palette);
+  }
+
+  @return $reference;
+}
+
+/// Reference a tier-2 semantic token. This is the only color accessor
+/// components should use — semantic tokens adapt to the active theme while
+/// tier-1 palette values stay constant.
+/// @param {string} $name - The semantic token name (key of $config-semantic).
+/// @param {number} $alpha - Optional alpha (0-1) composed onto the color.
+/// @return {string} - The wrapped CSS variable reference.
+@function token($name, $alpha: null) {
+  @if not map.has-key($config-semantic, $name) {
+    @error "The #{$name} token doesn't exist at the $config-semantic map. Available tokens: #{map.keys($config-semantic)}";
+  }
+
+  @return -wrap-variable(var(--#{$internal-prefix}color-#{$name}), $alpha);
+}
+
 /// Get a white or black contrast color for any color (on WCAG standards).
 /// Thanks for David Halford for this function: https://codepen.io/davidhalford/pen/ALrbEP
 /// @param {color} $color - The color to get the contrast color.
 /// @return {color} - The contrast color.
 @function color-contrast($color) {
-  $color-brightness: math.round(
-    (color.red($color) * 299) + (color.green($color) * 587) + math.div(color.blue($color) * 114, 1000)
-  );
-  $light-color: math.round(
-    (color.red(#ffffff) * 299) + (color.green(#ffffff) * 587) + math.div(color.blue(#ffffff) * 114, 1000)
-  );
+  // YIQ brightness: (r * 299 + g * 587 + b * 114) / 1000, mid-point threshold 128.
+  $red: color.channel($color, 'red', $space: rgb) * 299;
+  $green: color.channel($color, 'green', $space: rgb) * 587;
+  $blue: color.channel($color, 'blue', $space: rgb) * 114;
+  $color-brightness: math.div($red + $green + $blue, 1000);
 
-  @if math.abs($color-brightness) < math.div($light-color, 2) {
+  @if $color-brightness < 128 {
     @return hsl(0 0% 100%);
   } @else {
-    @return hsl(0 100% 0%);
+    @return hsl(0 0% 0%);
   }
 }

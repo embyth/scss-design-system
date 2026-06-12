@@ -51,6 +51,9 @@ $is-scrollbar-animation-exists: false;
 /// @param {string} $shape - The border radius of the scrollbar.
 /// @param {string} $stable - The stable value of the scrollbar gutter.
 /// @param {string} $transition - Indicates if transition applied to the scrollbar.
+/// @param {boolean} $modern - Use the standard scrollbar-width/scrollbar-color properties
+///   instead of ::-webkit-* pseudo-elements. Sizes map to the standard keywords:
+///   none -> none, xs/sm -> thin, anything else -> auto. Will become the default in v1.0.0.
 /// @return {mixin} - The scrollbar mixin.
 @mixin scrollbar(
   $thumb-background-color: color('default', 400),
@@ -59,7 +62,8 @@ $is-scrollbar-animation-exists: false;
   $shape: md,
   $stable: false,
   $transition: false,
-  $transition-duration: 0.8s
+  $transition-duration: 0.8s,
+  $modern: false
 ) {
   $scrollbar-var-name: '--scrollbar-background-color';
 
@@ -67,28 +71,33 @@ $is-scrollbar-animation-exists: false;
     scrollbar-gutter: stable;
   }
 
-  @if $transition {
-    @include keyframe-scrollbar-gen($scrollbar-var-name, $thumb-background-color, $track-background-color);
+  @if $modern {
+    scrollbar-width: ternary($size == none, none, ternary($size == xs or $size == sm, thin, auto));
+    scrollbar-color: $thumb-background-color $track-background-color;
+  } @else {
+    @if $transition {
+      @include keyframe-scrollbar-gen($scrollbar-var-name, $thumb-background-color, $track-background-color);
 
-    animation: scrollbar-fade-out $transition-duration ease-in-out forwards;
+      animation: scrollbar-fade-out $transition-duration ease-in-out forwards;
 
-    &:hover {
-      animation: scrollbar-fade-in $transition-duration ease-in-out forwards;
+      &:hover {
+        animation: scrollbar-fade-in $transition-duration ease-in-out forwards;
+      }
     }
-  }
 
-  &::-webkit-scrollbar {
-    width: space($size);
-    background-color: $track-background-color;
-  }
+    &::-webkit-scrollbar {
+      width: space($size);
+      background-color: $track-background-color;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    @include shape($shape);
+    &::-webkit-scrollbar-thumb {
+      @include shape($shape);
 
-    background-color: if($transition, var(#{$scrollbar-var-name}), $thumb-background-color);
-  }
+      background-color: ternary($transition, var(#{$scrollbar-var-name}), $thumb-background-color);
+    }
 
-  &::-webkit-scrollbar-track {
-    display: none;
+    &::-webkit-scrollbar-track {
+      display: none;
+    }
   }
 }

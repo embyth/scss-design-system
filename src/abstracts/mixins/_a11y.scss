@@ -1,4 +1,13 @@
+@use '../functions' as *;
 @use './transition' as *;
+
+/// Apply styles only when a forced-colors mode (e.g. Windows High Contrast)
+/// is active. Use to provide system-color fallbacks for custom visuals.
+@mixin forced-colors {
+  @media (forced-colors: active) {
+    @content;
+  }
+}
 
 /// Adds outline styles depending on specific type
 /// @param {string} $size - The size of the outline.
@@ -14,8 +23,8 @@
 
   &:focus-visible {
     border-radius: $radius;
-    outline: solid if($thick, #{$size + $offset}, $size) $color;
-    outline-offset: if($thick, 0, $offset);
+    outline: solid ternary($thick, #{$size + $offset}, $size) $color;
+    outline-offset: ternary($thick, 0, $offset);
 
     @media screen and (prefers-contrast) {
       outline-style: dotted;

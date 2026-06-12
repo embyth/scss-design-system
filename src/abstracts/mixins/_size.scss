@@ -5,16 +5,17 @@
 /// If height omitted, it will be the same as width.
 /// @param {string} $width - Width size value.
 /// @param {string} $height - Height size value.
+/// @param {boolean} $logical - Emit logical properties (inline-size/block-size) instead of width/height.
 /// @returns {string} Width and height size value.
-@mixin size($width, $height: $width) {
+@mixin size($width, $height: $width, $logical: false) {
   $fetched-width: space($width);
+  $fetched-height: ternary(list.length($height) == 1, space($height), $fetched-width);
 
-  @if list.length($height) == 1 {
-    $fetched-height: space($height);
-    width: $fetched-width;
-    height: $fetched-height;
+  @if $logical {
+    inline-size: $fetched-width;
+    block-size: $fetched-height;
   } @else {
     width: $fetched-width;
-    height: $fetched-width;
+    height: $fetched-height;
   }
 }

@@ -4,8 +4,7 @@ $config-keyframes: () !default;
 $config-keyframes: map.deep-merge(
   (
     // Scrollbar animations
-    'scrollbar-fade-in':
-      (
+    'scrollbar-fade-in': (
         0%: (
           opacity: 0,
         ),
@@ -22,8 +21,7 @@ $config-keyframes: map.deep-merge(
       ),
     ),
     // Apple style shake animation (ex: invalid form submit)
-    'apple-shake':
-      (
+    'apple-shake': (
         0%: (
           transform: translate3d(0, 0, 0),
         ),
@@ -59,8 +57,7 @@ $config-keyframes: map.deep-merge(
         ),
       ),
     // Fades
-    'fade-in':
-      (
+    'fade-in': (
         0%: (
           opacity: 0,
         ),
@@ -77,8 +74,7 @@ $config-keyframes: map.deep-merge(
       ),
     ),
     // Zooms
-    'zoom-in':
-      (
+    'zoom-in': (
         0%: (
           opacity: 0,
           transform: scale3d(0.3, 0.3, 0.3),

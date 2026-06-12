@@ -1,18 +1,151 @@
+@use 'sass:color';
 @use 'sass:list';
+@use 'sass:map';
 @use 'sass:math';
-@use 'sass:string';
+@use 'sass:meta';
+@use '../functions' as *;
+@use './property' as *;
+@use '../../config' as *;
+
+// Whether the shared shimmer keyframes were already emitted.
+$is-skeleton-animation-exists: false;
+
+/// Emit the shared shimmer plumbing once per compilation: a registered
+/// (typed, animatable, inherited) progress property and the keyframes that
+/// drive it from 0 to 1, resting for the final third of each cycle.
+/// @access private
+@mixin -skeleton-keyframes {
+  @if not $is-skeleton-animation-exists {
+    $is-skeleton-animation-exists: true !global;
+
+    @include register-property('--skeleton-pos', '<number>', $inherits: true, $initial-value: 0);
+
+    @at-root {
+      // stylelint-disable max-nesting-depth
+      @keyframes skeleton-shimmer {
+        0% {
+          --skeleton-pos: 0;
+        }
+
+        66% {
+          --skeleton-pos: 1;
+        }
+
+        100% {
+          --skeleton-pos: 1;
+        }
+      }
+      // stylelint-enable max-nesting-depth
+    }
+  }
+}
+
+/// The skeleton declarations themselves.
+/// The lines are drawn with a mask while the element background holds the
+/// base color plus the shine gradient — masking clips the shine to the lines,
+/// so it never sweeps across the gaps or the container.
+/// The gradient position is computed from the animated --skeleton-pos number,
+/// and background-attachment: fixed anchors it to the viewport — every
+/// skeleton on screen glints in the same page-wide wave.
+/// @access private
+@mixin -skeleton-styles(
+  $lines,
+  $line-height,
+  $line-gap,
+  $background,
+  $shimmer,
+  $speed,
+  $radius,
+  $shine-size,
+  $shine-blur,
+  $shine-angle
+) {
+  $mask-images: ();
+  $mask-positions: ();
+  $mask-sizes: ();
+
+  // Gradient rectangles can't have rounded corners, so a rounded line is an
+  // inline SVG <rect rx> mask layer instead. SVG clamps rx to half the line
+  // height automatically, so any large radius yields a pill.
+  $line-mask: linear-gradient(#000000 0%, #000000 100%);
+
+  @if $radius and $radius != 0 {
+    $rx: strip-unit($radius);
+    $line-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' rx='#{$rx}'/%3E%3C/svg%3E");
+  }
+
+  // Deterministic "random" width for the last line (40%-84%), so compiled
+  // output stays reproducible between builds.
+  $last-line-width: (($lines * 37) % 45 + 40) * 1%;
+
+  @for $i from 1 through $lines {
+    $mask-images: list.append($mask-images, $line-mask, comma);
+    $mask-positions: list.append($mask-positions, 0 (($i - 1) * ($line-height + $line-gap)), comma);
+
+    @if $i != $lines or $lines == 1 {
+      $mask-sizes: list.append($mask-sizes, 100% $line-height, comma);
+    } @else {
+      $mask-sizes: list.append($mask-sizes, $last-line-width $line-height, comma);
+    }
+  }
+
+  // The shine fades in over its full size and falls off over the leading-edge
+  // blur — a soft gleam instead of a hard-edged band. When $shimmer is a
+  // literal color the transparent stops reuse its channels; for CSS variable
+  // values (e.g. token()) fall back to the transparent keyword — modern
+  // browsers interpolate gradients in premultiplied alpha, so no gray fringe.
+  $shine-transparent: transparent;
+
+  @if meta.type-of($shimmer) == 'color' {
+    $shine-transparent: color.change($shimmer, $alpha: 0);
+  }
+
+  display: block;
+  width: 100%;
+  min-height: $lines * ($line-height + $line-gap) - $line-gap;
+
+  // --skeleton-pos (0..1) maps to a sweep from fully off-screen left to
+  // fully off-screen right: -size -> 100vw + size.
+  --skeleton-anim-pos: calc(var(--skeleton-pos) * (100vw + #{$shine-size} * 2) - #{$shine-size});
+
+  background-color: $background;
+  background-image: linear-gradient(
+    #{$shine-angle},
+    #{$shine-transparent} var(--skeleton-anim-pos),
+    #{$shimmer} calc(var(--skeleton-anim-pos) + #{$shine-size}),
+    #{$shine-transparent} calc(var(--skeleton-anim-pos) + #{$shine-size} + #{$shine-blur})
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  mask-image: $mask-images;
+  mask-repeat: no-repeat;
+  mask-position: $mask-positions;
+  mask-size: $mask-sizes;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: skeleton-shimmer $speed map.get($config-motion-timing, 'standard') infinite;
+  }
+}
 
 /// Mixin to produce content skeletons while the element is empty
-/// @param $lines - number of skeleton lines (last line will always be of random length)
+/// @param $lines - number of skeleton lines (the last line is rendered shorter)
 /// @param $line-height - Height (px) of each skeleton line
 /// @param $line-gap - Gap (px) between each skeleton line
-/// @param $background - Background color of the skeleton element
-/// @param $shimmer - Color of the shimmer effect. Note that due to the fact that shimmer is a single element animated across the entire line group
-/// it'll need to be chosen carefully to make sure it's not visible in the container.
-/// @param $speed - Speed of the animation effect
+/// @param $background - Background color of the skeleton lines
+/// @param $shimmer - Color of the shine effect — a literal color or a CSS
+/// variable reference (e.g. token()) for theme-aware shines. The shine is
+/// masked to the lines, so any color works regardless of the container background.
+/// Pick a shine that contrasts with $background: a white shine over light
+/// lines is barely visible.
+/// @param $speed - Duration of one shimmer cycle (the shine rests for the final third)
 /// @param $level - The level of the selector to apply the mixin to. Should be "selector" or "empty". Empty will apply skeleton styles to the empty pseudo class.
+/// @param $radius - Corner radius of each line. Clamps to half the line height,
+/// so any large value (e.g. 999px) yields pill-shaped lines; 0 or null for square corners.
+/// @param $shine-size - Width of the travelling shine gradient.
+/// @param $shine-blur - Leading-edge falloff of the shine; 0px for a sharp edge.
+/// @param $shine-angle - Angle of the shine gradient.
 /// @throws - If $level is not "selector" or "empty"
-/// @example @include skeleton(2, 16px, 8px, #dddddd, transparentize(255,255,255,.6), 2s)
+/// @example @include skeleton(2, 16px, 8px)
 /// Will add 2 lines of skeleton - each 16px high, with an 8px gap between.
 @mixin skeleton(
   $lines: 2,
@@ -21,64 +154,41 @@
   $background: #e1e4e8,
   $shimmer: rgba(255, 255, 255, 0.6),
   $speed: 3s,
-  $level: 'selector'
+  $level: 'selector',
+  $radius: 4px,
+  $shine-size: clamp(100px, 50vw, 500px),
+  $shine-blur: clamp(10px, 5vw, 50px),
+  $shine-angle: 96deg
 ) {
-  $key: string.unique-id();
-  $background-images: ();
-  $background-sizes: ();
-  $background-positions: ();
-  $background-blend-modes: ();
-  $background-images: list.append(
-    $background-images,
-    linear-gradient(115deg, transparent 20%, $shimmer 50%, transparent 80%),
-    comma
-  );
-  $background-sizes: list.append($background-sizes, 50% 100%, comma);
-  $background-positions: list.append($background-positions, -60% 0, comma);
-
-  @for $i from 1 through $lines {
-    $background-images: list.append($background-images, linear-gradient($background 0%, $background 100%), comma);
-    $background-positions: list.append($background-positions, 0 (($i - 1) * ($line-height + $line-gap)));
-
-    @if $i != $lines {
-      $background-sizes: list.append($background-sizes, 100% $line-height, comma);
-    }
-
-    @if $lines == 1 {
-      $background-sizes: list.append($background-sizes, 100% $line-height, comma);
-    } @else {
-      $background-sizes: list.append($background-sizes, math.random(4) * 23% $line-height, comma);
-    }
-  }
-
-  $background-positions-animated: list.set-nth($background-positions, 1, 180% 0); // stylelint-disable-line order/order
-
-  @keyframes skeleton-shimmer-#{$key} {
-    to {
-      // stylelint-disable-next-line plugin/no-low-performance-animation-properties
-      background-position: $background-positions-animated;
-    }
-  }
+  @include -skeleton-keyframes;
 
   @if $level == 'selector' {
-    display: block;
-    width: 100%;
-    min-height: $lines * ($line-height + $line-gap) - $line-gap;
-    background-image: $background-images;
-    background-repeat: no-repeat;
-    background-position: $background-positions;
-    background-size: $background-sizes;
-    animation: skeleton-shimmer-#{$key} $speed infinite;
+    @include -skeleton-styles(
+      $lines,
+      $line-height,
+      $line-gap,
+      $background,
+      $shimmer,
+      $speed,
+      $radius,
+      $shine-size,
+      $shine-blur,
+      $shine-angle
+    );
   } @else if $level == 'empty' {
     &:empty {
-      display: block;
-      width: 100%;
-      min-height: $lines * ($line-height + $line-gap) - $line-gap;
-      background-image: $background-images;
-      background-repeat: no-repeat;
-      background-position: $background-positions;
-      background-size: $background-sizes;
-      animation: skeleton-shimmer-#{$key} $speed infinite;
+      @include -skeleton-styles(
+        $lines,
+        $line-height,
+        $line-gap,
+        $background,
+        $shimmer,
+        $speed,
+        $radius,
+        $shine-size,
+        $shine-blur,
+        $shine-angle
+      );
     }
   } @else {
     @error "The argument `$level` one of the followings: `selector`, `empty`";
