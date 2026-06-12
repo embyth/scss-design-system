@@ -69,14 +69,25 @@ $is-skeleton-animation-exists: false;
   // height automatically, so any large radius yields a pill.
   $line-mask: linear-gradient(#000000 0%, #000000 100%);
 
+  // Deterministic "random" width for the last line (40%-84%), so compiled
+  // output stays reproducible between builds.
+  $last-line-width: (($lines * 37) % 45 + 40) * 1%;
+
+  // The shine fades in over its full size and falls off over the leading-edge
+  // blur — a soft gleam instead of a hard-edged band. When $shimmer is a
+  // literal color the transparent stops reuse its channels; for CSS variable
+  // values (e.g. token()) fall back to the transparent keyword — modern
+  // browsers interpolate gradients in premultiplied alpha, so no gray fringe.
+  $shine-transparent: transparent;
+
+  // --skeleton-pos (0..1) maps to a sweep from fully off-screen left to
+  // fully off-screen right: -size -> 100vw + size.
+  --skeleton-anim-pos: calc(var(--skeleton-pos) * (100vw + #{$shine-size} * 2) - #{$shine-size});
+
   @if $radius and $radius != 0 {
     $rx: strip-unit($radius);
     $line-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' rx='#{$rx}'/%3E%3C/svg%3E");
   }
-
-  // Deterministic "random" width for the last line (40%-84%), so compiled
-  // output stays reproducible between builds.
-  $last-line-width: (($lines * 37) % 45 + 40) * 1%;
 
   @for $i from 1 through $lines {
     $mask-images: list.append($mask-images, $line-mask, comma);
@@ -89,13 +100,6 @@ $is-skeleton-animation-exists: false;
     }
   }
 
-  // The shine fades in over its full size and falls off over the leading-edge
-  // blur — a soft gleam instead of a hard-edged band. When $shimmer is a
-  // literal color the transparent stops reuse its channels; for CSS variable
-  // values (e.g. token()) fall back to the transparent keyword — modern
-  // browsers interpolate gradients in premultiplied alpha, so no gray fringe.
-  $shine-transparent: transparent;
-
   @if meta.type-of($shimmer) == 'color' {
     $shine-transparent: color.change($shimmer, $alpha: 0);
   }
@@ -103,10 +107,6 @@ $is-skeleton-animation-exists: false;
   display: block;
   width: 100%;
   min-height: $lines * ($line-height + $line-gap) - $line-gap;
-
-  // --skeleton-pos (0..1) maps to a sweep from fully off-screen left to
-  // fully off-screen right: -size -> 100vw + size.
-  --skeleton-anim-pos: calc(var(--skeleton-pos) * (100vw + #{$shine-size} * 2) - #{$shine-size});
 
   background-color: $background;
   background-image: linear-gradient(

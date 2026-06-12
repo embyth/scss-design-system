@@ -53,6 +53,7 @@
 @function -wrap-variable($variable, $alpha: null) {
   $format: map.get($settings, 'color-format');
   $whole-color: $format == 'raw' or not $format or map.get($settings, 'theme-strategy') == 'light-dark';
+  $function: ternary($format == 'oklch', 'oklch', 'hsl');
 
   @if $whole-color {
     @if $alpha {
@@ -61,8 +62,6 @@
 
     @return $variable;
   }
-
-  $function: ternary($format == 'oklch', 'oklch', 'hsl');
 
   @if $alpha {
     @return #{$function }(#{$variable} / #{$alpha});
@@ -79,24 +78,23 @@
 /// @param {number} $alpha - Optional alpha (0-1) composed onto the color.
 /// @return {color} - The color value or the variable.
 @function color($type: 'default', $key, $only-color: false, $map: $colors, $alpha: null) {
+  $value: map.get($map, $type, $key);
+  $variable: var(--#{$internal-prefix}#{$type}-color-#{$key});
+
   @if not map.has-key($map, $type, $key) {
     @error "The #{$key} key name doesn't exist under #{$type} at the specified map (default: $colors).";
   }
 
-  @if not map.get($map, $type, $key) {
+  @if not $value {
     @return null;
   }
 
   @if $only-color {
-    $value: map.get($map, $type, $key);
-
     @return ternary($alpha, color.change($value, $alpha: $alpha or 1), $value);
   }
 
-  $variable: var(--#{$internal-prefix}#{$type}-color-#{$key});
-
   @if map.get($settings, color-fallback) {
-    $variable: var(--#{$internal-prefix}#{$type}-color-#{$key}, #{channels(map.get($map, $type, $key))});
+    $variable: var(--#{$internal-prefix}#{$type}-color-#{$key}, #{channels($value)});
   }
 
   @return -wrap-variable($variable, $alpha);

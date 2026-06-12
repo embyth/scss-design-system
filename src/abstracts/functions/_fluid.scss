@@ -24,17 +24,19 @@
   $max-rem: remify($max);
   $min-viewport: strip-unit(remify(bp($min-breakpoint)));
   $max-viewport: strip-unit(remify(bp($max-breakpoint)));
+  $lower: ternary($min-rem < $max-rem, $min-rem, $max-rem);
+  $upper: ternary($min-rem < $max-rem, $max-rem, $min-rem);
 
   @if $min-viewport == $max-viewport {
     @error 'The minimum and maximum breakpoints must differ to interpolate between them.';
   }
 
+  // The guard above must run before these — dividing by a zero viewport
+  // delta would error first.
+  // stylelint-disable-next-line order/order
   $slope: math.div(strip-unit($max-rem) - strip-unit($min-rem), $max-viewport - $min-viewport);
   $intercept: -round-to((strip-unit($min-rem) - $slope * $min-viewport) * 1rem, 4);
   $rate: -round-to($slope * 100vw, 4);
-
-  $lower: ternary($min-rem < $max-rem, $min-rem, $max-rem);
-  $upper: ternary($min-rem < $max-rem, $max-rem, $min-rem);
 
   @return clamp(#{$lower}, #{$intercept} + #{$rate}, #{$upper});
 }

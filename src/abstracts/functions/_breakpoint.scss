@@ -8,6 +8,8 @@
 /// @return {number} - The media breakpoint value.
 /// @throws {Error} - If the breakpoint doesn't exist.
 @function bp($point) {
+  $fetched-breakpoint: map.get($config-breakpoint, $point);
+
   @if meta.type-of($point) == number {
     @if $point == 0 {
       @return 0;
@@ -19,8 +21,6 @@
       @return $point;
     }
   }
-
-  $fetched-breakpoint: map.get($config-breakpoint, $point);
 
   @if $fetched-breakpoint {
     @return $fetched-breakpoint;

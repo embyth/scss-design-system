@@ -2,6 +2,7 @@
   "extends": "@embyth/stylelint-config",
   "rules": {
     "scss/double-slash-comment-inline": null,
+    "scss/at-import-partial-extension": null,
     "plugin/no-low-performance-animation-properties": null,
     "number-max-precision": 4
   }
