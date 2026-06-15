@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/embyth/scss-design-system/compare/scss-design-system-v1.0.0...scss-design-system-v1.0.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* **release:** 🐛 🚀 remove unnecessary --access public flag from npm publish command ([eb726f9](https://github.com/embyth/scss-design-system/commit/eb726f90b9b5606475750c34ce1b5fecc8058ef4))
+
 ## [1.0.0](https://github.com/embyth/scss-design-system/compare/scss-design-system-v0.2.0...scss-design-system-v1.0.0) (2026-06-15)
 
 
