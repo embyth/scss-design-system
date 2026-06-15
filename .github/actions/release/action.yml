@@ -22,4 +22,4 @@ runs:
       run: pnpm run test
     - name: Publish to NPM
       shell: bash
-      run: npm publish --provenance --access public
+      run: npm publish --provenance
