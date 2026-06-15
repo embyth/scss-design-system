@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.0.0](https://github.com/embyth/scss-design-system/compare/scss-design-system-v0.2.0...scss-design-system-v1.0.0) (2026-06-15)
+
+
+### Features
+
+* **ci:** ✨ 👷 added package rules for renovate.json ([e16304e](https://github.com/embyth/scss-design-system/commit/e16304ec56202d54187066abdac067b0061290ab))
+* **examples:** ✨ add vue example and update code structure ([266a947](https://github.com/embyth/scss-design-system/commit/266a9471ecafc806b55133005b91e20f8d957d0d))
+* **styles:** ✨ add shorthand aliases for functions ([0270c52](https://github.com/embyth/scss-design-system/commit/0270c52c6bd2a7213bbba10a440d47f6dbc2a985))
+* **system:** ✨ add new container, motion, and property mixins; enhance existing mixins ([ac227c2](https://github.com/embyth/scss-design-system/commit/ac227c291db28636957bae37c4d16c6bdf8716af))
+
+
+### Bug Fixes
+
+* **test:** 🐛 🚨 imported Sass modules for affected files ([101616a](https://github.com/embyth/scss-design-system/commit/101616a9522f74bcc5e4d3b843b0a77f61c2aaac))
+* **unit:** 🐛 renamed `rem` function to `remify` because of sass build-in `rem` ([990c37f](https://github.com/embyth/scss-design-system/commit/990c37fbf0e5d7a9515695e4681ddede2c0c1467))
+
+
+### Miscellaneous Chores
+
+* 🔧 release 1.0.0 ([bb693b8](https://github.com/embyth/scss-design-system/commit/bb693b8999ecb8771f47ecbbd78a7a2c7cea2472))
+
 ## [0.2.0](https://github.com/embyth/scss-design-system/compare/scss-design-system-v0.1.0...scss-design-system-v0.2.0) (2023-09-08)
 
 ### Features
