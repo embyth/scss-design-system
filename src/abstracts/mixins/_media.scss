@@ -8,10 +8,10 @@
 /// @throws {error} - If the breakpoint doesn't exist.
 @mixin breakpoint($breakpoint, $logic: 'only screen', $mobile-first: true) {
   $target-breakpoint: bp($breakpoint);
-  $width: if($mobile-first, min-width, max-width);
+  $width: ternary($mobile-first, min-width, max-width);
 
   @if $target-breakpoint {
-    $calculated-breakpoint: if($mobile-first, $target-breakpoint, $target-breakpoint - 1px);
+    $calculated-breakpoint: ternary($mobile-first, $target-breakpoint, $target-breakpoint - 1px);
 
     @media #{$logic} and (#{$width}: $calculated-breakpoint) {
       @content;

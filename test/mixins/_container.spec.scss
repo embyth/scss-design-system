@@ -1,0 +1,86 @@
+@use 'true' as *;
+@use '../../src/abstracts' as *;
+
+// stylelint-disable max-nesting-depth
+@include describe('container()') {
+  @include it('should mark an element as a containment context') {
+    @include assert {
+      @include output {
+        .sidebar {
+          @include container('sidebar');
+        }
+
+        .card {
+          @include container;
+        }
+      }
+
+      @include expect {
+        .sidebar {
+          container-name: sidebar;
+          container-type: inline-size;
+        }
+
+        .card {
+          container-type: inline-size;
+        }
+      }
+    }
+  }
+}
+
+@include describe('container-up()') {
+  @include it('should query by breakpoint key and by name') {
+    @include assert {
+      @include output {
+        @include container-up('sm') {
+          .element {
+            display: flex;
+          }
+        }
+
+        @include container-up(400px, 'sidebar') {
+          .element {
+            display: grid;
+          }
+        }
+      }
+
+      @include expect {
+        @container (min-width: 768px) {
+          .element {
+            display: flex;
+          }
+        }
+
+        @container sidebar (min-width: 400px) {
+          .element {
+            display: grid;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe('container-down()') {
+  @include it('should query below the given size') {
+    @include assert {
+      @include output {
+        @include container-down('sm') {
+          .element {
+            display: block;
+          }
+        }
+      }
+
+      @include expect {
+        @container (max-width: 767px) {
+          .element {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

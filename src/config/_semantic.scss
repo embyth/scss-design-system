@@ -1,0 +1,130 @@
+@use 'sass:map';
+
+// Tier-2 semantic tokens. Each value is either a (group, shade) reference
+// into the tier-1 $colors palette or a raw color. Components and consumers
+// should reference these through the token() function and never reach into
+// tier-1 directly — that keeps theme changes a config-only operation.
+$config-semantic: () !default;
+$config-semantic: map.deep-merge(
+  (
+    'background-base': (
+      'default',
+      50,
+    ),
+    'background-subtle': (
+      'default',
+      100,
+    ),
+    'background-elevated': #ffffff,
+    'text-default': (
+      'default',
+      900,
+    ),
+    'text-muted': (
+      'default',
+      600,
+    ),
+    'text-inverted': (
+      'default',
+      50,
+    ),
+    'border-default': (
+      'default',
+      200,
+    ),
+    'border-strong': (
+      'default',
+      300,
+    ),
+    'primary': (
+      'primary',
+      500,
+    ),
+    'primary-foreground': #ffffff,
+    'secondary': (
+      'secondary',
+      500,
+    ),
+    'secondary-foreground': #ffffff,
+    'success': (
+      'success',
+      500,
+    ),
+    'success-foreground': (
+      'default',
+      900,
+    ),
+    'warning': (
+      'warning',
+      500,
+    ),
+    'warning-foreground': (
+      'default',
+      900,
+    ),
+    'danger': (
+      'danger',
+      500,
+    ),
+    'danger-foreground': #ffffff,
+    'focus-ring': (
+      'primary',
+      500,
+    ),
+  ),
+  $config-semantic
+);
+
+// Dark-theme overrides for semantic tokens. Only keys that change need to be
+// listed — the tier-1 palette stays constant across themes; dark mode simply
+// re-points tier-2 tokens at different shades.
+$config-semantic-dark: () !default;
+$config-semantic-dark: map.deep-merge(
+  (
+    'background-base': (
+      'default',
+      900,
+    ),
+    'background-subtle': (
+      'default',
+      800,
+    ),
+    'background-elevated': (
+      'default',
+      800,
+    ),
+    'text-default': (
+      'default',
+      50,
+    ),
+    'text-muted': (
+      'default',
+      400,
+    ),
+    'text-inverted': (
+      'default',
+      900,
+    ),
+    'border-default': (
+      'default',
+      700,
+    ),
+    'border-strong': (
+      'default',
+      600,
+    ),
+    'primary': (
+      'primary',
+      400,
+    ),
+    'secondary': (
+      'secondary',
+      400,
+    ),
+    'focus-ring': (
+      'primary',
+      400,
+    ),
+  ),
+  $config-semantic-dark
+);

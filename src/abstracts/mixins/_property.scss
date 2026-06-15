@@ -1,0 +1,29 @@
+@use 'sass:list';
+@use 'sass:meta';
+
+// This is the list of all registered properties to avoid duplicates.
+$registered-properties: ();
+
+/// Register a custom property via @property so it becomes typed and
+/// animatable. Registrations are deduplicated across the compilation.
+/// @param {string} $name - The custom property name (including the -- prefix).
+/// @param {string} $syntax - The property syntax (e.g. '<color>', '<length>', '*').
+/// @param {boolean} $inherits - Whether the property inherits.
+/// @param {*} $initial-value - The initial value (required for any syntax other than '*').
+@mixin register-property($name, $syntax: '*', $inherits: false, $initial-value: null) {
+  @if not list.index($registered-properties, $name) {
+    $registered-properties: list.append($registered-properties, $name) !global;
+
+    @at-root {
+      // stylelint-disable max-nesting-depth
+      @property #{$name} {
+        @if meta.type-of($initial-value) != 'null' {
+          initial-value: $initial-value;
+        }
+        syntax: '#{$syntax}';
+        inherits: $inherits;
+      }
+      // stylelint-enable max-nesting-depth
+    }
+  }
+}

@@ -26,9 +26,9 @@
   );
 
   @each $ext in $exts {
-    $extmod: if(map.has-key($extmods, $ext), $ext + map.get($extmods, $ext), $ext);
-    $format: if(map.has-key($formats, $ext), map.get($formats, $ext), $ext);
-    $src: list.append($src, url(quote($full-path + '.' + $extmod)) format(string.quote($format)), comma);
+    $extmod: ternary(map.has-key($extmods, $ext), $ext + map.get($extmods, $ext), $ext);
+    $format: ternary(map.has-key($formats, $ext), map.get($formats, $ext), $ext);
+    $src: list.append($src, url(string.quote($full-path + '.' + $extmod)) format(string.quote($format)), comma);
   }
 
   @font-face {

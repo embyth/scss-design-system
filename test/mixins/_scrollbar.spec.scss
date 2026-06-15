@@ -33,6 +33,33 @@
       }
     }
   }
+
+  @include it('should return standard scrollbar properties in modern mode') {
+    @include assert {
+      @include output {
+        body {
+          @include scrollbar(#000000, #ffffff, sm, $stable: true, $modern: true);
+        }
+
+        .none {
+          @include scrollbar($size: none, $modern: true);
+        }
+      }
+
+      @include expect {
+        body {
+          scrollbar-gutter: stable;
+          scrollbar-width: thin;
+          scrollbar-color: #000000 #ffffff;
+        }
+
+        .none {
+          scrollbar-width: none;
+          scrollbar-color: var(--default-color-400) transparent;
+        }
+      }
+    }
+  }
 }
 
 // TODO: add test for scrollbar with transition; sass-true doesn't support @property in expected output (20.08.2023)

@@ -11,7 +11,7 @@
   $fetched-breakpoint: map.get($config-breakpoint, $point);
 
   @if meta.type-of($point) == number {
-    @if $range == 0 {
+    @if $point == 0 {
       @return 0;
     }
 
@@ -22,7 +22,7 @@
     }
   }
 
-  @if meta.type-of($fetched-breakpoint) {
+  @if $fetched-breakpoint {
     @return $fetched-breakpoint;
   } @else {
     @error "Breakpoint with such key `#{$point}` not found. Available breakpoints: #{$config-breakpoint}";

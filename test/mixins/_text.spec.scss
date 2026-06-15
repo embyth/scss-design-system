@@ -2,7 +2,6 @@
 @use '../../src/abstracts' as *;
 
 // stylelint-disable max-nesting-depth
-// stylelint-disable order/properties-order
 // stylelint-disable order/order
 @include describe('text-ellipsis()') {
   @include it('should return a text ellipsis styles') {
@@ -19,23 +18,60 @@
 
       @include expect {
         .paragraph {
-          white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .paragraph-2 {
-          white-space: inherit;
           overflow: hidden;
           text-overflow: ellipsis;
+          white-space: inherit;
         }
 
         @supports (-webkit-line-clamp: 2) {
           .paragraph-2 {
             -webkit-box-orient: vertical;
-            display: box;
+            display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
           }
+        }
+      }
+    }
+  }
+}
+
+@include describe('text-balance()') {
+  @include it('should return balanced text wrapping') {
+    @include assert {
+      @include output {
+        .heading {
+          @include text-balance;
+        }
+      }
+
+      @include expect {
+        .heading {
+          text-wrap: balance;
+        }
+      }
+    }
+  }
+}
+
+@include describe('text-pretty()') {
+  @include it('should return pretty text wrapping') {
+    @include assert {
+      @include output {
+        .paragraph {
+          @include text-pretty;
+        }
+      }
+
+      @include expect {
+        .paragraph {
+          text-wrap: pretty;
         }
       }
     }

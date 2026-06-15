@@ -2,6 +2,22 @@
 @use 'sass:string';
 @use 'sass:meta';
 
+/// Inline conditional. A drop-in replacement for the Sass if() function,
+/// which is deprecated in favor of the CSS if() syntax (Dart Sass 1.101+).
+/// Unlike Sass if(), both branches are evaluated eagerly — avoid expressions
+/// that error when the other branch is taken.
+/// @param {boolean} $condition - The condition to evaluate.
+/// @param {*} $if-true - Returned when the condition is truthy.
+/// @param {*} $if-false - Returned when the condition is falsy.
+/// @return {*} - The picked branch value.
+@function ternary($condition, $if-true, $if-false: null) {
+  @if $condition {
+    @return $if-true;
+  } @else {
+    @return $if-false;
+  }
+}
+
 /// Returns the list of available names in a given map.
 /// @param {Map} $map - The map of data to list the names from.
 /// @param {number} $map - The level of depth to get names from.
@@ -15,7 +31,7 @@
   }
 
   @each $key, $value in $map {
-    $sep: if($i < list.length($map), ', ', '');
+    $sep: ternary($i < list.length($map), ', ', '');
     $output: $output + '#{$key}#{$sep}#{available-names($value, $level + 1)}';
     $i: $i + 1;
   }

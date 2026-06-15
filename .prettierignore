@@ -1,0 +1,7 @@
+# SCSS formatting is owned by stylelint (stylelint-prettier) — the standalone
+# prettier pass and stylelint's embedded prettier disagree on Sass map layout.
+*.scss
+dist
+pnpm-lock.yaml
+CHANGELOG.md
+.github/release-please-manifest.json

@@ -1,22 +1,8 @@
 /// Input or textarea placeholder mixin.
-/// @return {string} - The placeholder mixin content with browser prefixes.
+/// Vendor-prefixed variants were dropped — ::placeholder is universally
+/// supported. The mixin itself will be deprecated in v1.0.0.
+/// @return {string} - The placeholder mixin content.
 @mixin placeholder {
-  &:-moz-placeholder {
-    @content;
-  }
-
-  &::-moz-placeholder {
-    @content;
-  }
-
-  &:-ms-input-placeholder {
-    @content;
-  }
-
-  &::-webkit-input-placeholder {
-    @content;
-  }
-
   &::placeholder {
     @content;
   }

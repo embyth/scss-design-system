@@ -1,0 +1,42 @@
+@use 'sass:math';
+@use 'breakpoint' as *;
+@use 'units' as *;
+@use 'utility' as *;
+
+/// Round a number to the given amount of decimals.
+/// @access private
+@function -round-to($value, $decimals) {
+  $factor: math.pow(10, $decimals);
+
+  @return math.div(math.round($value * $factor), $factor);
+}
+
+/// Build a clamp() expression that fluidly interpolates a value between two
+/// viewport widths. Works for font sizes, spacing or any length value.
+/// @param {number} $min - The value at (and below) the smaller breakpoint.
+/// @param {number} $max - The value at (and above) the larger breakpoint.
+/// @param {number | string} $min-breakpoint - Lower viewport bound ($config-breakpoint key or length).
+/// @param {number | string} $max-breakpoint - Upper viewport bound ($config-breakpoint key or length).
+/// @return {string} - The clamp() expression.
+/// @example font-size: fluid(16px, 20px); // clamp(1rem, 0.9286rem + 0.3571vw, 1.25rem)
+@function fluid($min, $max, $min-breakpoint: 'xs', $max-breakpoint: 'xl') {
+  $min-rem: remify($min);
+  $max-rem: remify($max);
+  $min-viewport: strip-unit(remify(bp($min-breakpoint)));
+  $max-viewport: strip-unit(remify(bp($max-breakpoint)));
+  $lower: ternary($min-rem < $max-rem, $min-rem, $max-rem);
+  $upper: ternary($min-rem < $max-rem, $max-rem, $min-rem);
+
+  @if $min-viewport == $max-viewport {
+    @error 'The minimum and maximum breakpoints must differ to interpolate between them.';
+  }
+
+  // The guard above must run before these — dividing by a zero viewport
+  // delta would error first.
+  // stylelint-disable-next-line order/order
+  $slope: math.div(strip-unit($max-rem) - strip-unit($min-rem), $max-viewport - $min-viewport);
+  $intercept: -round-to((strip-unit($min-rem) - $slope * $min-viewport) * 1rem, 4);
+  $rate: -round-to($slope * 100vw, 4);
+
+  @return clamp(#{$lower}, #{$intercept} + #{$rate}, #{$upper});
+}

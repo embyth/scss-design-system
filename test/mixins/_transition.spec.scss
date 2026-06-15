@@ -19,4 +19,45 @@
       }
     }
   }
+
+  @include it('should omit will-change when disabled') {
+    @include assert {
+      @include output {
+        .card {
+          @include transition(transform, 'slow', 'excite', 'none', $will-change: false);
+        }
+      }
+
+      @include expect {
+        .card {
+          transition: transform 300ms cubic-bezier(0.18, 0.67, 0.6, 1.22) 0ms;
+        }
+      }
+    }
+  }
+
+  @include it('should respect reduced motion preference when requested') {
+    @include assert {
+      @include output {
+        .card {
+          @include transition(
+            transform,
+            'slow',
+            'excite',
+            'none',
+            $will-change: false,
+            $respect-motion-preference: true
+          );
+        }
+      }
+
+      @include expect {
+        @media (prefers-reduced-motion: no-preference) {
+          .card {
+            transition: transform 300ms cubic-bezier(0.18, 0.67, 0.6, 1.22) 0ms;
+          }
+        }
+      }
+    }
+  }
 }

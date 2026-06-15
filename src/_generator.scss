@@ -1,28 +1,68 @@
+@use 'sass:list';
+@use 'sass:map';
 @use './abstracts' as *;
 @use './vendor' as *;
 @use './foundation' as *;
 @use './config' as *;
 
+/// Wrap content in a cascade layer when layers are enabled.
+/// @access private
+@mixin -in-layer($name, $enabled) {
+  @if $enabled {
+    @layer #{$name} {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
 /// Generate all the styles.
 @mixin generate-styles {
-  @if config('light-reset', 'generators') {
-    @include generate-reset;
+  $layers: config('layers');
+
+  @if $layers {
+    // Declare layer order up front: app styles stay unlayered and always win.
+    // The components layer is reserved for consumers' component styles.
+    @layer reset, base, components;
   }
 
-  @if config('normalize', 'generators') {
-    @include generate-normalize;
+  @include -in-layer('reset', $layers) {
+    @if config('light-reset', 'generators') {
+      @include generate-reset;
+    }
+
+    @if config('normalize', 'generators') {
+      @warn "The 'normalize' generator is deprecated and will be removed in v1.0.0 — the light-reset plus foundation defaults cover modern browsers.";
+      @include generate-normalize;
+    }
   }
 
   @if config('root', 'generators') {
     @include generate-color-variables;
 
+    @if config('semantic') {
+      @if config('theme-strategy') == 'light-dark' {
+        @include generate-semantic-light-dark;
+      } @else {
+        $has-dark: list.length(map.keys($config-semantic-dark)) > 0;
+
+        @include generate-semantic-variables($scheme: ternary($has-dark, light));
+        @include generate-theme-overrides;
+      }
+    }
+
     @if config('poly-themed') {
+      @warn "The 'poly-themed' setting is deprecated and will be removed in v1.0.0. Use 'semantic': true with $config-semantic-dark instead.";
+
       @each $key, $value in $config-theme {
         @include generate-color-variables($colors: $value, $selector: '[data-theme=#{$key}]:root');
       }
     }
   }
 
-  @include generate-default;
-  @include generate-media;
+  @include -in-layer('base', $layers) {
+    @include generate-default;
+    @include generate-media;
+  }
 }

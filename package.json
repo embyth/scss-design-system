@@ -11,47 +11,70 @@
   "homepage": "https://github.com/embyth/scss-design-system#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/embyth/scss-design-system.git"
+    "url": "git+https://github.com/embyth/scss-design-system.git"
   },
   "bugs": {
     "url": "https://github.com/embyth/scss-design-system/issues"
   },
   "main": "src/index.scss",
   "style": "src/index.scss",
-  "engines": {
-    "node": ">=18.15.0",
-    "pnpm": ">=8.1.0"
+  "sass": "src/index.scss",
+  "exports": {
+    ".": {
+      "sass": "./src/index.scss",
+      "style": "./src/index.scss",
+      "default": "./src/index.scss"
+    }
   },
+  "files": [
+    "src",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "*.scss"
+  ],
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.33.1",
   "scripts": {
     "react:dev": "pnpm -F react-ts dev",
     "react:build": "pnpm -F react-ts build",
     "react:lint": "pnpm -F react-ts lint",
+    "vanilla:dev": "pnpm -F vanilla dev",
+    "vanilla:build": "pnpm -F vanilla build",
+    "vanilla:lint": "pnpm -F vanilla lint",
+    "vue:dev": "pnpm -F vue-ts dev",
+    "vue:build": "pnpm -F vue-ts build",
     "clean:cache": "rimraf dist",
     "clean:deps": "rimraf node_modules",
     "clean": "pnpm run clean:cache && pnpm run clean:deps",
     "lint": "pnpm exec stylelint \"{test,src}/**/*.scss\" --config .stylelintrc",
     "lint:fix": "pnpm exec stylelint \"{test,src}/**/*.scss\" --config .stylelintrc --fix",
-    "test": "jest"
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "publint",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "19.4.0",
-    "@commitlint/config-conventional": "19.2.2",
+    "@commitlint/cli": "21.0.2",
+    "@commitlint/config-conventional": "21.0.2",
     "@embyth/prettier-config": "1.1.1",
-    "@embyth/stylelint-config": "0.6.1",
+    "@embyth/stylelint-config": "0.7.1",
     "devmoji": "2.3.0",
-    "husky": "9.1.5",
-    "jest": "29.7.0",
-    "jest-environment-node-single-context": "29.4.0",
-    "prettier": "3.3.3",
-    "rimraf": "6.0.1",
-    "sass": "1.77.8",
-    "sass-true": "8.0.0",
-    "stylelint": "16.8.2"
-  },
-  "dependencies": {
-    "normalize.css": "8.0.1"
+    "husky": "9.1.7",
+    "prettier": "3.8.4",
+    "publint": "0.3.21",
+    "rimraf": "6.1.3",
+    "sass": "1.101.0",
+    "sass-true": "10.1.0",
+    "stylelint": "17.13.0",
+    "vitest": "4.1.8"
   },
   "peerDependencies": {
-    "sass": "1.77.8"
+    "sass": ">=1.80.0 <3.0.0"
   }
 }

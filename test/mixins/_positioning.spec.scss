@@ -15,11 +15,51 @@
       @include expect {
         .icon {
           transform: translateX(-50%) translateY(-50%);
-          position: absolute;
           top: 50%;
           right: 0;
           bottom: 0;
           left: 50%;
+          position: absolute;
+        }
+      }
+    }
+  }
+
+  @include it('should emit logical inset properties when requested') {
+    @include assert {
+      @include output {
+        .icon {
+          @include position(fixed, $top: 10px, $right: 20px, $bottom: 30px, $left: 40px, $logical: true);
+        }
+      }
+
+      @include expect {
+        .icon {
+          inset-block-start: 10px;
+          inset-inline-end: 20px;
+          inset-block-end: 30px;
+          inset-inline-start: 40px;
+          position: fixed;
+        }
+      }
+    }
+  }
+
+  @include it('should use each offset value without axis centering') {
+    @include assert {
+      @include output {
+        .icon {
+          @include position(fixed, $top: 10px, $right: 20px, $bottom: 30px, $left: 40px);
+        }
+      }
+
+      @include expect {
+        .icon {
+          top: 10px;
+          right: 20px;
+          bottom: 30px;
+          left: 40px;
+          position: fixed;
         }
       }
     }

@@ -5,11 +5,14 @@ $config-font-size: map.deep-merge(
   (
     'default': 16px,
     // Will be applied to root element
-    'h1': remify(24px),
-    'h2': remify(20px),
-    'text': remify(16px),
-    'small': remify(14px),
-    'tiny': remify(12px),
+    // Literal rem values (computed against the 16px default) — this module
+    // cannot `@use` the units functions without creating a circular dependency
+    // (units -> typography -> config -> font-size).
+    'h1': 1.5rem,
+    'h2': 1.25rem,
+    'text': 1rem,
+    'small': 0.875rem,
+    'tiny': 0.75rem,
   ),
   $config-font-size
 );

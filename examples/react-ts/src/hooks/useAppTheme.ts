@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useLocalStorage, useMediaQuery, useUpdateEffect } from 'usehooks-ts';
+import { useEffect, useRef } from 'react';
+import { useLocalStorage, useMediaQuery } from 'usehooks-ts';
 
 const COLOR_SCHEME_QUERY = '(prefers-color-scheme: dark)';
 
@@ -27,9 +27,16 @@ export const useAppTheme = (defaultValue?: TThemeMode): TUseAppThemeOutput => {
     defaultValue ?? osPrefersMode ?? ThemeMode.LIGHT,
   );
 
-  // Update darkMode if os prefers changes
-  useUpdateEffect(() => {
+  // Update darkMode if os prefers changes (skip the initial render so the
+  // stored preference wins; usehooks-ts removed useUpdateEffect in v3)
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     setThemeMode(osPrefersMode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [osPrefersMode]);
 
   useEffect(() => {

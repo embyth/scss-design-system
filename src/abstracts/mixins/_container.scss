@@ -1,0 +1,41 @@
+@use '../functions' as *;
+
+/// Mark an element as a container query containment context.
+/// @param {string} $name - Optional container name for targeted queries.
+/// @param {string} $type - The container type (inline-size, size or normal).
+@mixin container($name: null, $type: inline-size) {
+  @if $name {
+    container-name: #{$name};
+  }
+  container-type: $type;
+}
+
+/// Apply styles when the queried container is at least the given width.
+/// @param {number | string} $size - A $config-breakpoint key or a length value.
+/// @param {string} $name - Optional container name to query.
+@mixin container-up($size, $name: null) {
+  @if $name {
+    @container #{$name} (min-width: #{bp($size)}) {
+      @content;
+    }
+  } @else {
+    @container (min-width: #{bp($size)}) {
+      @content;
+    }
+  }
+}
+
+/// Apply styles when the queried container is below the given width.
+/// @param {number | string} $size - A $config-breakpoint key or a length value.
+/// @param {string} $name - Optional container name to query.
+@mixin container-down($size, $name: null) {
+  @if $name {
+    @container #{$name} (max-width: #{bp($size) - 1px}) {
+      @content;
+    }
+  } @else {
+    @container (max-width: #{bp($size) - 1px}) {
+      @content;
+    }
+  }
+}

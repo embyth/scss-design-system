@@ -19,11 +19,11 @@
 
         .icon::after {
           transform: translateX(-50%) translateY(-50%);
-          position: absolute;
           top: 50%;
           right: 0;
           bottom: 0;
           left: 50%;
+          position: absolute;
           content: '';
         }
       }

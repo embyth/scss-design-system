@@ -5,7 +5,7 @@ type TUseCanvasOutput = (
   options?: {
     backgroundColor?: string;
   },
-) => React.RefObject<HTMLCanvasElement>;
+) => React.RefObject<HTMLCanvasElement | null>;
 
 export const useCanvas: TUseCanvasOutput = (draw, options = {}) => {
   const canvasReference = useRef<HTMLCanvasElement>(null);

@@ -14,22 +14,6 @@
       }
 
       @include expect {
-        .input:-moz-placeholder {
-          color: #000000;
-        }
-
-        .input::-moz-placeholder {
-          color: #000000;
-        }
-
-        .input:-ms-input-placeholder {
-          color: #000000;
-        }
-
-        .input::-webkit-input-placeholder {
-          color: #000000;
-        }
-
         .input::placeholder {
           color: #000000;
         }

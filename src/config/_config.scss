@@ -4,8 +4,7 @@ $settings: () !default;
 $settings: map.deep-merge(
   (
     // List of generators to include into the styles.
-    'generators':
-      (
+    'generators': (
         // Whether to include the reset of sensible defaults.
         'light-reset': true,
         // Whether to include the normalize.css file.
@@ -16,12 +15,30 @@ $settings: map.deep-merge(
     // The prefix to use for all CSS variables.
     'prefix': null,
     // Whether the project is poly-themed or not.
+    // DEPRECATED: use 'semantic' tokens with $config-semantic-dark instead. Will be removed in v1.0.0.
     'poly-themed': false,
     // Whenever to use the color fallbacks for CSS variables.
     'color-fallback': false,
+    // The format color CSS variables are emitted in.
+    // 'raw' keeps whole color values; 'hsl' and 'oklch' emit space-separated
+    // channel triplets so consumers can compose alpha: oklch(var(--token) / 0.5).
+    // Will default to 'oklch' in v1.0.0.
+    'color-format': 'raw',
+    // Whether to emit tier-2 semantic tokens (see $config-semantic).
+    // Will default to true in v1.0.0.
+    'semantic': false,
+    // Whether to wrap generated styles in CSS cascade layers (reset, base).
+    // The 'components' layer is declared but left for consumers.
+    // Will default to true in v1.0.0.
+    'layers': false,
+    // How dark-theme semantic overrides are emitted:
+    // 'data-attribute' ([data-theme=dark]), 'class' (.dark),
+    // 'media' (prefers-color-scheme) or 'light-dark' (CSS light-dark() function).
+    'theme-strategy': 'data-attribute',
+    // Custom selector for the dark theme override (data-attribute/class strategies only).
+    'theme-selector': null,
     // The paths to use for the images, icons and fonts.
-    'paths':
-      (
+    'paths': (
         'images': './images',
         'icons': './icons',
         'fonts': './fonts',
@@ -31,7 +48,11 @@ $settings: map.deep-merge(
 );
 
 // We use this value to prefix our CSS variables. The only difference to the default prefix value that we add the '-' suffix.
-$internal-prefix: if(map.get($settings, prefix), map.get($settings, prefix) + '-', '');
+$internal-prefix: '';
+
+@if map.get($settings, prefix) {
+  $internal-prefix: map.get($settings, prefix) + '-';
+}
 
 // This is the list of all generated keyframes to avoid duplicates.
 $included-animations: ();

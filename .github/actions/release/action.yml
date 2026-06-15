@@ -1,30 +1,25 @@
 name: Release
-description: Release a new npm package
-inputs:
-  npm:
-    description: npm token
-    required: true
+description: Publish the package to npm via OIDC trusted publishing
 runs:
   using: composite
   steps:
     - name: Install pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: latest
+      uses: pnpm/action-setup@v4
     - name: Set node
       uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 24
         cache: pnpm
         registry-url: https://registry.npmjs.org/
+    - name: Update npm (OIDC trusted publishing requires npm >= 11.5.1)
+      shell: bash
+      run: npm install -g npm@latest
     - name: Install
       shell: bash
-      run: pnpm install --no-frozen-lockfile
+      run: pnpm install --frozen-lockfile
     - name: Test
       shell: bash
       run: pnpm run test
     - name: Publish to NPM
-      run: pnpm publish --access public --no-git-checks
       shell: bash
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm }}
+      run: npm publish --provenance --access public

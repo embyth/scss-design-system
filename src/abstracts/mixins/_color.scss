@@ -1,8 +1,9 @@
+@use 'sass:list';
 @use 'sass:map';
 @use '../functions' as *;
 @use '../../config' as *;
 
-/// Generate color variables.
+/// Generate tier-1 color variables.
 /// @param {map} $colors - The colors map.
 /// @param {string} $selector - The selector.
 /// @return {string} - The generated color variables.
@@ -12,9 +13,83 @@
       @each $name, $color in $value {
         // stylelint-disable-next-line max-nesting-depth
         @if $color {
-          --#{$internal-prefix}#{$key}-color-#{$name}: #{$color};
+          --#{$internal-prefix}#{$key}-color-#{$name}: #{channels($color)};
         }
       }
+    }
+  }
+}
+
+/// Generate tier-2 semantic token variables.
+/// @param {map} $map - The semantic tokens map ($config-semantic or $config-semantic-dark).
+/// @param {string} $selector - The selector to emit the variables under.
+/// @param {map} $palette - The tier-1 palette the (group, shade) references resolve against.
+/// @param {string} $scheme - Optional color-scheme declaration to emit alongside.
+@mixin generate-semantic-variables($map: $config-semantic, $selector: ':root', $palette: $colors, $scheme: null) {
+  #{$selector} {
+    @if $scheme {
+      color-scheme: #{$scheme};
+    }
+
+    @each $name, $reference in $map {
+      $value: semantic-value($reference, $palette);
+
+      @if $value {
+        --#{$internal-prefix}color-#{$name}: #{channels($value)};
+      }
+    }
+  }
+}
+
+/// Generate semantic tokens with the CSS light-dark() function — each token
+/// is emitted once and the browser resolves the side based on color-scheme.
+/// Note: with this strategy variables hold whole colors (not channel
+/// triplets), so alpha composition happens via color-mix() in token().
+/// @param {map} $light - The light semantic tokens map.
+/// @param {map} $dark - The dark semantic tokens overrides map.
+/// @param {string} $selector - The selector to emit the variables under.
+/// @param {map} $palette - The tier-1 palette the references resolve against.
+@mixin generate-semantic-light-dark(
+  $light: $config-semantic,
+  $dark: $config-semantic-dark,
+  $selector: ':root',
+  $palette: $colors
+) {
+  #{$selector} {
+    @each $name, $reference in $light {
+      $light-value: semantic-value($reference, $palette);
+      $dark-value: semantic-value(map.get($dark, $name), $palette);
+
+      @if $light-value and $dark-value {
+        --#{$internal-prefix}color-#{$name}: light-dark(#{$light-value}, #{$dark-value});
+      } @else if $light-value {
+        --#{$internal-prefix}color-#{$name}: #{$light-value};
+      }
+    }
+    color-scheme: light dark;
+  }
+}
+
+/// Emit dark-theme semantic overrides according to the configured
+/// theme-strategy setting (data-attribute, class or media).
+/// @param {map} $map - The dark semantic tokens overrides map.
+/// @param {map} $palette - The tier-1 palette the references resolve against.
+@mixin generate-theme-overrides($map: $config-semantic-dark, $palette: $colors) {
+  @if list.length(map.keys($map)) > 0 {
+    $strategy: map.get($settings, 'theme-strategy');
+
+    @if $strategy == 'media' {
+      @media (prefers-color-scheme: dark) {
+        @include generate-semantic-variables($map, ':root', $palette, $scheme: dark);
+      }
+    } @else {
+      $selector: map.get($settings, 'theme-selector');
+
+      @if not $selector {
+        $selector: ternary($strategy == 'class', '.dark', '[data-theme=dark]');
+      }
+
+      @include generate-semantic-variables($map, $selector, $palette, $scheme: dark);
     }
   }
 }

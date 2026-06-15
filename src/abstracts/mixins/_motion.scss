@@ -1,0 +1,31 @@
+/// Apply styles only for users who have not requested reduced motion.
+/// Wrap animations and transitions in this to respect motion preferences.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+/// Apply styles only for users who prefer reduced motion.
+/// Useful for providing a calmer alternative to a motion-safe block.
+@mixin motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+/// Emit the content inside a @starting-style block — the styles an element
+/// transitions from when it is first rendered (or display toggles from none).
+/// Combine with transition-discrete() for dialog/popover enter animations.
+@mixin starting-style {
+  @starting-style {
+    @content;
+  }
+}
+
+/// Allow transitions on discrete properties (display, overlay, etc.) so
+/// elements like dialogs and popovers can animate in and out. Compose with
+/// the transition() mixin which handles the transition declaration itself.
+@mixin transition-discrete {
+  transition-behavior: allow-discrete;
+}

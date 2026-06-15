@@ -16,13 +16,7 @@
     "**/node_modules": false
   },
   "prettier.enable": false,
-  "stylelint.validate": [
-    "css",
-    "less",
-    "postcss",
-    "sass",
-    "scss"
-  ],
+  "stylelint.validate": ["css", "less", "postcss", "sass", "scss"],
   "[css][scss][sass]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
   }

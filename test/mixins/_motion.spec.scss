@@ -1,0 +1,87 @@
+@use 'true' as *;
+@use '../../src/abstracts' as *;
+
+// stylelint-disable max-nesting-depth
+@include describe('motion-safe()') {
+  @include it('should wrap content in a no-preference media query') {
+    @include assert {
+      @include output {
+        .element {
+          @include motion-safe {
+            transition: opacity 0.2s;
+          }
+        }
+      }
+
+      @include expect {
+        @media (prefers-reduced-motion: no-preference) {
+          .element {
+            transition: opacity 0.2s;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe('motion-reduce()') {
+  @include it('should wrap content in a reduce media query') {
+    @include assert {
+      @include output {
+        .element {
+          @include motion-reduce {
+            animation: none;
+          }
+        }
+      }
+
+      @include expect {
+        @media (prefers-reduced-motion: reduce) {
+          .element {
+            animation: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe('starting-style()') {
+  @include it('should emit a starting-style block') {
+    @include assert {
+      @include output {
+        .dialog {
+          @include starting-style {
+            opacity: 0;
+          }
+        }
+      }
+
+      @include expect {
+        @starting-style {
+          .dialog {
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include describe('transition-discrete()') {
+  @include it('should allow discrete transitions') {
+    @include assert {
+      @include output {
+        .popover {
+          @include transition-discrete;
+        }
+      }
+
+      @include expect {
+        .popover {
+          transition-behavior: allow-discrete;
+        }
+      }
+    }
+  }
+}

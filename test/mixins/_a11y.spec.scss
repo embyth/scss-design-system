@@ -4,7 +4,28 @@
 // stylelint-disable max-nesting-depth
 // stylelint-disable order/properties-order
 // stylelint-disable order/order
-// stylelint-disable plugin/no-low-performance-animation-properties
+@include describe('forced-colors()') {
+  @include it('should wrap content in a forced-colors media query') {
+    @include assert {
+      @include output {
+        .button {
+          @include forced-colors {
+            border: 1px solid ButtonText;
+          }
+        }
+      }
+
+      @include expect {
+        @media (forced-colors: active) {
+          .button {
+            border: 1px solid ButtonText;
+          }
+        }
+      }
+    }
+  }
+}
+
 @include describe('focus-ring()') {
   @include it('should return content within requested focus ring parameters') {
     @include assert {

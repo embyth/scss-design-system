@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "stylelint.vscode-stylelint",
+    "mrmlnc.vscode-scss",
     "editorconfig.editorconfig",
     "DavidAnson.vscode-markdownlint"
   ]
