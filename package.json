@@ -45,6 +45,8 @@
     "vanilla:dev": "pnpm -F vanilla dev",
     "vanilla:build": "pnpm -F vanilla build",
     "vanilla:lint": "pnpm -F vanilla lint",
+    "vue:dev": "pnpm -F vue-ts dev",
+    "vue:build": "pnpm -F vue-ts build",
     "clean:cache": "rimraf dist",
     "clean:deps": "rimraf node_modules",
     "clean": "pnpm run clean:cache && pnpm run clean:deps",

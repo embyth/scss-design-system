@@ -1,5 +1,4 @@
 @use 'design-system' as *;
-@use 'showcase';
 
 // STYLES GENERATOR: (Reset, Normalize, etc.)
 // ===============================================
@@ -23,12 +22,6 @@
 body {
   color: token('text-default');
   background-color: token('background-base');
-}
-
-// Hero
-.hero {
-  position: relative;
-  height: 100dvh;
 }
 
 // Canvas
@@ -81,12 +74,6 @@ body {
   justify-content: space-between;
   width: 100%;
   margin-top: space('4xl');
-}
-
-.card_hint {
-  margin-top: space('2xl');
-  font-size: font-size(small);
-  color: token('text-muted');
 }
 
 // Switch

@@ -1,3 +1,13 @@
 {
-  "extends": "@embyth/stylelint-config"
+  "extends": "@embyth/stylelint-config",
+  "rules": {
+    "scss/double-slash-comment-inline": null,
+    "scss/at-import-partial-extension": null,
+    "plugin/no-low-performance-animation-properties": null,
+    "number-max-precision": 4,
+    "selector-class-pattern": [
+      "^[a-z]([a-z0-9-]+)?(_[a-z0-9-]+)?(-[a-z0-9-]+)?$",
+      { "message": "Expected class selector to be kebab-case with optional _element suffix" }
+    ]
+  }
 }

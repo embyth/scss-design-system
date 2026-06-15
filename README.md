@@ -1,638 +1,727 @@
 # :lipstick: `@embyth/scss-design-system`
 
-> Embyth's Sass design system template for building scalable and maintainable CSS.
+> A self-contained Sass design system: two-tier OKLCH color tokens, cascade layers, dark mode, fluid typography,
+> container queries and a rich mixin library — all pure SCSS, zero runtime.
+
+[![npm version](https://img.shields.io/npm/v/@embyth/scss-design-system)](https://www.npmjs.com/package/@embyth/scss-design-system)
+[![CI](https://github.com/embyth/scss-design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/embyth/scss-design-system/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](#balance_scale-license)
+
+## :sparkles: Highlights
+
+- **Two-tier color tokens** — a constant palette (tier 1) plus semantic tokens (tier 2) that re-point per theme.
+- **OKLCH-first** — author plain hex, ship perceptual channel triplets with one-argument alpha composition.
+- **Dark mode, four ways** — data attribute, class, `prefers-color-scheme` or CSS `light-dark()`.
+- **Cascade layers** — your app styles always win, no specificity wars.
+- **Modern CSS, wrapped** — fluid `clamp()` values, container queries, `@starting-style`, typed `@property`,
+  reduced-motion guards, standard scrollbar styling.
+- **Everything is a config map** — deep-merged with defaults, you only declare overrides.
+- **Fully tested** — every function and mixin has a [sass-true](https://github.com/oddbird/true) spec plus compiled-CSS
+  snapshot coverage.
 
 ## :bookmark_tabs: Table of Contents
 
-- [:lipstick: `@embyth/scss-design-system`](#lipstick-embythscss-design-system)
-  - [:bookmark_tabs: Table of Contents](#bookmark_tabs-table-of-contents)
-  - [:wrench: Installation](#wrench-installation)
-  - [:eyes: Usage](#eyes-usage)
-  - [:jigsaw: Extending the config](#jigsaw-extending-the-config)
-  - [:paintbrush: Themes](#paintbrush-themes)
-  - [:triangular_ruler: System Architecture](#triangular_ruler-system-architecture)
-    - [Color System](#color-system)
-    - [Accessibility](#accessibility)
-    - [Border System](#border-system)
-    - [Media Queries System](#media-queries-system)
-    - [Elevation System](#elevation-system)
-    - [Motion System](#motion-system)
-    - [Shape System](#shape-system)
-    - [Space System](#space-system)
-    - [Typography System](#typography-system)
-      - [Type System](#type-system)
-      - [Font Size](#font-size)
-      - [Font Weight](#font-weight)
-      - [Line Height](#line-height)
-      - [Letter Spacing](#letter-spacing)
-      - [Typography Usage](#typography-usage)
-  - [:thinking: Supporting Materials](#thinking-supporting-materials)
+- [:rocket: Quick Start](#rocket-quick-start)
+- [:gear: Configuration](#gear-configuration)
+- [:bulb: Core Concepts](#bulb-core-concepts)
+  - [Semantic Tokens (two-tier system)](#semantic-tokens-two-tier-system)
+  - [Themes & Dark Mode](#themes--dark-mode)
+  - [Cascade Layers](#cascade-layers)
+  - [Customizing the Palette](#customizing-the-palette)
+- [:books: API Reference](#books-api-reference)
+  - [Colors](#colors)
+  - [Typography](#typography)
+  - [Spacing & Shape](#spacing--shape)
+  - [Fluid Values](#fluid-values)
+  - [Breakpoints & Media Queries](#breakpoints--media-queries)
+  - [Container Queries](#container-queries)
+  - [Elevation & Borders](#elevation--borders)
+  - [Motion & Animation](#motion--animation)
+  - [Loading Skeletons](#loading-skeletons)
+  - [Scrollbars](#scrollbars)
+  - [Text Utilities](#text-utilities)
+  - [Accessibility](#accessibility)
+  - [Layout Helpers](#layout-helpers)
+  - [Utility Functions](#utility-functions)
+  - [Shorthand Aliases](#shorthand-aliases)
+- [:globe_with_meridians: Browser Support](#globe_with_meridians-browser-support)
+- [:joystick: Examples](#joystick-examples)
+- [:handshake: Contributing](#handshake-contributing)
+- [:balance_scale: License](#balance_scale-license)
+- [:thinking: Supporting Materials](#thinking-supporting-materials)
 
 ---
 
-## :wrench: Installation
+## :rocket: Quick Start
+
+Install the package along with Dart Sass (>= 1.80):
 
 ```bash
-# Yarn:
-yarn add @embyth/scss-design-system
+# pnpm:
+pnpm add -D @embyth/scss-design-system sass
 
 # npm:
-npm install @embyth/scss-design-system
+npm install -D @embyth/scss-design-system sass
 
-# pnpm:
-pnpm add @embyth/scss-design-system
+# yarn:
+yarn add -D @embyth/scss-design-system sass
 ```
+
+Load it in your entry stylesheet with the Sass module system and emit the styles:
+
+```scss
+@use '@embyth/scss-design-system' as * with (
+  $settings: (
+    'semantic': true,
+    // tier-2 semantic tokens
+    'color-format': 'oklch',
+    // channel triplets + alpha composition
+    'layers': true,
+    // cascade layers
+  )
+);
+
+@include generate-styles;
+```
+
+Then build components from tokens and helpers:
+
+```scss
+.card {
+  @include shape('xl');
+  @include shadow($elevation: 'md');
+
+  padding: space('2xl');
+  font-size: fluid(16px, 20px);
+  color: token('text-default');
+  background-color: token('background-base');
+  border: 1px solid token('border-default');
+}
+```
+
+> [!NOTE]
+>
+> `@import` is deprecated by Sass and will be removed in Dart Sass 3.0.0 — always use `@use`/`@forward` with the
+> `with (...)` configuration syntax. With Dart Sass >= 1.71 you can also load the package via the Node package importer:
+> `@use 'pkg:@embyth/scss-design-system'`.
 
 ---
 
-## :eyes: Usage
+## :gear: Configuration
 
-Add it to your entry css file (e.g. `index.scss`):
+Everything lives in the `$settings` map. All configuration maps deep-merge with the defaults — you only declare what you
+override. Read any setting back with the `config($key, $group)` helper.
+
+| Setting                      | Default            | Description                                                                                                       |
+| ---------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `'generators'.'light-reset'` | `true`             | Emit the light reset of sensible defaults.                                                                        |
+| `'generators'.'normalize'`   | `false`            | Emit normalize.css. **Deprecated**, removed in v1.0.0.                                                            |
+| `'generators'.'root'`        | `true`             | Emit the `:root` CSS variables.                                                                                   |
+| `'prefix'`                   | `null`             | Prefix for every emitted CSS variable (e.g. `'ds'` → `--ds-color-primary`).                                       |
+| `'color-format'`             | `'raw'`            | `'raw'` (whole colors) \| `'hsl'` \| `'oklch'` (channel triplets, enable alpha composition). `'oklch'` in v1.0.0. |
+| `'semantic'`                 | `false`            | Emit tier-2 semantic tokens. `true` in v1.0.0.                                                                    |
+| `'layers'`                   | `false`            | Wrap generated styles in CSS cascade layers. `true` in v1.0.0.                                                    |
+| `'theme-strategy'`           | `'data-attribute'` | How dark overrides are emitted: `'data-attribute'` \| `'class'` \| `'media'` \| `'light-dark'`.                   |
+| `'theme-selector'`           | `null`             | Custom selector for dark overrides (data-attribute/class strategies).                                             |
+| `'color-fallback'`           | `false`            | Emit inline fallback values inside `var()` references.                                                            |
+| `'poly-themed'`              | `false`            | Legacy whole-palette theming. **Deprecated**, use `'semantic'` + `$config-semantic-dark`.                         |
+| `'paths'`                    | `./images` etc.    | Base paths for `images`, `icons` and `fonts` assets.                                                              |
+
+Besides `$settings`, every scale is its own configurable map: `$colors`, `$config-semantic`, `$config-semantic-dark`,
+`$config-font-stack`, `$config-font-size`, `$config-font-weight`, `$config-line-height`, `$config-letter-spacing`,
+`$config-breakpoint`, `$config-space`, `$config-shape`, `$config-shadow`, `$config-z-index`, `$config-motion-duration`,
+`$config-motion-timing` and `$config-keyframes`.
 
 ```scss
-@import '@embyth/scss-design-system';
-```
-
----
-
-## :jigsaw: Extending the config
-
-You can access any setting with the setting() helper function. Below, you can see the $settings map (object) with its default values.
-
-```scss
-$settings: (
-  // List of generators to include into the styles.
-  'generators':
-    (
-      // Whether to include the reset of sensible defaults.
-      'light-reset': true,
-      // Whether to include the normalize.css file.
-      'normalize': false,
-      // Whether to include the root css variables.
-      'root': true
-    ),
-  // The prefix to use for all CSS variables.
-  'prefix': null,
-  // Whether the project is poly-themed or not.
-  'poly-themed': false,
-  // Whenever to use the color fallbacks for CSS variables.
-  'color-fallback': false,
-  // The paths to use for the images, icons and fonts.
-  'paths':
-    (
-      'images': './images',
-      'icons': './icons',
-      'fonts': './fonts',
-    )
+@use '@embyth/scss-design-system' as * with (
+  $settings: (
+    'prefix': 'app',
+    'semantic': true,
+  ),
+  $config-breakpoint: (
+    'md': 840px,
+    // override one key, keep the rest
+  ),
+  $config-space: (
+    '6xl': 128px,
+    // or extend a scale with new keys
+  )
 );
 ```
 
 ---
 
-## :paintbrush: Themes
+## :bulb: Core Concepts
 
-Design system uses CSS custom properties to handle the theming. It means that you can easily overwrite the colors if needed (like in a case of a dark theme mode).
+### Semantic Tokens (two-tier system)
 
-Setting up your default theme is simple but can be tricky and complicated because of the many values (from the `$colors` map). For redeclaring dark mode or any other mode, we have a predefined `$config-theme` map which you can use when importing this system (you don't have to use it if you have only one theme mode).
+The color system is layered in two tiers:
 
-For summing up, if you have only one theme mode, you need to use the `$colors` map. If you have more than one theme mode, you need to use the `$config-theme` map and set `$settings: ('poly-themed': true)`.
+- **Tier 1 — palette**: the `$colors` map (`default`, `primary`, `secondary`, `success`, `warning`, `danger` × shades
+  50–900). Constant across themes.
+- **Tier 2 — semantic tokens**: the `$config-semantic` map gives palette values _purpose_ (`background-base`,
+  `text-default`, `primary`, `primary-foreground`, …). Themes re-point these.
 
-First, declare the new colors for your default theme in `$colors` map, you can use any name for the variables you want. The key is the name of the color or the level of the color (e.g. 50, 100, 200, etc.). The value is the color itself.
+Enable with `'semantic': true` and consume tokens only through the `token()` function — components stay theme-agnostic:
 
 ```scss
-$colors: (
-  'default': (
-    50: #fafafa,
-    100: #f4f4f5,
-    200: #e4e4e7,
-    300: #d4d4d8,
-    400: #a1a1aa,
-    500: #71717a,
-    600: #52525b,
-    700: #3f3f46,
-    800: #27272a,
-    900: #18181b,
-  ),
-  'primary': (
-    50: #e6f1fe,
-    100: #cce3fd,
-    200: #99c7fb,
-    300: #66aaf9,
-    400: #338ef7,
-    500: #006fee,
-    600: #005bc4,
-    700: #004493,
-    800: #002e62,
-    900: #001731,
-  ),
-  'secondary': (
-    50: #f2eafa,
-    100: #e4d4f4,
-    200: #c9a9e9,
-    300: #ae7ede,
-    400: #9353d3,
-    500: #7828c8,
-    600: #6020a0,
-    700: #481878,
-    800: #301050,
-    900: #180828,
-  ),
-  'success': (
-    50: #e8faf0,
-    100: #d1f4e0,
-    200: #a2e9c1,
-    300: #74dfa2,
-    400: #45d483,
-    500: #17c964,
-    600: #12a150,
-    700: #0e793c,
-    800: #095028,
-    900: #095028,
-  ),
-  'warning': (
-    50: #fefce8,
-    100: #fdedd3,
-    200: #fbdba7,
-    300: #f9c97c,
-    400: #f7b750,
-    500: #f5a524,
-    600: #c4841d,
-    700: #936316,
-    800: #62420e,
-    900: #312107,
-  ),
-  'danger': (
-    50: #fee7ef,
-    100: #fdd0df,
-    200: #faa0bf,
-    300: #f871a0,
-    400: #f54180,
-    500: #f31260,
-    600: #c20e4d,
-    700: #920b3a,
-    800: #610726,
-    900: #310413,
-  ),
-);
+.card {
+  color: token('text-default');
+  background-color: token('background-base');
+  border: 1px solid token('border-default');
+
+  // Alpha composition (requires 'color-format': 'hsl' or 'oklch'):
+  box-shadow: 0 4px 16px token('text-default', 0.1);
+}
 ```
 
-If you want to use more than one theme mode, you need to use the `$config-theme` map. The key is the name of the theme mode (e.g. dark, light, etc.). This an example of a dark theme config:
+The default token set: `background-base/subtle/elevated`, `text-default/muted/inverted`, `border-default/strong`,
+`primary`, `secondary`, `success`, `warning`, `danger` (each with a `*-foreground` partner) and `focus-ring`.
+
+Override, re-point or extend the maps when loading the system — custom tokens merge right in:
 
 ```scss
-$config-theme: (
-  'dark': (
-    'default': (
-      50: #18181b,
-      100: #27272a,
-      200: #3f3f46,
-      300: #52525b,
-      400: #71717a,
-      500: #a1a1aa,
-      600: #d4d4d8,
-      700: #e4e4e7,
-      800: #f4f4f5,
-      900: #fafafa,
-    ),
+@use '@embyth/scss-design-system' as * with (
+  $settings: (
+    'semantic': true,
+    'color-format': 'oklch',
+  ),
+  $config-semantic: (
     'primary': (
-      50: #001731,
-      100: #002e62,
-      200: #004493,
-      300: #005bc4,
-      400: #006fee,
-      500: #338ef7,
-      600: #66aaf9,
-      700: #99c7fb,
-      800: #cce3fd,
-      900: #e6f1fe,
+      'primary',
+      600,
     ),
-    'secondary': (
-      50: #180828,
-      100: #301050,
-      200: #481878,
-      300: #6020a0,
-      400: #7828c8,
-      500: #9353d3,
-      600: #ae7ede,
-      700: #c9a9e9,
-      800: #e4d4f4,
-      900: #f2eafa,
-    ),
-    'success': (
-      50: #095028,
-      100: #095028,
-      200: #0e793c,
-      300: #12a150,
-      400: #17c964,
-      500: #45d483,
-      600: #74dfa2,
-      700: #a2e9c1,
-      800: #d1f4e0,
-      900: #e8faf0,
-    ),
-    'warning': (
-      50: #312107,
-      100: #62420e,
-      200: #936316,
-      300: #c4841d,
-      400: #f5a524,
-      500: #f7b750,
-      600: #f9c97c,
-      700: #fbdba7,
-      800: #fdedd3,
-      900: #fefce8,
-    ),
-    'danger': (
-      50: #310413,
-      100: #610726,
-      200: #920b3a,
-      300: #c20e4d,
-      400: #f31260,
-      500: #f54180,
-      600: #f871a0,
-      700: #faa0bf,
-      800: #fdd0df,
-      900: #fee7ef,
-    ),
+    // re-point at a palette shade
+    'brand-glow': #7c3aed,
+    // or add your own token with a raw color
   ),
+  $config-semantic-dark: (
+    'primary': (
+      'primary',
+      300,
+    ),
+  )
 );
 ```
 
----
+### Themes & Dark Mode
 
-## :triangular_ruler: System Architecture
+With semantic tokens enabled, dark mode is a tier-2 override — the palette never changes, only what the tokens point at.
+Only the keys that differ need to be listed in `$config-semantic-dark`. Pick how the override is emitted with
+`'theme-strategy'`:
 
-Design system tries to be customizable and straightforward. You can find some core principles and the main structure below. The examples are based on predefined default config values.
+| Strategy           | Emitted as                              | Use when                                                         |
+| ------------------ | --------------------------------------- | ---------------------------------------------------------------- |
+| `'data-attribute'` | `[data-theme=dark] { ... }` (default)   | JS toggles `document.documentElement.dataset.theme = 'dark'`     |
+| `'class'`          | `.dark { ... }`                         | JS toggles a `dark` class on the root element                    |
+| `'media'`          | `@media (prefers-color-scheme: dark)`   | Pure OS preference, no JS toggle needed                          |
+| `'light-dark'`     | `light-dark(<light>, <dark>)` per token | No JS and no duplicate blocks; alpha falls back to `color-mix()` |
 
-### Color System
+The system also emits the proper `color-scheme` declarations so form controls and scrollbars follow the active theme
+automatically.
 
-`color($category, $type)`
+> [!NOTE]
+>
+> The legacy `'poly-themed'` + `$config-theme` approach (inverting the whole tier-1 palette per theme) still works but
+> is deprecated and will be removed in v1.0.0.
 
-Applies a color from `$color` palette to a CSS property. `$category` refers to the type of color you would like to use. `$type` refers to what kind of color for that category.
+### Cascade Layers
+
+With `'layers': true` the generated styles are wrapped in CSS cascade layers, declared in this order:
+
+1. `@layer reset` — the light reset (and normalize, if enabled)
+2. `@layer base` — foundation defaults (root font setup, body baseline)
+3. `@layer components` — declared but left empty, reserved for your component styles
+
+Token custom properties stay unlayered on `:root`. Your app styles, when left unlayered, always win over everything the
+system emits — no specificity wars:
 
 ```scss
-.selector {
-  color: color(default, 900);
+@layer components {
+  .button {
+    /* your design-system-level component styles */
+  }
+}
+
+.button.special {
+  /* app-level override — beats the layer automatically */
 }
 ```
 
----
+### Customizing the Palette
 
-### Accessibility
-
-`focus-ring($size, $offset, $color, $radius, $thick)`
-
-Applies a focus ring to an element. `$size` refers to the size of the focus ring. `$offset` refers to the offset of the focus ring. `$color` refers to the color of the focus ring. `$radius` refers to the radius of the focus ring. `$thick` refers to the thickness of the focus ring.
+The tier-1 palette lives in the `$colors` map — six groups with shades 50–900. Override any subset when loading the
+system:
 
 ```scss
-.selector {
-  @include focus-ring(2px, 2px, color(primary, 500), 4px, 2px);
-}
-```
-
----
-
-### Border System
-
-`border($direction, $size, $style, $color)`
-
-Applies a border to an element. `$direction` refers to the direction of the border. `$size` refers to the size of the border. `$style` refers to the style of the border. `$color` refers to the color of the border.
-
-```scss
-.selector {
-  @include border(top, 1px, solid, color(primary, 500));
-}
-```
-
----
-
-### Media Queries System
-
-`breakpoint($breakpoint, $logic, $mobile-first)`
-
-Makes easier way to work with CSS media queries. The block of code below shows how mixins are mapped out and associated with names. You can define your own breakpoints in the `$breakpoints` map. All media queries are mobile-first by default.
-
-```scss
-$breakpoints: (
-  'xs': 0,
-  'sm': 600px,
-  'md': 960px,
-  'lg': 1280px,
-  'xl': 1920px,
+@use '@embyth/scss-design-system' as * with (
+  $colors: (
+    'primary': (
+      500: #6644ff,
+      600: #5233d4,
+    ),
+  )
 );
 ```
 
-Usage of the mixin with argument:
-
-```scss
-.selector {
-  @include breakpoint('md') {
-    opacity: 1;
-  }
-}
-```
-
-And other variant of the same technique but with slightly different mixin for the specific resolutions without argument:
-
-```scss
-// Direct approach
-.selector {
-  @include only-xs {
-    opacity: 1;
-  }
-
-  @include only-sm {
-    opacity: 0.5;
-  }
-
-  @include only-md {
-    opacity: 0;
-  }
-}
-```
-
-```scss
-// Mobile first approach
-.selector {
-  @include min-xs {
-    opacity: 1;
-  }
-
-  @include min-md {
-    opacity: 0.5;
-  }
-
-  @include min-xl {
-    opacity: 0;
-  }
-}
-```
-
-```scss
-// Desktop first approach
-.selector {
-  @include max-xxl {
-    opacity: 0;
-  }
-
-  @include max-md {
-    opacity: 0.5;
-  }
-
-  @include max-sm {
-    opacity: 1;
-  }
-}
-```
-
-```scss
-// Exclude breakpoints
-.selector {
-  @include not-xxl {
-    opacity: 1;
-  }
-
-  @include not-md {
-    opacity: 0.5;
-  }
-
-  @include not-sm {
-    opacity: 1;
-  }
-}
-```
+With `'color-format': 'hsl'` or `'oklch'`, palette values are converted to channel triplets at compile time — you keep
+authoring plain hex.
 
 ---
 
-### Elevation System
+## :books: API Reference
 
-`shadow($x, $y, $blur, $spread, $color, $elevation)`
+All examples assume the system is loaded with `@use '@embyth/scss-design-system' as *`.
 
-Applies a shadow to an element. `$x` refers to the horizontal position of the shadow. `$y` refers to the vertical position of the shadow. `$blur` refers to the blur radius of the shadow. `$spread` refers to the size of the shadow. `$color` refers to the color of the shadow. `$elevation` refers to the predefined elevation from the config map `$config-shadow`.
+### Colors
 
-Provides a predictable scale for elevation. The higher the number, the closer the item will appear to the user:
+| API                                                  | Kind     | Description                                                                               |
+| ---------------------------------------------------- | -------- | ----------------------------------------------------------------------------------------- |
+| `token($name, $alpha)`                               | function | **Preferred accessor.** Tier-2 semantic token reference; `$alpha` composes transparency.  |
+| `color($category, $type, $only-color, $map, $alpha)` | function | Tier-1 palette CSS variable. `$only-color: true` returns the literal color value instead. |
+| `color-value($category, $type, $map)`                | function | Literal palette color for compile-time math.                                              |
+| `color-contrast($color)`                             | function | White or black — whichever passes the YIQ brightness check against `$color`.              |
+| `channels($color, $format)`                          | function | Compile-time conversion of a color to `'hsl'`/`'oklch'` channel triplets.                 |
+| `semantic-value($reference, $palette)`               | function | Resolves a semantic reference (`('group', shade)` pair or raw color) to its color value.  |
 
-```scss
-.selector {
-  @include shadow(0, 0, 3px, 0, color(default, 900));
-  // or
-  @include shadow($elevation: xl);
-}
-```
-
----
-
-### Motion System
-
-Sass functions specify the time and how things should move from one state to another.
-
-`transition($property, $duration, $timing-function, $delay)`
-
-Applies transition rules to an element. `$property` refers to the CSS property you want to apply the transition to. `$duration` refers to the how long the element should take to get to the desired state/position. `$timing-function` refers to the speed curve of the transition. `$delay` refers to the delay before the transition will start.
+Use `token()` for everything that should follow the theme; reach for `color()` only for decorative values that must stay
+constant:
 
 ```scss
 .selector {
-  @include transition(all, fast, overshoot, none);
+  color: token('text-default'); // theme-aware
+  background-color: color('primary', 50); // theme-constant
+  border-color: token('border-default', 0.5); // 50% alpha
+}
+
+.badge {
+  // pick a readable label color at compile time:
+  color: color-contrast(color-value('primary', 500));
 }
 ```
 
-`animate($name, $duration, $timing, $delay, $iterations, $direction)`
+### Typography
 
-Applies animation rules to an element. `$name` refers to the name of the animation. `$duration` refers to the how long the element should take to get to the desired state/position. `$timing` refers to the speed curve of the animation. `$delay` refers to the delay before the animation will start. `$iterations` refers to the number of times the animation should be played. `$direction` refers to the direction of the animation.
-
-The animations are defined in the `$config-keyframes` map. The key is the name of the animation. The value is the animation itself. You can define your own animations in the `$config-keyframes` map.
-
-```scss
-.selector {
-  @include animate(fade-in, fast, overshoot, none, infinite, normal);
-}
-```
-
----
-
-### Shape System
-
-`shape($size, $important)`
-
-Applies spacing rules to a CSS property. `$size` refers to the scale of rounded of the object. Sizes can be redefine in the `$config-shape` map. `$important` refers to the !important flag.
-
-```scss
-.selector {
-  @include shape(md);
-  // or
-  border-radius: shape(circle);
-}
-```
-
----
-
-### Space System
-
-`space($space, $map)`
-
-Applies spacing rules to a CSS property. `$space` refers to the scale of the spacing. Sizes can be redefine in the `$config-space` map. `$map` refers to the map of the spacing.
-
-```scss
-.selector {
-  padding: space(none) space(md);
-}
-```
-
----
-
-### Typography System
-
-First of all you need to define the font family in the `$config-font-stack` map.
-
-```scss
-$config-font-stack: (
-  'primary': (
-    'Roboto',
-    'sans-serif',
-  ),
-);
-```
-
-Then you can use the mixins and functions to apply the typography styles to your elements with `font-setup($name, $filename, $weight, $style, $display, $exts)`, where `$name` refers to the name of the font, `$filename` refers to the name of the font file, `$weight` refers to the weight of the font, `$style` refers to the style of the font, `$display` refers to the display of the font, `$exts` refers to the file extensions of the font (if you have more than one file extension, you need to separate them with a space).
+Set up self-hosted fonts with `font-setup()` — it generates the full `@font-face` block, resolving files from
+`config('fonts', 'paths')`:
 
 ```scss
 @include font-setup($name: 'Roboto', $filename: 'Roboto-Regular', $exts: woff2 ttf);
-@include font-setup($name: 'Roboto', $filename: 'Roboto-Bold', $exts: woff2 ttf, $weight: bold);
+@include font-setup($name: 'Roboto', $filename: 'Roboto-Bold', $weight: 700, $exts: woff2 ttf);
 ```
 
-#### Type System
-
-Font size, font weight, and line-height have their own predictive scales.
-
-#### Font Size
-
-We use words to convey in size to make it clear what the size is for. You can use any word you want but we prefer to use the component names.
+| API                      | Kind     | Description                                                                                 |
+| ------------------------ | -------- | ------------------------------------------------------------------------------------------- |
+| `font-family($family)`   | function | Font stack from `$config-font-stack` (default key: `'default'`).                            |
+| `font-size($range)`      | function | Size from `$config-font-size` (`'default'`, `'h1'`, `'h2'`, `'text'`, `'small'`, `'tiny'`). |
+| `font-weight($weight)`   | function | Weight from `$config-font-weight` (`'thin'` 100 → `'black'` 900, plus aliases).             |
+| `line-height($range)`    | function | Line height from `$config-line-height`.                                                     |
+| `letter-spacing($range)` | function | Letter spacing from `$config-letter-spacing`.                                               |
+| `font-setup(...)`        | mixin    | `@font-face` generator: `$name`, `$filename`, `$weight`, `$style`, `$display`, `$exts`.     |
 
 ```scss
-$config-font-size: (
-  // Will be applied to root element
-  'default': 16px,
-  'h1': rem(24px),
-  'h2': rem(20px),
-  'text': rem(16px),
-  'small': rem(14px),
-  'tiny': rem(12px),
+.selector {
+  font-family: font-family('default');
+  font-size: font-size('h1');
+  font-weight: font-weight('semi-bold');
+  line-height: line-height('h1');
+  letter-spacing: letter-spacing('default');
+}
+```
+
+Every scale is a map you can override or extend — name keys after intent (component names work well):
+
+```scss
+@use '@embyth/scss-design-system' as * with (
+  $config-font-size: (
+    'hero': 3rem,
+    'caption': 0.8125rem,
+  )
 );
 ```
 
-#### Font Weight
+### Spacing & Shape
 
-For font-weight we prefer to use words but like before its up to you.
+| API                               | Kind     | Description                                                                                               |
+| --------------------------------- | -------- | --------------------------------------------------------------------------------------------------------- |
+| `space($space, $map)`             | function | Value from the spacing scale (`'xs'` 2px → `'5xl'` 80px).                                                 |
+| `shape($size)`                    | function | Border radius from the shape scale (`'sm'`–`'xxl'`, `'circle'`, `'square'`).                              |
+| `shape($size, $important)`        | mixin    | Applies `border-radius` from the shape scale.                                                             |
+| `size($width, $height, $logical)` | mixin    | Width + height in one call (height defaults to width). `$logical: true` emits `inline-size`/`block-size`. |
 
 ```scss
-$config-font-weight: (
-  // Value that will be applied to root element
-  'default': 400,
-  'thin': 100,
-  'extra-light': 200,
-  'light': 300,
-  'regular': 400,
-  // Alias for "regular
-  'normal': 400,
-  // Alias for "regular
-  'base': 400,
-  'medium': 500,
-  'semi-bold': 600,
-  'bold': 700,
-  'extra-bold': 800,
-  'black': 900,
+.selector {
+  @include shape('md');
+  @include size(48px); // width + height
+  @include size(100%, 320px, $logical: true); // inline-size / block-size
+
+  padding: space('none') space('md');
+  gap: space('xl');
+}
+```
+
+### Fluid Values
+
+`fluid($min, $max, $min-breakpoint, $max-breakpoint)` builds a `clamp()` expression that interpolates any length between
+two viewport widths — fluid typography and fluid spacing with one function. Breakpoints accept `$config-breakpoint` keys
+or raw lengths (defaults: `'xs'` to `'xl'`):
+
+```scss
+.selector {
+  font-size: fluid(16px, 20px);
+  // -> clamp(1rem, 0.9167rem + 0.4167vw, 1.25rem)
+
+  padding-block: fluid(16px, 48px, 'sm', 'xxl');
+}
+```
+
+### Breakpoints & Media Queries
+
+The breakpoint scale lives in `$config-breakpoint`; `bp($point)` resolves a key (or passes lengths through):
+
+```scss
+$config-breakpoint: (
+  'xs': 320px,
+  'sm': 768px,
+  'md': 900px,
+  'lg': 1024px,
+  'xl': 1280px,
+  'xxl': 1440px,
 );
 ```
 
-#### Line Height
-
-Here we use names of components as well to convey the line-height.
+| API                                              | Description                                           |
+| ------------------------------------------------ | ----------------------------------------------------- |
+| `breakpoint($breakpoint, $logic, $mobile-first)` | The base mixin — mobile-first by default.             |
+| `min-xs` … `min-xxl`                             | Mobile-first: the breakpoint and above.               |
+| `max-xs` … `max-xxl`                             | Desktop-first: below the breakpoint.                  |
+| `only-xs` … `only-xxl`                           | Exactly one breakpoint range.                         |
+| `not-xs` … `not-xxl`                             | Readable aliases of the `min-*` family.               |
+| `hide-at-xs` … `hide-at-xxl`                     | `display: none` within exactly that breakpoint range. |
 
 ```scss
-$config-line-height: (
-  'default': 1.5,
-  'h1': 1.5,
-  'h2': 1.5,
-  'text': 1.5,
-);
+.selector {
+  opacity: 0.5;
+
+  @include min-md {
+    opacity: 0.75; // 900px and up
+  }
+
+  @include only-xl {
+    opacity: 1; // 1280px–1439px only
+  }
+
+  @include max-sm {
+    display: none; // below 768px
+  }
+}
 ```
 
-#### Letter Spacing
+### Container Queries
 
-As for the others typography properties, we use words to convey the letter-spacing.
+`container($name, $type)` marks an element as a containment context; `container-up($size, $name)` /
+`container-down($size, $name)` query against it. `$size` accepts `$config-breakpoint` keys or raw lengths:
 
 ```scss
-$config-letter-spacing: (
-  'default': 0,
-  'h1': 0,
-  'h2': 0,
-  'text': 0,
-);
+.sidebar {
+  @include container('sidebar');
+}
+
+.widget {
+  display: block;
+
+  @include container-up('sm', 'sidebar') {
+    display: flex;
+  }
+
+  @include container-down(400px) {
+    font-size: font-size('small');
+  }
+}
+```
+
+### Elevation & Borders
+
+| API                                                  | Kind  | Description                                                           |
+| ---------------------------------------------------- | ----- | --------------------------------------------------------------------- |
+| `shadow($x, $y, $blur, $spread, $color, $elevation)` | mixin | Custom shadow, or a predefined elevation (`'xs'`–`'xxl'`, `'inner'`). |
+| `border($direction, $size, $style, $color)`          | mixin | Border on one side or all.                                            |
+
+```scss
+.selector {
+  @include shadow($elevation: 'xl'); // predefined elevation
+  @include shadow(0, 2px, 8px, 0, token('text-default', 0.15)); // custom
+  @include border(top, 1px, solid, token('border-default'));
+}
+```
+
+### Motion & Animation
+
+Durations and easing curves come from `$config-motion-duration` (`'fast'`, `'base'`, `'slow'`, …) and
+`$config-motion-timing` (`'standard'`, `'overshoot'`, …); raw values pass through.
+
+| API                                                                                                    | Kind  | Description                                                                               |
+| ------------------------------------------------------------------------------------------------------ | ----- | ----------------------------------------------------------------------------------------- |
+| `transition($property, $duration, $timing-function, $delay, $will-change, $respect-motion-preference)` | mixin | Transition shorthand; pass lists for per-property control.                                |
+| `animate($name, $duration, $timing, $delay, $iterations, $direction)`                                  | mixin | Plays a keyframe animation from `$config-keyframes` (emits keyframes once, deduplicated). |
+| `motion-safe` / `motion-reduce`                                                                        | mixin | Wraps content in the corresponding `prefers-reduced-motion` media query.                  |
+| `starting-style`                                                                                       | mixin | Emits an `@starting-style` block — the state an element transitions _from_ on entry.      |
+| `transition-discrete`                                                                                  | mixin | `transition-behavior: allow-discrete` for `display`/`overlay` transitions.                |
+| `register-property($name, $syntax, $inherits, $initial-value)`                                         | mixin | Registers a typed custom property via `@property` (deduplicated) — makes it animatable.   |
+
+```scss
+.selector {
+  @include transition(opacity transform, 'fast', $will-change: false, $respect-motion-preference: true);
+
+  @include motion-safe {
+    animation: bounce 1s infinite;
+  }
+}
+```
+
+Dialogs and popovers animate in **and out** with pure CSS:
+
+```scss
+dialog[open] {
+  @include transition(opacity translate display overlay, 'slow', $respect-motion-preference: true);
+  @include transition-discrete;
+
+  @include starting-style {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+```
+
+Typed custom properties animate for real:
+
+```scss
+.progress {
+  @include register-property('--progress', '<percentage>', $initial-value: 0%);
+  @include transition('--progress', 'slow');
+
+  background: linear-gradient(90deg, token('primary'), token('secondary')) 0 0 / var(--progress) 100% no-repeat;
+}
+```
+
+### Loading Skeletons
+
+`skeleton()` paints a multi-line shimmering placeholder with masked CSS gradients — the shine is clipped to the lines
+and travels the viewport in one page-wide wave (`background-attachment: fixed`), resting for the final third of each
+cycle. Reduced motion is respected automatically.
+
+| Parameter                                      | Default                               | Description                                                                  |
+| ---------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------- |
+| `$lines`                                       | `2`                                   | Number of lines (the last renders shorter).                                  |
+| `$line-height`                                 | `24px`                                | Height of each line.                                                         |
+| `$line-gap`                                    | `8px`                                 | Gap between lines.                                                           |
+| `$background`                                  | `#e1e4e8`                             | Line color — accepts `token()` values.                                       |
+| `$shimmer`                                     | `rgba(255, 255, 255, 0.6)`            | Shine color — pick one that **contrasts with `$background`** in every theme. |
+| `$speed`                                       | `3s`                                  | One shimmer cycle.                                                           |
+| `$level`                                       | `'selector'`                          | `'selector'` applies directly; `'empty'` only while the element is `:empty`. |
+| `$radius`                                      | `4px`                                 | Line corner radius; large values yield pills, `null`/`0` for square corners. |
+| `$shine-size` / `$shine-blur` / `$shine-angle` | `clamp(...)` / `clamp(...)` / `96deg` | Geometry of the travelling shine.                                            |
+
+```scss
+.placeholder {
+  @include skeleton(3, 18px, 12px, $background: token('border-default'), $shimmer: token('skeleton-shine', 0.85));
+}
+```
+
+> [!TIP]
+>
+> Define a custom semantic token for the shine (e.g. a mid-gray) so it stays visible over the line color in both light
+> and dark mode — mid-grays are darker than light-mode lines and lighter than dark-mode ones.
+
+### Scrollbars
+
+`scrollbar($thumb-background-color, $track-background-color, $size, $shape, $stable, $transition, $transition-duration, $modern)`
+
+With `$modern: true` (recommended, default in v1.0.0) it emits the standard `scrollbar-width`/`scrollbar-color`
+properties; otherwise the legacy `::-webkit-*` styling with an optional fade animation. `$stable` reserves the gutter.
+
+```scss
+.list {
+  @include scrollbar(token('primary'), transparent, sm, $stable: true, $modern: true);
+}
+```
+
+### Text Utilities
+
+| API                                               | Description                                                        |
+| ------------------------------------------------- | ------------------------------------------------------------------ |
+| `text-ellipsis($number-of-lines)`                 | Single-line or multiline (line-clamp) truncation with an ellipsis. |
+| `text-balance` / `text-pretty`                    | `text-wrap: balance` (headings) / `pretty` (body copy).            |
+| `word-wrap`                                       | Break long unbreakable strings (URLs etc.).                        |
+| `text-selection($color, $background, $is-direct)` | Styles `::selection` for the element or its children.              |
+| `placeholder`                                     | Styles input/textarea `::placeholder` content.                     |
+
+```scss
+.teaser {
+  @include text-ellipsis(2);
+}
+
+.heading {
+  @include text-balance;
+}
+
+.input {
+  @include placeholder {
+    color: token('text-muted');
+  }
+}
+```
+
+### Accessibility
+
+| API                                                   | Description                                                                           |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `focus-ring($size, $offset, $color, $radius, $thick)` | Animated, `:focus-visible`-based focus outline with `prefers-contrast` support.       |
+| `visually-hidden` / `visually-unhidden`               | Hide content visually while keeping it available to assistive technology.             |
+| `forced-colors`                                       | Styles applied only when a forced-colors mode (e.g. Windows High Contrast) is active. |
+
+```scss
+.button {
+  @include focus-ring($color: token('focus-ring'));
+
+  @include forced-colors {
+    border: 1px solid ButtonText;
+  }
+}
+
+.sr-only {
+  @include visually-hidden;
+}
+```
+
+### Layout Helpers
+
+| API                                                                      | Kind     | Description                                                                                                                  |
+| ------------------------------------------------------------------------ | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `position($position, $top, $right, $bottom, $left, $axis, $logical)`     | mixin    | Positioning shorthand; `$axis: both/horizontal/vertical` centers via transform; `$logical: true` emits `inset-*` properties. |
+| `pseudo($loc, $content, $position, $top, $right, $bottom, $left, $axis)` | mixin    | Generates a `::before`/`::after` pseudo element with positioning in one call.                                                |
+| `z($layer)`                                                              | function | Z-index from `$config-z-index` (`'deep'`, `'base'`, `'default'`, `'sticky'`, `'modal'`, `'tooltip'`, …).                     |
+| `z-index($layer, $important)`                                            | mixin    | Applies the z-index property from the same scale.                                                                            |
+| `triangle($size, $color, $direction)`                                    | mixin    | Border-built triangle (`up`/`right`/`down`/`left`) — tooltips, dropdown arrows.                                              |
+| `icon-size($width, $height)`                                             | mixin    | Sizes inline SVG icons.                                                                                                      |
+| `clear-btn` / `clear-list`                                               | mixin    | Strips default button / list styling.                                                                                        |
+| `escape-to-parent($selector)`                                            | mixin    | Re-attaches the block under a given parent selector.                                                                         |
+
+```scss
+.modal {
+  @include position(fixed, $axis: both); // centered both axes
+  @include z-index('modal');
+}
+
+.tooltip_arrow {
+  @include triangle(12px 6px, token('text-default'), down);
+}
+
+.menu {
+  @include clear-list;
+}
+```
+
+### Utility Functions
+
+| API                                        | Description                                                                         |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `config($key, $group)`                     | Reads a value from `$settings` (e.g. `config('fonts', 'paths')`).                   |
+| `bp($point)`                               | Resolves a `$config-breakpoint` key; numbers pass through (unitless become px).     |
+| `remify($value)` / `em($value)`            | Converts px (or unitless) values to `rem`/`em` against the root font size.          |
+| `strip-unit($value)`                       | Removes the unit from a number.                                                     |
+| `ternary($condition, $if-true, $if-false)` | Inline conditional — a drop-in replacement for the deprecated Sass `if()` function. |
+| `str-replace($string, $search, $replace)`  | Replaces all occurrences of a substring.                                            |
+
+```scss
+.selector {
+  width: remify(320px); // -> 20rem
+  margin-inline: ternary($centered, auto, 0);
+}
+```
+
+### Shorthand Aliases
+
+The high-frequency getters ship with compact aliases — same arguments, same behavior, fewer keystrokes:
+
+| Alias  | Full name          |
+| ------ | ------------------ |
+| `ff()` | `font-family()`    |
+| `fs()` | `font-size()`      |
+| `fw()` | `font-weight()`    |
+| `lh()` | `line-height()`    |
+| `ls()` | `letter-spacing()` |
+| `sp()` | `space()`          |
+| `sh()` | `shape()`          |
+
+```scss
+.selector {
+  padding: sp('md') sp('xl');
+  font-size: fs('small');
+  font-weight: fw('semi-bold');
+  line-height: lh('default');
+  border-radius: sh('lg');
+}
 ```
 
 ---
 
-#### Typography Usage
+## :globe_with_meridians: Browser Support
 
-We like to use of Sass functions in our mark up.
+The system targets evergreen browsers. Everything emitted by the default configuration works in all modern browsers; the
+opt-in features rely on widely supported platform primitives:
 
-- `font-family($family)`
+- **CSS custom properties, `color-scheme`** — universal.
+- **OKLCH / `color-mix()` / relative color values** — Baseline 2023.
+- **Cascade layers (`@layer`)** — Baseline 2022.
+- **Container queries** — Baseline 2023.
+- **`light-dark()`** — Baseline 2024.
+- **`@starting-style`, `transition-behavior: allow-discrete`** — Baseline 2024.
+- **`text-wrap: balance/pretty`, `scrollbar-width/color`, `dvh`** — Baseline 2024 (with graceful fallbacks where
+  applicable).
 
-Applies a font family from the allowed font families in the system to a CSS property. `$family` refers to the name of the font family.
+If you must support older browsers, stay on `'color-format': 'raw'` and `'layers': false` (the defaults) and enable
+`'color-fallback': true`.
 
-```scss
-.selector {
-  font-family: font-family(primary);
-}
+---
+
+## :joystick: Examples
+
+Three runnable example apps live in [`examples/`](examples/). They all render the same screen — a glassmorphism card
+over an animated noise canvas with a theme switch — and exist to show exactly how to wire the system into an app: the
+`@forward ... with (...)` configuration, semantic tokens, OKLCH and cascade layers.
+
+- [`examples/vanilla`](examples/vanilla) — Vite + vanilla JavaScript.
+- [`examples/react-ts`](examples/react-ts) — Vite + React + TypeScript.
+- [`examples/vue-ts`](examples/vue-ts) — Vite + Vue + TypeScript.
+
+```bash
+pnpm install
+pnpm vanilla:dev   # or: pnpm react:dev / pnpm vue:dev
 ```
 
-- `font-size($range)`
+---
 
-Applies a font size from the allowed font sizes in the system to a CSS property. `$range` refers to how big you would like the font to be. The higher the number, the bigger the font.
+## :handshake: Contributing
 
-```scss
-.selector {
-  font-size: font-size(h1);
-}
-```
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for the project layout, testing workflow (`pnpm test`
+runs sass-true specs + compiled-CSS snapshots) and the rules of thumb — every new function or mixin ships with a spec,
+and the default output never changes silently.
 
-- `font-weight($range)`
+---
 
-Applies a font weight from the allowed font weights in the system to a CSS property. `$range` refers to how bold you would like the font to be. The higher the number, the bolder the font.
+## :balance_scale: License
 
-```scss
-.selector {
-  font-weight: font-weight(bold);
-}
-```
-
-- `line-height($range)`
-
-Applies a line height from the allowed line heights in the system to a CSS property. `$range` refers to how high you would like the line-height to be. The higher the number, the higher the line-height.
-
-```scss
-.selector {
-  font-size: line-height(h1);
-}
-```
-
-- `letter-spacing($range)`
-
-Applies a letter spacing from the allowed letter spacings in the system to a CSS property. `$range` refers to how much space you would like between the letters. The higher the number, the more space between the letters.
-
-```scss
-.selector {
-  font-size: letter-spacing(h1);
-}
-```
+[MIT](https://github.com/embyth/scss-design-system/blob/main/LICENSE) © Rostyslav Miniukov
 
 ---
 
 ## :thinking: Supporting Materials
 
 - [Color in Design Systems](https://medium.com/eightshapes-llc/color-in-design-systems-a1c80f65fa3)
+- [OKLCH in CSS: why we moved from RGB and HSL](https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl)
+- [A Complete Guide to CSS Cascade Layers](https://css-tricks.com/css-cascade-layers/)
 - [Responsive Typography With Sass Maps](https://www.smashingmagazine.com/2015/06/responsive-typography-with-scss-maps/)
 - [The Type System](https://material.io/design/typography/the-type-system.html#type-scale)
 - [Modular Scale](http://www.modularscale.com/)
 - [Sass Docs](https://sass-lang.com/documentation/)
-
----
