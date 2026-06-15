@@ -72,7 +72,7 @@
     "sass": "1.101.0",
     "sass-true": "10.1.0",
     "stylelint": "17.13.0",
-    "vitest": "4.1.8"
+    "vitest": "4.1.9"
   },
   "peerDependencies": {
     "sass": ">=1.80.0 <3.0.0"
