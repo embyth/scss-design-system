@@ -37,7 +37,7 @@
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"
   },
-  "packageManager": "pnpm@10.34.3",
+  "packageManager": "pnpm@10.34.4",
   "scripts": {
     "react:dev": "pnpm -F react-ts dev",
     "react:build": "pnpm -F react-ts build",
