@@ -16,7 +16,7 @@ importers:
         version: 21.0.2
       '@embyth/prettier-config':
         specifier: 1.1.1
-        version: 1.1.1(prettier@3.8.4)
+        version: 1.1.1(prettier@3.9.4)
       '@embyth/stylelint-config':
         specifier: 0.7.1
         version: 0.7.1(stylelint@17.13.0(typescript@6.0.3))
@@ -27,8 +27,8 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
       prettier:
-        specifier: 3.8.4
-        version: 3.8.4
+        specifier: 3.9.4
+        version: 3.9.4
       publint:
         specifier: 0.3.21
         version: 0.3.21
@@ -1895,6 +1895,7 @@ packages:
   git-raw-commits@5.0.1:
     resolution: {integrity: sha512-Y+csSm2GD/PCSh6Isd/WiMjNAydu0VBiG9J7EdQsNA5P9uXvLayqjmTsNlK5Gs9IhblFZqOU0yid5Il5JPoLiQ==}
     engines: {node: '>=18'}
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   glob-parent@5.1.2:
@@ -2698,6 +2699,11 @@ packages:
 
   prettier@3.8.4:
     resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+  prettier@3.9.4:
+    resolution: {integrity: sha512-yWG/o/4oJfo036EKAfK6ACAoDOfHeRHx4tuxkfBZiauURiaSmYwlpOr5LQqKtIkRD2z1PLteme2WoxEnj4tHTg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -3657,6 +3663,10 @@ snapshots:
     dependencies:
       prettier: 3.8.4
 
+  '@embyth/prettier-config@1.1.1(prettier@3.9.4)':
+    dependencies:
+      prettier: 3.9.4
+
   '@embyth/stylelint-config@0.7.1(stylelint@17.13.0(typescript@6.0.3))':
     dependencies:
       postcss: 8.4.41
@@ -3866,10 +3876,10 @@ snapshots:
 
   '@pkgr/core@0.1.2': {}
 
-  '@prettier/sync@0.6.1(prettier@3.8.4)':
+  '@prettier/sync@0.6.1(prettier@3.9.4)':
     dependencies:
       make-synchronized: 0.8.0
-      prettier: 3.8.4
+      prettier: 3.9.4
 
   '@publint/pack@0.1.4': {}
 
@@ -6150,6 +6160,8 @@ snapshots:
 
   prettier@3.8.4: {}
 
+  prettier@3.9.4: {}
+
   pretty-format@30.4.1:
     dependencies:
       '@jest/schemas': 30.4.1
@@ -6336,10 +6348,10 @@ snapshots:
 
   sass-true@10.1.0(sass@1.101.0):
     dependencies:
-      '@prettier/sync': 0.6.1(prettier@3.8.4)
+      '@prettier/sync': 0.6.1(prettier@3.9.4)
       jest-diff: 30.4.1
       postcss: 8.5.15
-      prettier: 3.8.4
+      prettier: 3.9.4
     optionalDependencies:
       sass: 1.101.0
 

@@ -66,7 +66,7 @@
     "@embyth/stylelint-config": "0.7.1",
     "devmoji": "2.3.0",
     "husky": "9.1.7",
-    "prettier": "3.8.4",
+    "prettier": "3.9.4",
     "publint": "0.3.21",
     "rimraf": "6.1.3",
     "sass": "1.101.0",
