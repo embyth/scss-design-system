@@ -60,8 +60,8 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "21.0.2",
-    "@commitlint/config-conventional": "21.0.2",
+    "@commitlint/cli": "21.2.0",
+    "@commitlint/config-conventional": "21.2.0",
     "@embyth/prettier-config": "1.1.1",
     "@embyth/stylelint-config": "0.7.1",
     "devmoji": "2.3.0",
