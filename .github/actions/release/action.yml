@@ -6,7 +6,7 @@ runs:
     - name: Install pnpm
       uses: pnpm/action-setup@v6
     - name: Set node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         node-version: 24
         cache: pnpm
